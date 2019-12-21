@@ -56,6 +56,16 @@ char *strncat(char *dest, char *src)
 
 }
 
+void *memset (void *ptr, int value, size_t num)
+{
+    void *dest = ptr;
+
+    while (num--)
+        *ptr++ = value;
+    
+    return dest;
+}
+
 size_t strlen(const char *str)
 {
     size_t count = 0;

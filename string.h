@@ -16,4 +16,6 @@ char *strncat(char *dest, char *src);
 
 size_t strlen(const char *str);
 
+void *memset (void *ptr, int value, size_t num);
+
 #endif // __STRING_H
