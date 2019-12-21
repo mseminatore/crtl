@@ -1,5 +1,8 @@
 #include <string.h>
 
+//
+//
+//
 void *memcpy(void *dest, const void *src, size_t num)
 {
     void *pDest = dest;
@@ -12,6 +15,9 @@ void *memcpy(void *dest, const void *src, size_t num)
     return dest;
 }
 
+//
+//
+//
 void *memmove(void *dest, const void *src, size_t num)
 {
     void *pDest = dest;
@@ -26,17 +32,26 @@ void *memmove(void *dest, const void *src, size_t num)
     return dest;
 }
 
+//
+//
+//
 char *strcpy(char *dest, char *src)
 {
     while (*src)
         *dest++ = *src++;
 }
 
+//
+//
+//
 char *strncpy(char *dest, char *src, size_t num)
 {
 
 }
 
+//
+//
+//
 char *strcat(char *dest, char *src)
 {
     char *pDest = dest;
@@ -51,11 +66,17 @@ char *strcat(char *dest, char *src)
     return dest;
 }
 
+//
+//
+//
 char *strncat(char *dest, char *src)
 {
 
 }
 
+//
+//
+//
 void *memset (void *ptr, int value, size_t num)
 {
     void *dest = ptr;
@@ -66,6 +87,9 @@ void *memset (void *ptr, int value, size_t num)
     return dest;
 }
 
+//
+//
+//
 size_t strlen(const char *str)
 {
     size_t count = 0;
