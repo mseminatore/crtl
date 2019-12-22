@@ -9,7 +9,7 @@ void *memcpy(void *dest, const void *src, size_t num)
 
     while (num--)
     {
-        *pDest++ = *src++;
+        (*(char*)pDest)++ = (*(char*)src)++;
     }
 
     return dest;
@@ -25,7 +25,7 @@ void *memmove(void *dest, const void *src, size_t num)
 
     while (num--)
     {
-        byte = *src++;
+        byte = (*(char*)src)++;
         *pDest++ = byte;
     }
 
@@ -39,6 +39,9 @@ char *strcpy(char *dest, char *src)
 {
     while (*src)
         *dest++ = *src++;
+
+    // make sure we are asciiz
+    *dest = '\0';
 }
 
 //
@@ -57,11 +60,15 @@ char *strcat(char *dest, char *src)
     char *pDest = dest;
 
     // find the end of the destnation string
-    while (*pDest++);
+    while (*pDest++)
+        ;
 
     // concatenate the source string
     while (*src)
         *pDest++ = *src++;
+
+    // make sure we are asciiz
+    *pDest = '\0';
 
     return dest;
 }
@@ -69,9 +76,22 @@ char *strcat(char *dest, char *src)
 //
 //
 //
-char *strncat(char *dest, char *src)
+char *strncat(char *dest, char *src, size_t num)
 {
+    char *pDest = dest;
 
+    // find the end of the destnation string
+    while (*pDest++)
+        ;
+
+    // concatenate the source string
+    for (; num && *src; num--)
+        *pDest++ = *src++;
+
+    // make sure we are asciiz
+    *pDest = '\0';
+
+    return dest;
 }
 
 //
