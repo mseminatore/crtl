@@ -1,18 +1,23 @@
 #include <string.h>
+#include <assert.h>
 
 //
 //
 //
 void *memcpy(void *dest, const void *src, size_t num)
 {
+    assert(dest);
+    assert(src);
+    assert(num);
+
     void *pDest = dest;
 
     while (num--)
     {
-        (*(char*)pDest)++ = (*(char*)src)++;
+        (*(char*)dest)++ = (*(char*)src)++;
     }
 
-    return dest;
+    return pDest;
 }
 
 //
@@ -20,16 +25,20 @@ void *memcpy(void *dest, const void *src, size_t num)
 //
 void *memmove(void *dest, const void *src, size_t num)
 {
+    assert(dest);
+    assert(src);
+    assert(num);
+
     void *pDest = dest;
     unsigned char byte;
 
     while (num--)
     {
         byte = (*(char*)src)++;
-        *pDest++ = byte;
+        *dest++ = byte;
     }
 
-    return dest;
+    return pDest;
 }
 
 //
@@ -37,11 +46,17 @@ void *memmove(void *dest, const void *src, size_t num)
 //
 char *strcpy(char *dest, char *src)
 {
+    assert(dest);
+    assert(src);
+
+    char *pDest = dest;
+
     while (*src)
         *dest++ = *src++;
 
     // make sure we are asciiz
     *dest = '\0';
+    return pDest;
 }
 
 //
@@ -49,7 +64,13 @@ char *strcpy(char *dest, char *src)
 //
 char *strncpy(char *dest, char *src, size_t num)
 {
+    assert(dest);
+    assert(src);
+    assert(num);
 
+    char *pDest = dest;
+
+    return pDest;
 }
 
 //
@@ -57,20 +78,23 @@ char *strncpy(char *dest, char *src, size_t num)
 //
 char *strcat(char *dest, char *src)
 {
+    assert(dest);
+    assert(src);
+
     char *pDest = dest;
 
     // find the end of the destnation string
-    while (*pDest++)
+    while (*dest++)
         ;
 
     // concatenate the source string
     while (*src)
-        *pDest++ = *src++;
+        *dest++ = *src++;
 
     // make sure we are asciiz
-    *pDest = '\0';
+    *dest = '\0';
 
-    return dest;
+    return pDest;
 }
 
 //
@@ -78,20 +102,24 @@ char *strcat(char *dest, char *src)
 //
 char *strncat(char *dest, char *src, size_t num)
 {
+    assert(dest);
+    assert(src);
+    assert(num);
+
     char *pDest = dest;
 
     // find the end of the destnation string
-    while (*pDest++)
+    while (*dest++)
         ;
 
     // concatenate the source string
     for (; num && *src; num--)
-        *pDest++ = *src++;
+        *dest++ = *src++;
 
     // make sure we are asciiz
-    *pDest = '\0';
+    *dest = '\0';
 
-    return dest;
+    return pDest;
 }
 
 //
@@ -99,6 +127,9 @@ char *strncat(char *dest, char *src, size_t num)
 //
 void *memset (void *ptr, int value, size_t num)
 {
+    assert(ptr);
+    assert(num);
+
     void *dest = ptr;
 
     while (num--)
@@ -112,6 +143,8 @@ void *memset (void *ptr, int value, size_t num)
 //
 size_t strlen(const char *str)
 {
+    assert(str);
+    
     size_t count = 0;
 
     while (*str++)
