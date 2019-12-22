@@ -70,6 +70,12 @@ char *strncpy(char *dest, char *src, size_t num)
 
     char *pDest = dest;
 
+    for (; num && *src; num--)
+        *dest++ = *src++;
+
+    // make sure we are asciiz
+    *dest = '\0';
+
     return pDest;
 }
 
@@ -122,6 +128,38 @@ char *strncat(char *dest, char *src, size_t num)
     return pDest;
 }
 
+int memcmp(const void *ptr1, const void *ptr2, size_t num)
+{
+    assert(ptr1);
+    assert(ptr2);
+    assert(num);
+
+    return 0;
+}
+
+int strcmp(const char *s1, const char *s2)
+{
+    assert(s1);
+    assert(s2);
+
+    return 0;
+}
+
+const char *strchr(const char *str, int character)
+{
+    return str;
+}
+
+size_t strcspn(const char *str1, const char *str2)
+{
+    size_t count = 0;
+
+    assert(str1);
+    assert(str2);
+
+    return count;
+}
+
 //
 //
 //
@@ -144,7 +182,7 @@ void *memset (void *ptr, int value, size_t num)
 size_t strlen(const char *str)
 {
     assert(str);
-    
+
     size_t count = 0;
 
     while (*str++)
