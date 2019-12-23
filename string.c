@@ -128,6 +128,9 @@ char *strncat(char *dest, char *src, size_t num)
     return pDest;
 }
 
+//
+//
+//
 int memcmp(const void *ptr1, const void *ptr2, size_t num)
 {
     assert(ptr1);
@@ -137,6 +140,9 @@ int memcmp(const void *ptr1, const void *ptr2, size_t num)
     return 0;
 }
 
+//
+//
+//
 int strcmp(const char *str1, const char *str2)
 {
     int result;
@@ -151,24 +157,54 @@ int strcmp(const char *str1, const char *str2)
     return result;
 }
 
+//
+//
+//
 int strcoll(const char *str1, const char *str2)
 {
+    int result;
 
+    assert(str1);
+    assert(str2);
+
+    return result;
 }
 
+//
+//
+//
 int strncmp(const char *str1, const char *str2, size_t num)
 {
+    int result;
 
+    assert(str1);
+    assert(str2);
+    assert(num);
+
+    return result;
 }
 
+//
+//
+//
 size_t strxfrm(char *destination, const char *source, size_t num)
 {
+    size_t result;
 
+    assert(destination);
+    assert(source);
+    assert(num);
+
+    return result;
 }
 
-
+//
+//
+//
 const char *strchr(const char *str, int character)
 {
+    assert(str);
+
     return str;
 }
 
