@@ -130,11 +130,20 @@ char *strncat(char *dest, char *src, size_t num)
 
 int memcmp(const void *ptr1, const void *ptr2, size_t num)
 {
+    int result;
+
     assert(ptr1);
     assert(ptr2);
     assert(num);
 
-    return 0;
+    char *p1 = ptr1;
+    char *p2 = ptr2;
+
+    for (; num && *p1 && *p2 && *p1 == *p2; str1++, str2++, num--)
+        ;
+
+    result = *str1 - *str2;
+    return result;
 }
 
 int strcmp(const char *str1, const char *str2)
