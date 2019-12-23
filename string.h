@@ -14,6 +14,11 @@ char *strcat(char *dest, char *src);
 char *strncat(char *dest, char *src, size_t num);
 
 int memcmp(const void *ptr1, const void *ptr2, size_t num);
+int strcmp(const char *str1, const char *str2);
+int strcoll(const char *str1, const char *str2);
+int strncmp(const char *str1, const char *str2, size_t num);
+size_t strxfrm(char *destination, const char *source, size_t num);
+
 const char *strchr(const char *str, int character);
 //char *strchr(char *str, int character);
 size_t strcspn(const char *str1, const char *str2);
