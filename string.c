@@ -137,13 +137,35 @@ int memcmp(const void *ptr1, const void *ptr2, size_t num)
     return 0;
 }
 
-int strcmp(const char *s1, const char *s2)
+int strcmp(const char *str1, const char *str2)
 {
-    assert(s1);
-    assert(s2);
+    int result;
 
-    return 0;
+    assert(str1);
+    assert(str2);
+
+    for (; *str1 && *str2 && *str1 == *str2; str1++, str2++)
+        ;
+
+    result = *str1 - *str2;
+    return result;
 }
+
+int strcoll(const char *str1, const char *str2)
+{
+
+}
+
+int strncmp(const char *str1, const char *str2, size_t num)
+{
+
+}
+
+size_t strxfrm(char *destination, const char *source, size_t num)
+{
+
+}
+
 
 const char *strchr(const char *str, int character)
 {
