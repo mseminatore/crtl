@@ -1,8 +1,6 @@
-#include <string.h>
-#include <assert.h>
+#include "string.h"
+#include "assert.h"
 
-//
-//
 //
 void *memcpy(void *dest, const void *src, size_t num)
 {
@@ -14,14 +12,12 @@ void *memcpy(void *dest, const void *src, size_t num)
 
     while (num--)
     {
-        (*(char*)dest)++ = (*(char*)src)++;
+        *((char*)dest)++ = (*(char*)src)++;
     }
 
     return pDest;
 }
 
-//
-//
 //
 void *memmove(void *dest, const void *src, size_t num)
 {
@@ -29,20 +25,18 @@ void *memmove(void *dest, const void *src, size_t num)
     assert(src);
     assert(num);
 
-    void *pDest = dest;
+    char *pDest = dest;
     unsigned char byte;
 
     while (num--)
     {
         byte = (*(char*)src)++;
-        *dest++ = byte;
+        *pDest++ = byte;
     }
 
     return pDest;
 }
 
-//
-//
 //
 char *strcpy(char *dest, char *src)
 {
@@ -59,8 +53,6 @@ char *strcpy(char *dest, char *src)
     return pDest;
 }
 
-//
-//
 //
 char *strncpy(char *dest, char *src, size_t num)
 {
@@ -79,8 +71,6 @@ char *strncpy(char *dest, char *src, size_t num)
     return pDest;
 }
 
-//
-//
 //
 char *strcat(char *dest, char *src)
 {
@@ -103,8 +93,6 @@ char *strcat(char *dest, char *src)
     return pDest;
 }
 
-//
-//
 //
 char *strncat(char *dest, char *src, size_t num)
 {
@@ -129,28 +117,24 @@ char *strncat(char *dest, char *src, size_t num)
 }
 
 //
-//
-//
-int memcmp(const void *ptr1, const void *ptr2, size_t num)
+int memcmp(const void *str1, const void *str2, size_t n)
 {
     int result;
 
-    assert(ptr1);
-    assert(ptr2);
-    assert(num);
+    assert(str1);
+    assert(str2);
+    assert(n);
 
-    char *p1 = ptr1;
-    char *p2 = ptr2;
+    char *p1 = str1;
+    char *p2 = str2;
 
-    for (; num && *p1 && *p2 && *p1 == *p2; str1++, str2++, num--)
+    for (; n && *p1 && *p2 && *p1 == *p2; p1++, p2++, n--)
         ;
 
-    result = *str1 - *str2;
+    result = *p2 - *p1;
     return result;
 }
 
-//
-//
 //
 int strcmp(const char *str1, const char *str2)
 {
@@ -167,8 +151,6 @@ int strcmp(const char *str1, const char *str2)
 }
 
 //
-//
-//
 int strcoll(const char *str1, const char *str2)
 {
     int result;
@@ -179,8 +161,6 @@ int strcoll(const char *str1, const char *str2)
     return result;
 }
 
-//
-//
 //
 int strncmp(const char *str1, const char *str2, size_t num)
 {
@@ -194,8 +174,6 @@ int strncmp(const char *str1, const char *str2, size_t num)
 }
 
 //
-//
-//
 size_t strxfrm(char *destination, const char *source, size_t num)
 {
     size_t result;
@@ -208,8 +186,6 @@ size_t strxfrm(char *destination, const char *source, size_t num)
 }
 
 //
-//
-//
 const char *strchr(const char *str, int character)
 {
     assert(str);
@@ -217,6 +193,7 @@ const char *strchr(const char *str, int character)
     return str;
 }
 
+//
 size_t strcspn(const char *str1, const char *str2)
 {
     size_t count = 0;
@@ -228,23 +205,19 @@ size_t strcspn(const char *str1, const char *str2)
 }
 
 //
-//
-//
 void *memset (void *ptr, int value, size_t num)
 {
     assert(ptr);
     assert(num);
 
-    void *dest = ptr;
+    char *dest = ptr;
 
     while (num--)
-        *ptr++ = value;
+        *dest++ = value;
     
     return dest;
 }
 
-//
-//
 //
 size_t strlen(const char *str)
 {
