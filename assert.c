@@ -1,4 +1,6 @@
 #include "assert.h"
+#include "stdio.h"
+#include "stdlib.h"
 
 void __assert_impl (const char *msg, const char *filename, int line)
 {

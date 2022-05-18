@@ -147,11 +147,14 @@
     <ClCompile Include="assert.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="stdio.c" />
+    <ClCompile Include="stdlib.c" />
     <ClCompile Include="string.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assert.h" />
+    <ClInclude Include="stddef.h" />
     <ClInclude Include="stdio.h" />
+    <ClInclude Include="stdlib.h" />
     <ClInclude Include="string.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

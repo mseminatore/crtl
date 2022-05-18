@@ -1,5 +1,5 @@
-#ifndef _STDIO_H
-#define _STDIO_H
+#ifndef __STDIO_H
+#define __STDIO_H
 
 #define stdin 0
 #define stout 1
@@ -9,4 +9,4 @@
 int puts(const char *str);
 int printf(const char *format, ...);
 
-#endif	_STDIO_H
+#endif	//__STDIO_H

@@ -125,8 +125,8 @@ int memcmp(const void *str1, const void *str2, size_t n)
     assert(str2);
     assert(n);
 
-    char *p1 = str1;
-    char *p2 = str2;
+    char *p1 = (char*)str1;
+    char *p2 = (char*)str2;
 
     for (; n && *p1 && *p2 && *p1 == *p2; p1++, p2++, n--)
         ;

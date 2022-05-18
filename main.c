@@ -4,7 +4,7 @@
 //
 int test_string()
 {
-	assert(strlen("Hello") == 5);
+	assert(strlen("Hello") == 6);
 }
 
 //

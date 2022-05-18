@@ -1,5 +1,5 @@
 #ifndef __ASSERT_H
-#define  __ASSERT_H
+#define __ASSERT_H
 
 #ifdef NDEBUG 
     #define assert(expr)
@@ -9,5 +9,5 @@
 
 extern void __assert_impl (const char *msg, const char *filename, int line);
 
-#endif __ASSERT_H
+#endif // __ASSERT_H
 
