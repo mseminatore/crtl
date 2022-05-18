@@ -153,7 +153,7 @@ int strcmp(const char *str1, const char *str2)
 //
 int strcoll(const char *str1, const char *str2)
 {
-    int result;
+    int result = 0;
 
     assert(str1);
     assert(str2);
@@ -164,7 +164,7 @@ int strcoll(const char *str1, const char *str2)
 //
 int strncmp(const char *str1, const char *str2, size_t num)
 {
-    int result;
+    int result = 0;
 
     assert(str1);
     assert(str2);
@@ -176,7 +176,7 @@ int strncmp(const char *str1, const char *str2, size_t num)
 //
 size_t strxfrm(char *destination, const char *source, size_t num)
 {
-    size_t result;
+    size_t result = 0;
 
     assert(destination);
     assert(source);

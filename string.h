@@ -1,9 +1,9 @@
 #ifndef __STRING_H
 #define __STRING_H
 
-#define NULL ((void*)0)
+#include "stddef.h"
 
-typedef unsigned int size_t;
+#define NULL ((void*)0)
 
 void *memcpy(void *dest, const void *src, size_t num);
 void *memmove(void *dest, const void *src, size_t num);

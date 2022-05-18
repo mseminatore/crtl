@@ -2,9 +2,9 @@
 #include "assert.h"
 
 //
-int test_string()
+void test_string()
 {
-	assert(strlen("Hello") == 6);
+	assert(strlen("Hello") == 5);
 }
 
 //
