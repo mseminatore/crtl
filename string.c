@@ -8,112 +8,112 @@ void *memcpy(void *dst, const void *src, size_t num)
     assert(src);
     assert(num);
 
-    char *pDest = dst;
+    char *pdst = dst;
 
     while (num--)
     {
-        *pDest++ = (*(char*)src)++;
+        *pdst++ = (*(char*)src)++;
     }
 
-    return pDest;
+    return pdst;
 }
 
 //
-void *memmove(void *dest, const void *src, size_t num)
+void *memmove(void *dst, const void *src, size_t num)
 {
-    assert(dest);
+    assert(dst);
     assert(src);
     assert(num);
 
-    char *pDest = dest;
+    char *pdst = dst;
     unsigned char byte;
 
     while (num--)
     {
         byte = (*(char*)src)++;
-        *pDest++ = byte;
+        *pdst++ = byte;
     }
 
-    return pDest;
+    return pdst;
 }
 
 // copy string src to string dst
-char *strcpy(char *dest, const char *src)
+char *strcpy(char *dst, const char *src)
 {
-    assert(dest);
+    assert(dst);
     assert(src);
 
-    char *pDest = dest;
+    char *pdst = dst;
 
     while (*src)
-        *dest++ = *src++;
+        *dst++ = *src++;
 
     // make sure we are asciiz
-    *dest = '\0';
-    return pDest;
+    *dst = '\0';
+    return pdst;
 }
 
 //
-char *strncpy(char *dest, const char *src, size_t num)
+char *strncpy(char *dst, const char *src, size_t num)
 {
-    assert(dest);
+    assert(dst);
     assert(src);
     assert(num);
 
-    char *pDest = dest;
+    char *pdst = dst;
 
     for (; num && *src; num--)
-        *dest++ = *src++;
+        *dst++ = *src++;
 
     // make sure we are asciiz
-    *dest = '\0';
+    *dst = '\0';
 
-    return pDest;
+    return pdst;
 }
 
 //
-char *strcat(char *dest, const char *src)
+char *strcat(char *dst, const char *src)
 {
-    assert(dest);
+    assert(dst);
     assert(src);
 
-    char *pDest = dest;
+    char *pdst = dst;
 
-    // find the end of the destnation string
-    while (*dest++)
+    // find the end of the dstnation string
+    while (*dst++)
         ;
 
     // concatenate the source string
     while (*src)
-        *dest++ = *src++;
+        *dst++ = *src++;
 
     // make sure we are asciiz
-    *dest = '\0';
+    *dst = '\0';
 
-    return pDest;
+    return pdst;
 }
 
 //
-char *strncat(char *dest, const char *src, size_t num)
+char *strncat(char *dst, const char *src, size_t num)
 {
-    assert(dest);
+    assert(dst);
     assert(src);
     assert(num);
 
-    char *pDest = dest;
+    char *pdst = dst;
 
-    // find the end of the destnation string
-    while (*dest++)
+    // find the end of the dstnation string
+    while (*dst++)
         ;
 
     // concatenate the source string
     for (; num && *src; num--)
-        *dest++ = *src++;
+        *dst++ = *src++;
 
     // make sure we are asciiz
-    *dest = '\0';
+    *dst = '\0';
 
-    return pDest;
+    return pdst;
 }
 
 //
@@ -135,7 +135,7 @@ int memcmp(const void *str1, const void *str2, size_t n)
     return result;
 }
 
-//
+// compare two strings
 int strcmp(const char *str1, const char *str2)
 {
     int result;
@@ -150,7 +150,7 @@ int strcmp(const char *str1, const char *str2)
     return result;
 }
 
-//
+// compare two strings using the current Locale rules
 int strcoll(const char *str1, const char *str2)
 {
     int result = 0;
@@ -174,11 +174,11 @@ int strncmp(const char *str1, const char *str2, size_t num)
 }
 
 //
-size_t strxfrm(char *destination, const char *source, size_t num)
+size_t strxfrm(char *dstination, const char *source, size_t num)
 {
     size_t result = 0;
 
-    assert(destination);
+    assert(dstination);
     assert(source);
     assert(num);
 
@@ -210,12 +210,12 @@ void *memset (void *ptr, int value, size_t num)
     assert(ptr);
     assert(num);
 
-    char *dest = ptr;
+    char *dst = ptr;
 
     while (num--)
-        *dest++ = value;
+        *dst++ = value;
     
-    return dest;
+    return dst;
 }
 
 //

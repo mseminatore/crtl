@@ -5,6 +5,7 @@
 void test_strlen()
 {
 	assert(strlen("Hello") == 5);
+	assert(strlen("") == 0);
 }
 
 //
