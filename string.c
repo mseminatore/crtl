@@ -1,18 +1,18 @@
 #include "string.h"
 #include "assert.h"
 
-//
-void *memcpy(void *dest, const void *src, size_t num)
+// copy num bytes from src to dst
+void *memcpy(void *dst, const void *src, size_t num)
 {
-    assert(dest);
+    assert(dst);
     assert(src);
     assert(num);
 
-    void *pDest = dest;
+    char *pDest = dst;
 
     while (num--)
     {
-        *((char*)dest)++ = (*(char*)src)++;
+        *pDest++ = (*(char*)src)++;
     }
 
     return pDest;
@@ -37,8 +37,8 @@ void *memmove(void *dest, const void *src, size_t num)
     return pDest;
 }
 
-//
-char *strcpy(char *dest, char *src)
+// copy string src to string dst
+char *strcpy(char *dest, const char *src)
 {
     assert(dest);
     assert(src);
@@ -54,7 +54,7 @@ char *strcpy(char *dest, char *src)
 }
 
 //
-char *strncpy(char *dest, char *src, size_t num)
+char *strncpy(char *dest, const char *src, size_t num)
 {
     assert(dest);
     assert(src);
@@ -72,7 +72,7 @@ char *strncpy(char *dest, char *src, size_t num)
 }
 
 //
-char *strcat(char *dest, char *src)
+char *strcat(char *dest, const char *src)
 {
     assert(dest);
     assert(src);
@@ -94,7 +94,7 @@ char *strcat(char *dest, char *src)
 }
 
 //
-char *strncat(char *dest, char *src, size_t num)
+char *strncat(char *dest, const char *src, size_t num)
 {
     assert(dest);
     assert(src);
@@ -186,11 +186,11 @@ size_t strxfrm(char *destination, const char *source, size_t num)
 }
 
 //
-const char *strchr(const char *str, int character)
+char *strchr(const char *str, int character)
 {
     assert(str);
 
-    return str;
+    return NULL;
 }
 
 //

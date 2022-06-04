@@ -1,13 +1,15 @@
-TARGET	= crtl.lib
+TARGET	= crtl_test
 LINKER	= cc -o
-OBJS	= string.o assert.o
-CFLAGS	= 
+DEPS 	= string.h stddef.h assert.h stdio.h stdlib.h
+OBJS	= string.o assert.o main.o stdio.o stdlib.o
+CFLAGS	= -I.
+LIBS = -lm
 
-$(OBJS):	string.c assert.c
-	$(CC) $< $(CFLAGS)
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(TARGET):	$(OBJS)
-	$(LINKER) $(TARGET) $(CFLAGS) $(OBJS)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 clean:
 	rm -f $(OBJS) $(TARGET)

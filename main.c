@@ -2,7 +2,7 @@
 #include "assert.h"
 
 //
-void test_string()
+void test_strlen()
 {
 	assert(strlen("Hello") == 5);
 }
@@ -10,5 +10,5 @@ void test_string()
 //
 int main(int argc, char *argv[])
 {
-	test_string();
+	test_strlen();
 }
