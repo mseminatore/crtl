@@ -230,3 +230,9 @@ size_t strlen(const char *str)
 
     return count;
 }
+
+//
+char *strerror(int errnum)
+{
+	return "unknown";
+}

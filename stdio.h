@@ -1,6 +1,11 @@
 #ifndef __STDIO_H
 #define __STDIO_H
 
+typedef struct
+{
+	int status;
+} FILE;
+
 #define stdin 0
 #define stout 1
 #define stderr 2
