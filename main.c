@@ -29,8 +29,10 @@ void test_strcmp()
 //
 int main(int argc, char *argv[])
 {
-	puts("Starting tests\n");
+	puts("Starting tests.\n");
 
 	test_strlen();
 	test_strcmp();
+
+	puts("Finished tests.\n");
 }
