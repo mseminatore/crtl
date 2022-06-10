@@ -80,8 +80,8 @@ char *strcat(char *dst, const char *src)
     char *pdst = dst;
 
     // find the end of the dstnation string
-    while (*dst++)
-        ;
+	while (*dst)
+		dst++;
 
     // concatenate the source string
     while (*src)
