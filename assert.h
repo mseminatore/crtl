@@ -1,3 +1,4 @@
+// Copyright 2022 Mark Seminatore. All rights reserved.
 #ifndef __ASSERT_H
 #define __ASSERT_H
 

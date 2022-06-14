@@ -1,31 +1,37 @@
+// Copyright 2022 Mark Seminatore. All rights reserved.
 #include "string.h"
 #include "assert.h"
 #include "stdio.h"
 
+static int testnum = 1;
+
+// simple test harness
+#define TEST(s) puts("Testing that: " ## #s ## "\n"); assert(#s)
+
 //
 void test_strlen()
 {
-	puts("Testing strlen()\n");
+	puts("\nTesting strlen()\n");
 
-	assert(strlen("Hello") == 5);
-	assert(strlen("") == 0);
+	TEST(strlen("Hello") == 5);
+	TEST(strlen("") == 0);
 }
 
 //
 void test_memcpy()
 {
-	puts("Testing memcmp()\n");
+	puts("\nTesting memcmp()\n");
 
 }
 
 //
 void test_strcmp()
 {
-	puts("Testing strcmp()\n");
+	puts("\nTesting strcmp()\n");
 
-	assert(0 == strcmp("same", "same"));
-	assert(0 > strcmp("ab", "ac"));
-	assert(0 < strcmp("abcd", "ABCD"));
+	TEST(0 == strcmp("same", "same"));
+	TEST(0 > strcmp("ab", "ac"));
+	TEST(0 < strcmp("abcd", "ABCD"));
 }
 
 //
@@ -33,10 +39,9 @@ void test_strcpy()
 {
 	char result[64];
 
-	puts("Testing strcpy()\n");
+	puts("\nTesting strcpy()\n");
 
-	strcpy(result, "Hello!");
-	assert(0 == strcmp(result, "Hello!"));
+	TEST(0 == strcmp(strcpy(result, "Hello!"), "Hello!"));
 }
 
 //
@@ -44,9 +49,9 @@ void test_strcat()
 {
 	char result[64] = "Hello ";
 
-	puts("Testing strcat()\n");
+	puts("\nTesting strcat()\n");
 
-	assert(0 == strcmp("Hello World!", strcat(result, "World!")));
+	TEST(0 == strcmp("Hello World!", strcat(result, "World!")));
 }
 
 //
@@ -59,5 +64,5 @@ int main(int argc, char *argv[])
 	test_strcpy();
 	test_strcat();
 
-	puts("Finished tests.\n");
+	puts("\nFinished tests.\n");
 }

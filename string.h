@@ -1,3 +1,4 @@
+// Copyright 2022 Mark Seminatore. All rights reserved.
 #ifndef __STRING_H
 #define __STRING_H
 

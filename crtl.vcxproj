@@ -145,6 +145,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="assert.c" />
+    <ClCompile Include="ctype.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="stdio.c" />
     <ClCompile Include="stdlib.c" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assert.h" />
+    <ClInclude Include="ctype.h" />
     <ClInclude Include="stddef.h" />
     <ClInclude Include="stdio.h" />
     <ClInclude Include="stdlib.h" />

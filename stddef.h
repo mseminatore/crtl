@@ -1,3 +1,4 @@
+// Copyright 2022 Mark Seminatore. All rights reserved.
 #ifndef __STDDEF_H
 #define __STDDEF_H
 

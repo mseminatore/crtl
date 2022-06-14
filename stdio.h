@@ -1,3 +1,4 @@
+// Copyright 2022 Mark Seminatore. All rights reserved.
 #ifndef __STDIO_H
 #define __STDIO_H
 
