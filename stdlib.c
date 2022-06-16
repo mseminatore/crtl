@@ -18,11 +18,27 @@ void __exit(int status)
 //
 int atoi(const char *str)
 {
-	int result = 0;
-	int places = strlen(str);
+	int result = 0, places;
+	int placeValue = 1;
+	int sign = 1;
 
-//	while (isdigit(*str))
-//		result += 10 ^ places;
+	// check for negative number
+	if (str[0] == '-')
+	{
+		str++;
+		sign = -1;
+	}
+	
+	places = strlen(str);
 
-	return result;
+	for (int i = places; i > 0; i--)
+	{
+		if (!isdigit(str[i]))
+			return 0;
+
+		result += str[i] - '0' * placeValue;
+		placeValue *= 10;
+	}
+
+	return sign * result;
 }

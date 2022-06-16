@@ -8,6 +8,22 @@
 #endif
 
 //
+int putchar(int c)
+{
+	return 1;
+}
+
+//
+int fputs(const char *str, FILE *stream)
+{
+	assert(str && stream);
+	if (!str || !stream)
+		return EOF;
+
+	return 1;
+}
+
+//
 int puts(const char *str)
 {
 	assert(str);

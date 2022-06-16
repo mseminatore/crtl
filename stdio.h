@@ -14,5 +14,7 @@ typedef struct
 
 int puts(const char *str);
 int printf(const char *format, ...);
+int putchar(int c);
+int fputs(const char *str, FILE *stream);
 
 #endif	//__STDIO_H
