@@ -1,3 +1,4 @@
+// Copyright 2022 Mark Seminatore. All rights reserved.
 #include "stdio.h"
 #include "string.h"
 #include "test.h"
