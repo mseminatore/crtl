@@ -6,7 +6,7 @@
 //
 static void test_strlen()
 {
-	puts("\nTesting strlen()\n");
+	SUITE("strlen");
 
 	TEST(strlen("Hello") == 5);
 	TEST(strlen("") == 0);
@@ -15,14 +15,14 @@ static void test_strlen()
 //
 static void test_memcpy()
 {
-	puts("\nTesting memcmp()\n");
+	SUITE("memcmp");
 
 }
 
 //
 static void test_strcmp()
 {
-	puts("\nTesting strcmp()\n");
+	SUITE("strcmp");
 
 	TEST(0 == strcmp("same", "same"));
 	TEST(0 > strcmp("ab", "ac"));
@@ -34,7 +34,7 @@ static void test_strcpy()
 {
 	char result[64] = "";
 
-	puts("\nTesting strcpy()\n");
+	SUITE("strcpy");
 
 	TEST(0 == strcmp(strcpy(result, "Hello!"), "Hello!"));
 }
@@ -44,7 +44,7 @@ static void test_strcat()
 {
 	char result[64] = "Hello ";
 
-	puts("\nTesting strcat()\n");
+	SUITE("strcat");
 
 	TEST(0 == strcmp("Hello World!", strcat(result, "World!")));
 }

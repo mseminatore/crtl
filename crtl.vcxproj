@@ -151,6 +151,7 @@
     <ClCompile Include="stdio.c" />
     <ClCompile Include="stdlib.c" />
     <ClCompile Include="string.c" />
+    <ClCompile Include="test_ctype.c" />
     <ClCompile Include="test_stdlib.c" />
     <ClCompile Include="test_string.c" />
   </ItemGroup>

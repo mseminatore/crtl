@@ -4,16 +4,18 @@
 #include "stdio.h"
 
 //
-static int testnum = 1;
-static int testerrs = 0;
+int testnum = 1;
+int testerrs = 0;
 
 //
 int main(int argc, char *argv[])
 {
-	puts("Starting tests.\n");
+	puts("Begin tests...\n");
 
 	test_string();
 	test_stdlib();
+	test_ctype();
 
-	puts("\nFinished tests.\n");
+	puts("\n");
+	puts("Tests completed.\n");
 }

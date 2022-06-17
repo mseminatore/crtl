@@ -17,7 +17,4 @@ int isalnum(int c);
 int tolower(int c);
 int toupper(int c);
 
-//#define islower _islower
-//#define isalpha _isalpha
-
 #endif __CTYPE_H
