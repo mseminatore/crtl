@@ -1,6 +1,7 @@
 // Copyright 2022 Mark Seminatore. All rights reserved.
 #include "ctype.h"
 #include "stdlib.h"
+#include "string.h"
 
 #if defined(_WIN32)
 	#include <windows.h>

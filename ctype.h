@@ -17,4 +17,4 @@ int isalnum(int c);
 int tolower(int c);
 int toupper(int c);
 
-#endif __CTYPE_H
+#endif  // __CTYPE_H
