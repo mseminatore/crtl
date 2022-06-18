@@ -103,6 +103,21 @@ static void test_toupper()
 }
 
 //
+static void test_isspace()
+{
+	SUITE("isspace");
+
+	TEST(true == isspace(' '));
+	TEST(true == isspace('\f'));
+	TEST(true == isspace('\t'));
+	TEST(true == isspace('\n'));
+	TEST(true == isspace('\r'));
+
+	TEST(false == isspace('a'));
+	TEST(false == isspace('0'));
+}
+
+//
 void test_ctype()
 {
 	test_islower();
@@ -112,4 +127,5 @@ void test_ctype()
 	test_isalnum();
 	test_tolower();
 	test_toupper();
+	test_isspace();
 }

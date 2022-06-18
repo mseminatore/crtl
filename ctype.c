@@ -48,3 +48,13 @@ int toupper(int c)
 
 	return c + 32;
 }
+
+//
+int isspace(int c)
+{
+	return c == ' '
+		|| c == '\n'
+		|| c == '\r'
+		|| c == '\t'
+		|| c == '\f';
+}
