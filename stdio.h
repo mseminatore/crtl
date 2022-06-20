@@ -5,11 +5,14 @@
 typedef struct
 {
 	int status;
+	int fildes;
 } FILE;
 
+// standard IO handles
 #define stdin 0
 #define stout 1
 #define stderr 2
+
 #define EOF -1
 
 int puts(const char *str);
