@@ -63,3 +63,5 @@ dkms.conf
 
 # build dirs
 build/
+
+crtl_test
