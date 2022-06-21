@@ -2,6 +2,7 @@
 #include "test.h"
 #include "string.h"
 #include "stdio.h"
+#include "stdlib.h"
 
 //
 int testnum = 1;
@@ -18,4 +19,6 @@ int main(int argc, char *argv[])
 
 	puts("\n");
 	puts("Tests completed.\n");
+
+	__exit(0);
 }

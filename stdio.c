@@ -8,10 +8,6 @@
 	// TODO - do we need to AllocConsole() or AttachConsole() on startup?
 #endif
 
-#if defined(__OSX__) || defined(__MACH__) || defined(__APPLE_CC__)
-	#include <unistd.h>
-#endif
-
 //
 int putchar(int c)
 {
@@ -35,6 +31,8 @@ int puts(const char *str)
 	if (!str)
 		return EOF;
 
+	int len = strlen(str);
+
 #if defined(_WIN32)
 	HANDLE stdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	if (stdOut != NULL && stdOut != INVALID_HANDLE_VALUE)
@@ -42,12 +40,20 @@ int puts(const char *str)
 		DWORD written = 0;
 
 		// If GetStdHandle or WriteConsole return false, then you may need to use AllocConsole().
-		WriteConsoleA(stdOut, str, strlen(str), &written, NULL);
+		WriteConsoleA(stdOut, str, len, &written, NULL);
 	}
 #endif
 
 #if defined(__APPLE_CC__)
-	int result = syscall(0x20000004, stdout, str, strlen(str));
+	//int result = syscall(0x20000004, stdout, str, strlen(str));
+	#if defined(__APPLE_CC__)
+		asm ("mov X0, #1");
+		asm ("mov X1, %0" : : "r"(str));
+		asm ("mov X2, %x0" : : "r"(len));
+		asm ("movz X16, #0x200, lsl 16");
+		asm ("add X16, X16, #4");
+		asm ("svc #0");
+	#endif
 #endif
 
 	return 1;
