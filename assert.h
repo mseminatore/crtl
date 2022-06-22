@@ -3,7 +3,7 @@
 #define __ASSERT_H
 
 #ifdef NDEBUG 
-    #define assert(expr)
+    #define assert(expr) ((void)0)
 #else
     #define assert(expr) (void)((expr) || (__assert_impl(#expr, __FILE__, __LINE__), 0))
 #endif

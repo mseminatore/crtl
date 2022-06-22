@@ -19,6 +19,4 @@ int main(int argc, char *argv[])
 
 	puts("\n");
 	puts("Tests completed.\n");
-
-	__exit(0);
 }

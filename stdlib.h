@@ -13,7 +13,14 @@
 #   define NORETURN __declspec(noreturn)
 #endif
 
-NORETURN void __exit(int status);
+NORETURN void exit(int status);
+NORETURN void abort(void);
+
 int atoi(const char *str);
+
+void free(void *ptr);
+void *malloc(size_t size);
+
+int abs(int x);
 
 #endif // __STDLIB_H

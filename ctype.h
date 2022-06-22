@@ -1,12 +1,12 @@
 // Copyright 2022 Mark Seminatore. All rights reserved.
 #pragma once
 
+#ifndef __CTYPE_H
+#define __CTYPE_H
+
 #ifdef _DLL
 #	undef _DLL
 #endif
-
-#ifndef __CTYPE_H
-#define __CTYPE_H
 
 int islower(int c);
 int isupper(int c);

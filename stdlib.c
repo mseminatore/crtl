@@ -8,7 +8,7 @@
 #endif
 
 //
-NORETURN void __exit(int status)
+NORETURN void exit(int status)
 {
 	// platform specific process exit
 	#if defined(_WIN32)
@@ -21,6 +21,12 @@ NORETURN void __exit(int status)
 		asm ("add X16, X16, #1");
 		asm ("svc #0");
 	#endif
+}
+
+//
+NORETURN void abort()
+{
+	exit(0);
 }
 
 //

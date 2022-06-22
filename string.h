@@ -4,6 +4,10 @@
 
 #include "stddef.h"
 
+#ifdef _DLL
+#	undef _DLL
+#endif
+
 #ifndef NULL
 #	define NULL ((void*)0)
 #endif
