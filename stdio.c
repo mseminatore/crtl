@@ -46,14 +46,12 @@ int puts(const char *str)
 
 #if defined(__APPLE_CC__)
 	//int result = syscall(0x20000004, stdout, str, strlen(str));
-	#if defined(__APPLE_CC__)
-		asm ("mov X0, #1");
-		asm ("mov X1, %0" : : "r"(str));
-		asm ("mov X2, %x0" : : "r"(len));
-		asm ("movz X16, #0x200, lsl 16");
-		asm ("add X16, X16, #4");
-		asm ("svc #0");
-	#endif
+	asm ("mov X0, #1");
+	asm ("mov X1, %0" : : "r"(str));
+	asm ("mov X2, %x0" : : "r"(len));
+	asm ("movz X16, #0x200, lsl 16");
+	asm ("add X16, X16, #4");
+	asm ("svc #0");
 #endif
 
 	return 1;
