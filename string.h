@@ -8,10 +8,6 @@
 #	undef _DLL
 #endif
 
-#ifndef NULL
-#	define NULL ((void*)0)
-#endif
-
 void *memcpy(void *dst, const void *src, size_t num);
 void *memmove(void *dst, const void *src, size_t num);
 char *strcpy(char *dst, const char *src);

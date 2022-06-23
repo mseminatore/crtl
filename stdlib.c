@@ -58,3 +58,9 @@ int atoi(const char *str)
 
 	return sign * result;
 }
+
+//
+int abs(int x)
+{
+	return x < 0 ? -x : x;
+}

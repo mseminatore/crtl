@@ -14,7 +14,18 @@ static void test_atoi()
 }
 
 //
+static void test_abs()
+{
+	SUITE("abs");
+
+	TEST(1 == abs(1));
+	TEST(1 == abs(-1));
+	TEST(0 == abs(0));
+}
+
+//
 void test_stdlib()
 {
 	test_atoi();
+	test_abs();
 }

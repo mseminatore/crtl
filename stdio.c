@@ -27,6 +27,8 @@ int fputs(const char *str, FILE *stream)
 #if defined(__APPLE_CC__)
 	return syscall(SYS_write, stream->fildes, str, strlen(str));
 #endif
+	
+	return 1;
 }
 
 //

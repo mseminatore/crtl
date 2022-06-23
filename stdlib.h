@@ -21,6 +21,4 @@ int atoi(const char *str);
 void free(void *ptr);
 void *malloc(size_t size);
 
-int abs(int x);
-
 #endif // __STDLIB_H
