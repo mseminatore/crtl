@@ -10,10 +10,14 @@ typedef struct
 
 // standard IO handles
 #define stdin 0
-#define stout 1
+#define stdout 1
 #define stderr 2
 
-#define EOF -1
+#define BUFSIZ 4096
+
+#ifndef EOF
+#	define EOF -1
+#endif
 
 int puts(const char *str);
 int printf(const char *format, ...);

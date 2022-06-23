@@ -5,6 +5,9 @@
 
 #if defined(_WIN32)
 	#include <windows.h>
+#elif defined (__APPLE_CC__)
+	#include <sys/syscall.h>
+	#include <unistd.h>
 #endif
 
 //
@@ -13,13 +16,12 @@ NORETURN void exit(int status)
 	// platform specific process exit
 	#if defined(_WIN32)
 		ExitProcess(status);
-	#endif
-
-	#if defined(__APPLE_CC__)
-		asm ("mov X0, #0");
-		asm ("movz X16, #0x200, lsl 16");
-		asm ("add X16, X16, #1");
-		asm ("svc #0");
+	#elif defined (__APPLE_CC__)
+		syscall(SYS_exit, status);
+		// asm ("mov X0, #0");
+		// asm ("movz X16, #0x200, lsl 16");
+		// asm ("add X16, X16, #1");
+		// asm ("svc #0");
 	#endif
 }
 

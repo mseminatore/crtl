@@ -6,6 +6,9 @@
 #if defined(_WIN32)
 	#include <Windows.h>
 	// TODO - do we need to AllocConsole() or AttachConsole() on startup?
+#else
+	#include <sys/syscall.h>
+	#include <unistd.h>
 #endif
 
 //
@@ -21,7 +24,9 @@ int fputs(const char *str, FILE *stream)
 	if (!str || !stream)
 		return EOF;
 
-	return 1;
+#if defined(__APPLE_CC__)
+	return syscall(SYS_write, stream->fildes, str, strlen(str));
+#endif
 }
 
 //
@@ -45,13 +50,13 @@ int puts(const char *str)
 #endif
 
 #if defined(__APPLE_CC__)
-	//int result = syscall(0x20000004, stdout, str, strlen(str));
-	asm ("mov X0, #1");
-	asm ("mov X1, %0" : : "r"(str));
-	asm ("mov X2, %x0" : : "r"(len));
-	asm ("movz X16, #0x200, lsl 16");
-	asm ("add X16, X16, #4");
-	asm ("svc #0");
+	return syscall(SYS_write, stdout, str, strlen(str));
+	// asm ("mov X0, #1");
+	// asm ("mov X1, %0" : : "r"(str));
+	// asm ("mov X2, %x0" : : "r"(len));
+	// asm ("movz X16, #0x200, lsl 16");
+	// asm ("add X16, X16, #4");
+	// asm ("svc #0");
 #endif
 
 	return 1;
