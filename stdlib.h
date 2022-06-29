@@ -13,6 +13,8 @@
 #   define NORETURN __declspec(noreturn)
 #endif
 
+int	syscall(int, ...);
+
 NORETURN void exit(int status);
 NORETURN void abort(void);
 
