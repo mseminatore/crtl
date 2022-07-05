@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	test_ctype();
 
 	puts("\n");
-	puts("Tests successfully completed.\n");
+	printf("Successfully completed %d tests.\n", testnum);
 
 	exit(0);
 }

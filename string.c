@@ -237,3 +237,13 @@ char *strerror(int errnum)
 {
 	return "unknown";
 }
+
+//
+char *strrev(char *str)
+{
+	assert(str && *str);
+	if (!str || !*str)
+		return NULL;
+
+	return str;
+}

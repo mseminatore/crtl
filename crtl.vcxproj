@@ -151,6 +151,7 @@
     <ClCompile Include="stdio.c" />
     <ClCompile Include="stdlib.c" />
     <ClCompile Include="string.c" />
+    <ClCompile Include="syscall.c" />
     <ClCompile Include="test_ctype.c" />
     <ClCompile Include="test_stdlib.c" />
     <ClCompile Include="test_string.c" />
@@ -161,10 +162,12 @@
     <ClInclude Include="errno.h" />
     <ClInclude Include="stdarg.h" />
     <ClInclude Include="stddef.h" />
+    <ClInclude Include="stdint.h" />
     <ClInclude Include="stdio.h" />
     <ClInclude Include="stdlib.h" />
     <ClInclude Include="string.h" />
     <ClInclude Include="test.h" />
+    <ClInclude Include="unistd.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

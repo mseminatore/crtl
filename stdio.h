@@ -28,6 +28,7 @@ typedef struct
 int puts(const char *str);
 int printf(const char *format, ...);
 int putchar(int c);
+int fprintf(FILE *stream, const char *format, ...);
 
 int fclose(FILE *stream);
 int feof(FILE *stream);
