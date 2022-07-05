@@ -8,7 +8,7 @@
 	#include <windows.h>
 #elif defined (__APPLE_CC__)
 	#include <sys/syscall.h>
-	#include <unistd.h>
+	#include "unistd.h"
 #endif
 
 #include "stdarg.h"

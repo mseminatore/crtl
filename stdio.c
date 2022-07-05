@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "assert.h"
+#include "stdarg.h"
 
 #if defined(_WIN32)
 	#define _CRT_SECURE_NO_WARNINGS
@@ -9,7 +10,7 @@
 	// TODO - do we need to AllocConsole() or AttachConsole() on startup?
 #else
 	#include <sys/syscall.h>
-	#include <unistd.h>
+	#include "unistd.h"
 #endif
 
 #define PRINTF_MAX 256
@@ -66,30 +67,6 @@ int puts(const char *str)
 
 	return 1;
 }
-
-//
-// int open(const char *pathname, int flags)
-// {
-// 	return -1;
-// }
-
-// //
-// int close(int fd)
-// {
-// 	return syscall(SYS_close, fd);
-// }
-
-// //
-// size_t read(int d, void *buf, size_t count)
-// {
-// 	return syscall(SYS_read, buf, count);
-// }
-
-// //
-// int write(int fd, const void *buf, size_t count)
-// {
-// 	return syscall(SYS_write, buf, count);
-// }
 
 //
 FILE *fopen(const char *filename, const char *mode)
