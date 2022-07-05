@@ -3,6 +3,7 @@
 #include "stdarg.h"
 #include "stdlib.h"
 #include "string.h"
+#include "assert.h"
 
 #if defined(_WIN32)
 	#include <windows.h>
