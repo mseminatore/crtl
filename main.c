@@ -5,7 +5,7 @@
 #include "stdlib.h"
 
 //
-int testnum = 1;
+int testnum = 0;
 int testerrs = 0;
 
 //

@@ -241,9 +241,19 @@ char *strerror(int errnum)
 //
 char *strrev(char *str)
 {
+	char *p1, *p2;
+
 	assert(str && *str);
 	if (!str || !*str)
 		return NULL;
+
+	for (p1 = str, p2 = str + strlen(str) - 1; p2 > p1; ++p1, --p2)
+	{
+		char c = *p2;
+
+		*p2 = *p1;
+		*p1 = c;
+	}
 
 	return str;
 }

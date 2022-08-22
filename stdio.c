@@ -2,7 +2,6 @@
 #include "stdio.h"
 #include "string.h"
 #include "assert.h"
-#include "stdarg.h"
 
 #if defined(_WIN32)
 	#define _CRT_SECURE_NO_WARNINGS
@@ -12,6 +11,8 @@
 	#include <sys/syscall.h>
 	#include "unistd.h"
 #endif
+
+#include "stdarg.h"
 
 #define PRINTF_MAX 256
 
@@ -150,7 +151,7 @@ int printf(const char *format, ...)
 				char int_string[32];
 
 				_itoa(ival, int_string, 10);
-				strcpy(pbuf, int_string);
+				strcpy(pbuf, strrev(int_string));
 				int len = strlen(int_string);
 				pbuf += len;
 				count += len;
