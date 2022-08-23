@@ -15,8 +15,21 @@ static void test_strlen()
 //
 static void test_memcpy()
 {
-	SUITE("memcmp");
+	char result[64] = "";
 
+	SUITE("memcpy");
+
+	TEST(0 == strcmp(memcpy(result, "Hello", strlen("Hello") + 1), "Hello"));
+}
+
+//
+static void test_memmove()
+{
+	char result[64] = "";
+
+	SUITE("memmove");
+
+	TEST(0 == strcmp(memmove(result, "Hello", strlen("Hello") + 1), "Hello"));
 }
 
 //
@@ -37,6 +50,18 @@ static void test_strcpy()
 	SUITE("strcpy");
 
 	TEST(0 == strcmp(strcpy(result, "Hello!"), "Hello!"));
+	TEST(0 == strcmp(strcpy(result, ""), ""));
+}
+
+//
+static void test_strncpy()
+{
+	char result[64] = "";
+
+	SUITE("strncpy");
+
+	TEST(0 == strcmp(strncpy(result, "Hello", 3), "Hel"));
+	TEST(0 != strcmp(strncpy(result, "Hello", 4), "Hel"));
 }
 
 //
@@ -53,7 +78,10 @@ static void test_strcat()
 void test_string()
 {
 	test_strlen();
+	test_memcpy();
+	test_memmove();
 	test_strcmp();
 	test_strcpy();
+	test_strncpy();
 	test_strcat();
 }

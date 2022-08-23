@@ -10,16 +10,17 @@ void *memcpy(void *dst, const void *src, size_t num)
     assert(num);
 
     char *pdst = dst;
+	const char *psrc = src;
 
     while (num--)
     {
-        *pdst++ = (*(char*)src)++;
+        *pdst++ = *psrc++;
     }
 
-    return pdst;
+    return dst;
 }
 
-//
+// copy num bytes from src to dst
 void *memmove(void *dst, const void *src, size_t num)
 {
     assert(dst);
@@ -27,15 +28,17 @@ void *memmove(void *dst, const void *src, size_t num)
     assert(num);
 
     char *pdst = dst;
-    unsigned char byte;
+	char *psrc = src;
+
+    char byte;
 
     while (num--)
     {
-        byte = (*(char*)src)++;
+        byte = *psrc++;
         *pdst++ = byte;
     }
 
-    return pdst;
+    return dst;
 }
 
 // copy string src to string dst
@@ -64,12 +67,12 @@ char *strncpy(char *dst, const char *src, size_t num)
     char *pdst = dst;
 
     for (; num && *src; num--)
-        *dst++ = *src++;
+        *pdst++ = *src++;
 
     // make sure we are asciiz
-    *dst = '\0';
+    *pdst = '\0';
 
-    return pdst;
+    return dst;
 }
 
 //
@@ -80,18 +83,18 @@ char *strcat(char *dst, const char *src)
 
     char *pdst = dst;
 
-    // find the end of the dstnation string
-	while (*dst)
-		dst++;
+    // find the end of the destnation string
+	while (*pdst)
+		pdst++;
 
     // concatenate the source string
     while (*src)
-        *dst++ = *src++;
+        *pdst++ = *src++;
 
     // make sure we are asciiz
-    *dst = '\0';
+    *pdst = '\0';
 
-    return pdst;
+    return dst;
 }
 
 //
@@ -104,17 +107,17 @@ char *strncat(char *dst, const char *src, size_t num)
     char *pdst = dst;
 
     // find the end of the dstnation string
-    while (*dst++)
+    while (*pdst++)
         ;
 
     // concatenate the source string
     for (; num && *src; num--)
-        *dst++ = *src++;
+        *pdst++ = *src++;
 
     // make sure we are asciiz
-    *dst = '\0';
+    *pdst = '\0';
 
-    return pdst;
+    return dst;
 }
 
 //
@@ -151,6 +154,23 @@ int strcmp(const char *str1, const char *str2)
     return result;
 }
 
+//
+int strncmp(const char *str1, const char *str2, size_t num)
+{
+	int result;
+
+	assert(str1);
+	assert(str2);
+	assert(num);
+
+	for (; num && *str1 && *str2 && *str1 == *str2; str1++, str2++, num--)
+		;
+
+	result = *str1 - *str2;
+
+	return result;
+}
+
 // compare two strings using the current Locale rules
 int strcoll(const char *str1, const char *str2)
 {
@@ -158,18 +178,6 @@ int strcoll(const char *str1, const char *str2)
 
     assert(str1);
     assert(str2);
-
-    return result;
-}
-
-//
-int strncmp(const char *str1, const char *str2, size_t num)
-{
-    int result = 0;
-
-    assert(str1);
-    assert(str2);
-    assert(num);
 
     return result;
 }

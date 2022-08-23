@@ -7,8 +7,16 @@
 #include "assert.h"
 
 // simple test harness
-#define TEST(s)     printf("\t%d checking that: " #s "\n", ++testnum); assert(#s); putchar(251)
+#define TEST(s)     printf("\t%d checking that: " #s "\n", ++testnum); assert(s); putchar(251)
 #define SUITE(s)    puts("\nTesting " s "...\n")
+
+#ifndef TRUE
+#	define TRUE 1
+#endif
+
+#ifndef FALSE
+#	define FALSE 0
+#endif
 
 void test_string();
 void test_stdlib();

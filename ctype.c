@@ -37,7 +37,7 @@ int tolower(int c)
 	if (!isupper(c))
 		return c;
 
-	return c - 32;
+	return c + 32;
 }
 
 //
@@ -46,7 +46,7 @@ int toupper(int c)
 	if (!islower(c))
 		return c;
 
-	return c + 32;
+	return c - 32;
 }
 
 //

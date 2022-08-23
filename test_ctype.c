@@ -6,12 +6,12 @@ static void test_islower()
 {
 	SUITE("islower");
 
-	TEST(true == islower('a'));
-	TEST(true == islower('z'));
+	TEST(TRUE == islower('a'));
+	TEST(TRUE == islower('z'));
 
-	TEST(false == islower('A'));
-	TEST(false == islower('Z'));
-	TEST(false == islower('1'));
+	TEST(FALSE == islower('A'));
+	TEST(FALSE == islower('Z'));
+	TEST(FALSE == islower('1'));
 }
 
 //
@@ -19,12 +19,12 @@ static void test_isupper()
 {
 	SUITE("islower");
 
-	TEST(true == isupper('A'));
-	TEST(true == isupper('Z'));
+	TEST(TRUE == isupper('A'));
+	TEST(TRUE == isupper('Z'));
 
-	TEST(false == isupper('a'));
-	TEST(false == isupper('z'));
-	TEST(false == isupper('1'));
+	TEST(FALSE == isupper('a'));
+	TEST(FALSE == isupper('z'));
+	TEST(FALSE == isupper('1'));
 }
 
 //
@@ -32,14 +32,14 @@ static void test_isalpha()
 {
 	SUITE("isalpha");
 
-	TEST(true == isalpha('A'));
-	TEST(true == isalpha('a'));
-	TEST(true == isalpha('Z'));
-	TEST(true == isalpha('a'));
+	TEST(TRUE == isalpha('A'));
+	TEST(TRUE == isalpha('a'));
+	TEST(TRUE == isalpha('Z'));
+	TEST(TRUE == isalpha('a'));
 
-	TEST(false == isalpha('0'));
-	TEST(false == isalpha('9'));
-	TEST(false == isalpha('-'));
+	TEST(FALSE == isalpha('0'));
+	TEST(FALSE == isalpha('9'));
+	TEST(FALSE == isalpha('-'));
 }
 
 //
@@ -47,13 +47,13 @@ static void test_isdigit()
 {
 	SUITE("isdigit");
 
-	TEST(true == isdigit('0'));
-	TEST(true == isdigit('9'));
+	TEST(TRUE == isdigit('0'));
+	TEST(TRUE == isdigit('9'));
 
-	TEST(false == isdigit('A'));
-	TEST(false == isdigit('a'));
-	TEST(false == isdigit('Z'));
-	TEST(false == isdigit('a'));
+	TEST(FALSE == isdigit('A'));
+	TEST(FALSE == isdigit('a'));
+	TEST(FALSE == isdigit('Z'));
+	TEST(FALSE == isdigit('a'));
 }
 
 //
@@ -61,17 +61,17 @@ static void test_isalnum()
 {
 	SUITE("isalnum");
 
-	TEST(true == isalnum('0'));
-	TEST(true == isalnum('9'));
+	TEST(TRUE == isalnum('0'));
+	TEST(TRUE == isalnum('9'));
 
-	TEST(true == isalnum('A'));
-	TEST(true == isalnum('a'));
-	TEST(true == isalnum('Z'));
-	TEST(true == isalnum('a'));
+	TEST(TRUE == isalnum('A'));
+	TEST(TRUE == isalnum('a'));
+	TEST(TRUE == isalnum('Z'));
+	TEST(TRUE == isalnum('a'));
 
-	TEST(false == isalnum('-'));
-	TEST(false == isalnum('@'));
-	TEST(false == isalnum('&'));
+	TEST(FALSE == isalnum('-'));
+	TEST(FALSE == isalnum('@'));
+	TEST(FALSE == isalnum('&'));
 }
 
 //
@@ -107,14 +107,14 @@ static void test_isspace()
 {
 	SUITE("isspace");
 
-	TEST(true == isspace(' '));
-	TEST(true == isspace('\f'));
-	TEST(true == isspace('\t'));
-	TEST(true == isspace('\n'));
-	TEST(true == isspace('\r'));
+	TEST(TRUE == isspace(' '));
+	TEST(TRUE == isspace('\f'));
+	TEST(TRUE == isspace('\t'));
+	TEST(TRUE == isspace('\n'));
+	TEST(TRUE == isspace('\r'));
 
-	TEST(false == isspace('a'));
-	TEST(false == isspace('0'));
+	TEST(FALSE == isspace('a'));
+	TEST(FALSE == isspace('0'));
 }
 
 //

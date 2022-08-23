@@ -50,12 +50,12 @@ int atoi(const char *str)
 	
 	places = strlen(str);
 
-	for (int i = places; i > 0; i--)
+	for (int i = places - 1; i >= 0; i--)
 	{
 		if (!isdigit(str[i]))
 			return 0;
 
-		result += str[i] - '0' * placeValue;
+		result += (str[i] - '0') * placeValue;
 		placeValue *= 10;
 	}
 
