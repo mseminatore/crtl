@@ -87,7 +87,9 @@ static void test_strchr()
 {
 	SUITE("strchr");
 
-//	TEST();
+	TEST('H' == *strchr("Hello", 'H'));
+	TEST('e' == *strchr("Hello", 'e'));
+	TEST('l' == *strchr("Hello", 'l'));
 }
 
 //
@@ -95,7 +97,9 @@ static void test_strrchr()
 {
 	SUITE("strrchr");
 
-//	TEST();
+	TEST('H' == *strrchr("Hello", 'H'));
+	TEST('e' == *strrchr("Hello", 'e'));
+	TEST('l' == *strrchr("Hello", 'l'));
 }
 
 //
