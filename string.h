@@ -35,6 +35,7 @@ void *memset (void *ptr, int value, size_t num);
 char *strerror(int errnum);
 size_t strlen(const char *str);
 
+// non-standard
 char *strrev(char *str);
 
 #endif // __STRING_H

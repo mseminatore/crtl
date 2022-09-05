@@ -28,7 +28,7 @@ void *memmove(void *dst, const void *src, size_t num)
     assert(num);
 
     char *pdst = dst;
-	char *psrc = src;
+	const char *psrc = src;
 
     char byte;
 
@@ -174,30 +174,75 @@ int strncmp(const char *str1, const char *str2, size_t num)
 // compare two strings using the current Locale rules
 int strcoll(const char *str1, const char *str2)
 {
-    int result = 0;
-
     assert(str1);
     assert(str2);
 
-    return result;
+	// TODO - fix up when locale is implemented
+    return strcmp(str1, str2);
 }
 
-//
-size_t strxfrm(char *dstination, const char *source, size_t num)
+// Transforms the first n characters of the string src into current locale and places them in the string dest
+size_t strxfrm(char *dst, const char *src, size_t num)
 {
     size_t result = 0;
 
-    assert(dstination);
-    assert(source);
+    assert(dst);
+    assert(src);
     assert(num);
 
     return result;
 }
 
-//
-char *strchr(const char *str, int character)
+// Finds the first character in the string str1 that matches any character specified in str2
+char *strpbrk(const char *str1, const char *str2)
+{
+	assert(str1);
+	assert(str2);
+
+	size_t len1 = strlen(str1);
+	size_t len2 = strlen(str2);
+
+	for (size_t i = 0; i < len1; i++)
+	{
+		for (size_t j = 0; j < len2; j++)
+		{
+			if (str1[i] == str2[j])
+				return (char*)&str1[i];
+		}
+	}
+
+	return NULL;
+}
+
+// Searches for the first occurrence of the character c (an unsigned char) in the string pointed to, by the argument str
+char *strchr(const char *str, int c)
+{
+	assert(str);
+
+	size_t len = strlen(str);
+
+	for (size_t i = 0; i < len; i++)
+	{
+		if (str[i] == c)
+			return &str[i];
+	}
+
+	return NULL;
+}
+
+
+// Searches for the last occurrence of the character c (an unsigned char) in the string pointed to by the argument str
+char *strrchr(const char *str, int c)
 {
     assert(str);
+
+	size_t len = strlen(str);
+	
+	for (size_t i = len; i >= 0; i--)
+	{
+		if (str[i] == c)
+			return &str[i];
+	}
 
     return NULL;
 }

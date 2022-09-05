@@ -75,6 +75,30 @@ static void test_strcat()
 }
 
 //
+static void test_strpbrk()
+{
+	SUITE("strpbrk");
+
+	TEST(NULL == strpbrk("ABC", "DEF"));
+}
+
+//
+static void test_strchr()
+{
+	SUITE("strchr");
+
+//	TEST();
+}
+
+//
+static void test_strrchr()
+{
+	SUITE("strrchr");
+
+//	TEST();
+}
+
+//
 void test_string()
 {
 	test_strlen();
@@ -84,4 +108,7 @@ void test_string()
 	test_strcpy();
 	test_strncpy();
 	test_strcat();
+	test_strpbrk();
+	test_strchr();
+	test_strrchr();
 }
