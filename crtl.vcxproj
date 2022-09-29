@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="assert.c" />
     <ClCompile Include="ctype.c" />
+    <ClCompile Include="errno.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="stdio.c" />
     <ClCompile Include="stdlib.c" />

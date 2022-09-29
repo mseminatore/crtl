@@ -36,6 +36,6 @@ char *strerror(int errnum);
 size_t strlen(const char *str);
 
 // non-standard
-char *strrev(char *str);
+char *_strrev(char *str);
 
 #endif // __STRING_H

@@ -112,7 +112,7 @@ char *_itoa(int value, char *str, int base)
 
 	*pchr = 0;	// make sure we are asciiz!
 
-	return str;
+	return _strrev(str);
 }
 
 //
@@ -151,7 +151,7 @@ int printf(const char *format, ...)
 				char int_string[32];
 
 				_itoa(ival, int_string, 10);
-				strcpy(pbuf, strrev(int_string));
+				strcpy(pbuf, int_string);
 				int len = strlen(int_string);
 				pbuf += len;
 				count += len;

@@ -224,7 +224,7 @@ char *strchr(const char *str, int c)
 	for (size_t i = 0; i < len; i++)
 	{
 		if (str[i] == c)
-			return &str[i];
+			return (char*)&str[i];
 	}
 
 	return NULL;
@@ -241,7 +241,7 @@ char *strrchr(const char *str, int c)
 	for (size_t i = len; i >= 0; i--)
 	{
 		if (str[i] == c)
-			return &str[i];
+			return (char*)&str[i];
 	}
 
     return NULL;
@@ -291,8 +291,8 @@ char *strerror(int errnum)
 	return "unknown";
 }
 
-//
-char *strrev(char *str)
+// reverse the given string in-place
+char *_strrev(char *str)
 {
 	char *p1, *p2;
 
