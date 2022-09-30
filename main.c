@@ -19,4 +19,5 @@ int main(int argc, char *argv[])
 
 	puts("\n");
 	printf("Successfully completed %d tests.\n", testnum);
+	return 0;
 }

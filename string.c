@@ -2,6 +2,8 @@
 #include "string.h"
 #include "assert.h"
 
+#define MAX_TOKEN_STRING 256
+
 // copy num bytes from src to dst
 void *memcpy(void *dst, const void *src, size_t num)
 {
@@ -50,11 +52,12 @@ char *strcpy(char *dst, const char *src)
     char *pdst = dst;
 
     while (*src)
-        *dst++ = *src++;
+        *pdst++ = *src++;
 
     // make sure we are asciiz
-    *dst = '\0';
-    return pdst;
+    *pdst = '\0';
+
+    return dst;
 }
 
 //
@@ -190,6 +193,7 @@ size_t strxfrm(char *dst, const char *src, size_t num)
     assert(src);
     assert(num);
 
+	// TODO - fix up when locale is implemented
     return result;
 }
 
@@ -247,19 +251,68 @@ char *strrchr(const char *str, int c)
     return NULL;
 }
 
-//
+// Calculates the length of the initial segment of str1 which consists entirely of characters not in str2
 size_t strcspn(const char *str1, const char *str2)
 {
     size_t count = 0;
 
     assert(str1);
     assert(str2);
+	if (!str1 || !str2)
+		return 0;
+
+	int len = strlen(str2);
+
+	for (; *str1; count++, str1++)
+	{
+		for (int i = 0; i < len; i++)
+		{
+			// if we find a char from str2 in str1 return the current count
+			if (*str1 == str2[i])
+				return count;
+		}
+	}
 
     return count;
 }
 
+// Calculates the length of the initial segment of str1 which consists entirely of characters in str2.
+size_t strspn(const char *str1, const char *str2)
+{
+	size_t count = 0;
+
+	assert(str1);
+	assert(str2);
+	if (!str1 || !str2)
+		return 0;
+
+
+	int len = strlen(str2);
+	int found;
+
+	for (; *str1; count++, str1++)
+	{
+		found = 0;
+		for (int i = 0; i < len; i++)
+		{
+			// if we find a char from str2 in str1 advance to next char in str1
+			if (*str1 == str2[i])
+			{
+				found = 1;
+				break;
+			}
+		}
+
+		// no char from str2 was found in current char of str1
+		if (!found)
+			return count;
+	}
+
+	return count;
+}
+
 //
-void *memset (void *ptr, int value, size_t num)
+void *memset(void *ptr, int value, size_t num)
 {
     assert(ptr);
     assert(num);
@@ -275,9 +328,9 @@ void *memset (void *ptr, int value, size_t num)
 //
 size_t strlen(const char *str)
 {
-    assert(str);
-
-    size_t count = 0;
+	size_t count = 0;
+	
+	assert(str);
 
     while (*str++)
         count++;
@@ -288,7 +341,44 @@ size_t strlen(const char *str)
 //
 char *strerror(int errnum)
 {
-	return "unknown";
+	return "unknown error";
+}
+
+// Breaks string str into a series of tokens separated by delim.
+char *strtok(char *str, const char *delimiters)
+{
+	static char buf[MAX_TOKEN_STRING];
+	static char *ptr = NULL;
+	char *token;
+	int len;
+
+	assert(delimiters);
+	if (!delimiters)
+		return NULL;
+
+	// if str is provided reset the token string
+	if (str)
+	{
+		strncpy(buf, str, MAX_TOKEN_STRING);
+		ptr = buf;
+	}
+
+	token = ptr;
+	len = strlen(delimiters);
+
+	for(; *ptr; ptr++)
+	{
+		// search over delimiters
+		for(int i = 0; i < len; i++)
+			// if we found a delimiter return the current token
+			if (*ptr == delimiters[i])
+			{
+				*ptr++ = '\0';	// make token asciiz by overwriting the delimiter
+				return token;
+			}
+	}
+
+	return token;
 }
 
 // reverse the given string in-place

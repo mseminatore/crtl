@@ -103,6 +103,36 @@ static void test_strrchr()
 }
 
 //
+static void test_strcspn()
+{
+	SUITE("strcspn");
+
+	TEST(2 == strcspn("Hello", "World"));
+	TEST(1 == strcspn("Hello", "There"));
+	TEST(4 == strcspn("Stop", "Pill"));
+	TEST(0 == strcspn("Hello", "Hill"));
+}
+
+//
+static void test_strspn()
+{
+	SUITE("strspn");
+
+	TEST(5 == strspn("Hello", "Hello"));
+	TEST(0 == strspn("Hello", "There"));
+	TEST(4 == strspn("Hello", "Help"));
+}
+
+//
+static void test_strtok()
+{
+	SUITE("strtok");
+
+	TEST(0 == strcmp("Hello", strtok("Hello there", " ")));
+	TEST(0 == strcmp("there", strtok(NULL, " ")));
+}
+
+//
 void test_string()
 {
 	test_strlen();
@@ -115,4 +145,7 @@ void test_string()
 	test_strpbrk();
 	test_strchr();
 	test_strrchr();
+	test_strcspn();
+	test_strspn();
+	test_strtok();
 }
