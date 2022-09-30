@@ -39,6 +39,7 @@
 # Project files
 *.vcxproj.*
 *.VC.*
+.vscode/
 
 # Output files
 Debug/
