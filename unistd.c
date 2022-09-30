@@ -1,24 +1,31 @@
+#include "stddef.h"
+#include "unistd.h"
+
+// 
+#if defined(__APPLE_CC__)
+#	include <sys/syscall.h>
+#endif
 
 //
-int open(const char *pathname, int flags)
+INT open(const char *pathname, int flags)
 {
 	return -1;
 }
 
 // //
-int close(int fd)
+INT close(INT fd)
 {
 	return syscall(SYS_close, fd);
 }
 
 // //
-size_t read(int d, void *buf, size_t count)
+size_t read(INT fd, void *buf, size_t count)
 {
-	return syscall(SYS_read, buf, count);
+	return syscall(SYS_read, fd, buf, count);
 }
 
 // //
-int write(int fd, const void *buf, size_t count)
+INT write(INT fd, const void *buf, size_t count)
 {
-	return syscall(SYS_write, buf, count);
+	return syscall(SYS_write, fd, buf, count);
 }

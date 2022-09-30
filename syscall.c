@@ -1,3 +1,5 @@
+// Copyright 2022 Mark Seminatore. All rights reserved.
+
 #include "stdarg.h"
 #include "stdlib.h"
 #include "assert.h"
@@ -6,9 +8,10 @@
 #	include <sys/syscall.h>
 
 //
-int	syscall(int number, ...)
+long syscall(long number, ...)
 {
-	int result = 0;
+	long result = 0;
+	long sysnum = number + 0x2000000;
 
 	va_list argp;
 
@@ -18,16 +21,15 @@ int	syscall(int number, ...)
 	{
 	case SYS_exit:
 	{
-		int status = va_arg(argp, int);
+		long status = va_arg(argp, long);
 		
 #if defined(__aarch64__)
-		asm("mov X0, %w0" : : "r"(status));
-		asm("movz X16, #0x200, lsl 16");
-		asm("add X16, X16, %0" : : "r"(number));
-		asm("svc #0" : "r"(result));
+		asm("mov X0, %0" : : "r"(status));
+		asm("mov X16, %0" : : "r"(sysnum));
+		asm("svc #0" : "=r"(result));
 #elif defined(__x86_64__)
 // add 0x2000000 to number
-		asm("mov rax, _ptr %0" : : "r"(number));
+		asm("mov rax, _ptr %0" : : "r"(sysnum));
 		asm("mov rdi, %0" : : "r"(status));
 		asm("syscall" : "=r"(result));
 #endif
@@ -43,21 +45,22 @@ int	syscall(int number, ...)
 
 	case SYS_write:
 	{
-		int fd = va_arg(argp, int);
-		void *buf = va_arg(argp, void*);
+		long fd = (int)va_arg(argp, int);
+		char *buf = va_arg(argp, char*);
 		size_t len = va_arg(argp, size_t);
 
-#if defined(__aarch64__)
-		asm("mov X0, #0");
-		asm("movz X16, #0x200, lsl 16");
-		asm("add X16, X16, %0" : : "r"(number));
-		asm("svc #0" : "r"(result));
-#elif defined(__x86_64__)
+#if defined(__x86_64__)
 		asm("mov rax, %0" : : "r"(number));
 		asm("mov rdi, %0" : : "r"(fd));
 		asm("mov rsi, %0" : : "r"(buf));
 		asm("mov rdx, %0" : : "r"(len));
 		asm("syscall" : "=r"(result));
+#elif defined(__aarch64__)
+		asm("mov X0, %0" : : "r"(fd));
+		asm("mov X1, %0" : : "r"(buf));
+		asm("mov X2, %x0" : : "r"(len));
+		asm("mov X16, %0" : : "r"(sysnum));
+		asm("svc #0" : "=r"(result));
 #endif
 
 	}

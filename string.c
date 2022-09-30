@@ -296,7 +296,7 @@ char *_strrev(char *str)
 {
 	char *p1, *p2;
 
-	assert(str && *str);
+	assert(str);
 	if (!str || !*str)
 		return NULL;
 

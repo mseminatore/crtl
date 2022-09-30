@@ -13,7 +13,7 @@
 #   define NORETURN __declspec(noreturn)
 #endif
 
-int	syscall(int, ...);
+//long syscall(long, ...);
 
 NORETURN void exit(int status);
 NORETURN void abort(void);
@@ -22,5 +22,6 @@ int atoi(const char *str);
 
 void free(void *ptr);
 void *malloc(size_t size);
+int abs(int x);
 
 #endif // __STDLIB_H
