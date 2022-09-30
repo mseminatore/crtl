@@ -27,3 +27,18 @@ library of functions.
 
 At some point I also hope to be able to use this library with tiny C 
 compilers that I write for microcontrollers that I use.
+
+## Contributing
+
+Contributions are welcome, particularly bug fixes and enhancements!
+Refer to our [Contribution Guidelines](https://github.com/mseminatore/crtl/blob/master/CONTRIBUTING.md) for details.
+
+> Please note that Project owners reserve the right to accept or reject any PR
+> for any reason.
+
+## Code of Conduct
+
+Before contributing or participating to this community please be sure to 
+familiarize yourself with our project 
+[CODE OF CONDUCT](https://github.com/mseminatore/crtl/blob/master/CODE_OF_CONDUCT.md). 
+These guidelines are intended to govern interactions with and within the community.
