@@ -6,19 +6,24 @@ this projectto provide 100% of the ANSCI C RTL. The primary support will
 be the most commonly used C library functions. For example, C locale support
 is not planned at this time.
 
-# Platform and Architectures supported
+## Platform and Architectures supported
 
 The CRTL project development and testing is mainly done on Windows and 
 Mac OSX. Linux support is an additional goal. The primary architectures 
 supported are x86, x64, and ARM64.
 
-# Testing
+## Known Issues
+
+The varargs implementation on Apple Silicon is not yet functional. This
+impacts the syscall implementation.
+
+## Testing
 
 A very simple test harness and a range of unit tests are included with the 
 library. This enables quick validation of implementation across various 
 platforms. Unit test coverage is growing but not yet complete.
 
-# Why CRTL?
+## Why CRTL?
 
 This is primarily an educational exercise. I find that you really come to
 understand the C programming language and its library functions in a deep
@@ -42,3 +47,9 @@ Before contributing or participating to this community please be sure to
 familiarize yourself with our project 
 [CODE OF CONDUCT](https://github.com/mseminatore/crtl/blob/master/CODE_OF_CONDUCT.md). 
 These guidelines are intended to govern interactions with and within the community.
+
+# Warranty Disclaimer
+
+You may use this library with the understanding that doing so is 
+**AT YOUR OWN RISK**. No warranty, express or implied, is made with regards 
+to the fitness or safety of this code for any purpose.
