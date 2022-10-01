@@ -14,8 +14,12 @@ supported are x86, x64, and ARM64.
 
 ## Known Issues
 
-The varargs implementation on Apple Silicon is not yet functional. This
-impacts the syscall implementation.
+There are several known/open issues at this time. Not all open issues
+are listed here, these are just some key examples.
+
+* Not all syscall functions implemented
+* File IO is not yet implemented
+* printf() does not yet support %f
 
 ## Testing
 
