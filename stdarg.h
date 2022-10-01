@@ -25,7 +25,7 @@ typedef char* va_type;
 
 #if defined(__aarch64__)
 // first parameter is in W0/X0, next are on the stack
-#   define va_start(argp, ptr) (argp = (va_type)__builtin_frame_address(0)+16)
+#   define va_start(argp, ptr) (argp = ((va_type)__builtin_frame_address(0))+16)
 #else
 #   define va_start(argp, ptr) ((va_type)(argp = ((va_type)(&ptr + 1))))
 #endif

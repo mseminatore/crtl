@@ -45,7 +45,7 @@ long syscall(long number, ...)
 
 	case SYS_write:
 	{
-		long fd = (int)va_arg(argp, int);
+		long fd = va_arg(argp, long);
 		char *buf = va_arg(argp, char*);
 		size_t len = va_arg(argp, size_t);
 
