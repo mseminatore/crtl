@@ -15,6 +15,20 @@
 
 //long syscall(long, ...);
 
+/*
+typedef struct __div_t
+{
+	int quot;
+	int rem;
+} div_t;
+
+typedef struct __ldiv_t
+{
+	long quot;
+	long rem;
+} ldiv_t;
+*/
+
 NORETURN void exit(int status);
 NORETURN void abort(void);
 
@@ -22,6 +36,10 @@ int atoi(const char *str);
 
 void free(void *ptr);
 void *malloc(size_t size);
+
+//div_t div(int numer, int denom);
+//ldiv_t ldiv(long int numer, long int denom);
 int abs(int x);
+long int labs(long int x);
 
 #endif // __STDLIB_H

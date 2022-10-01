@@ -1,6 +1,5 @@
 // Copyright 2022 Mark Seminatore. All rights reserved.
 #include "ctype.h"
-#include "stdlib.h"
 #include "string.h"
 #include "assert.h"
 
@@ -11,6 +10,7 @@
 	#include "unistd.h"
 #endif
 
+#include "stdlib.h"
 #include "stdarg.h"
 
 //
@@ -66,4 +66,53 @@ int atoi(const char *str)
 int abs(int x)
 {
 	return x < 0 ? -x : x;
+}
+
+//
+long int labs(long int x)
+{
+	return x < 0 ? -x : x;
+}
+
+/*
+//
+div_t div(int numer, int denom)
+{
+	div_t result;
+
+	result.quot = numer / denom;
+	result.rem = numer - result.quot * denom;
+
+	return result;
+}
+
+//
+ldiv_t ldiv(long int numer, long int denom)
+{
+	ldiv_t result;
+
+	result.quot = numer / denom;
+	result.rem = numer - result.quot * denom;
+
+	return result;
+}
+*/
+
+//
+void free(void *ptr)
+{
+	assert(ptr);
+	
+	// TODO - free the ptr
+}
+
+//
+void *malloc(size_t size)
+{
+	if (0 == size)
+		return NULL;
+
+	// TODO - alloc memory and return the ptr
+
+	return NULL;
 }

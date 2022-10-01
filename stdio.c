@@ -19,6 +19,11 @@
 //
 int putchar(int c)
 {
+	char chr[2];
+
+	chr[0] = c;
+	chr[1] = 0;
+	puts(chr);
 	return 1;
 }
 
@@ -101,6 +106,10 @@ char *_itoa(int value, char *str, int base)
 {
 	char *pchr = str;
 	int place_value;
+
+	// check for negative numbers
+	if (value < 0 && base == 10)
+		*pchr++ = '-';
 
 	while (value)
 	{
