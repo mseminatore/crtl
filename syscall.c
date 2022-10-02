@@ -29,7 +29,7 @@ long syscall(long number, ...)
 #if defined(__aarch64__)
 		asm("mov X0, %0" : : "r"(status));
 		asm("mov X16, %0" : : "r"(sysnum));
-		asm("svc #0" : "=r"(result));
+		asm("svc #0");
 #elif defined(__x86_64__)
 		// add 0x2000000 to number
 		asm("mov rax, _ptr %0" : : "r"(sysnum));
@@ -52,12 +52,14 @@ long syscall(long number, ...)
 		asm("mov rsi, %0" : : "r"(buf));
 		asm("mov rdx, %0" : : "r"(len));
 		asm("syscall" : "=r"(result));
+		// TODO - store result in RAX
 #elif defined(__aarch64__)
 		asm("mov X0, %0" : : "r"(fd));
 		asm("mov X1, %0" : : "r"(buf));
 		asm("mov X2, %x0" : : "r"(len));
 		asm("mov X16, %0" : : "r"(sysnum));
-		asm("svc #0" : "=r"(result));
+		asm("svc #0");
+		asm("mov %0, X0" : "=r"(result));
 #endif
 	}
 		break;
@@ -79,7 +81,8 @@ long syscall(long number, ...)
 		asm("mov X1, %0" : : "r"(buf));
 		asm("mov X2, %x0" : : "r"(len));
 		asm("mov X16, %0" : : "r"(sysnum));
-		asm("svc #0" : "=r"(result));
+		asm("svc #0");
+		asm("mov %0, X0" : "=r"(result));
 #endif
 
 	}
@@ -102,7 +105,8 @@ long syscall(long number, ...)
 		asm("mov X1, %0" : : "r"(flags));
 		asm("mov X2, %x0" : : "r"(mode));
 		asm("mov X16, %0" : : "r"(sysnum));
-		asm("svc #0" : "=r"(result));
+		asm("svc #0");
+		asm("mov %0, X0" : "=r"(result));
 #endif		
 	}
 		break;
@@ -120,7 +124,8 @@ long syscall(long number, ...)
 #elif defined(__aarch64__)
 		asm("mov X0, %0" : : "r"(fd));
 		asm("mov X16, %0" : : "r"(sysnum));
-		asm("svc #0" : "=r"(result));
+		asm("svc #0");
+		asm("mov %0, X0" : "=r"(result));
 #endif
 	}
 		break;

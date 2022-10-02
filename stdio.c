@@ -35,7 +35,8 @@ int fputs(const char *str, FILE *stream)
 		return EOF;
 
 #if defined(__APPLE_CC__)
-	return syscall(SYS_write, stream->fildes, str, strlen(str));
+	return write(stream->fildes, str, strlen(str));
+
 #endif
 	
 	return 1;
@@ -62,13 +63,7 @@ int puts(const char *str)
 #endif
 
 #if defined(__APPLE_CC__)
-	return syscall(SYS_write, stdout, str, strlen(str));
-	// asm ("mov X0, #1");
-	// asm ("mov X1, %0" : : "r"(str));
-	// asm ("mov X2, %x0" : : "r"(len));
-	// asm ("movz X16, #0x200, lsl 16");
-	// asm ("add X16, X16, #4");
-	// asm ("svc #0");
+	return write(stdout, str, strlen(str));
 #endif
 
 	return 1;
@@ -80,6 +75,11 @@ FILE *fopen(const char *filename, const char *mode)
 	assert(filename && mode);
 	if (!filename || ! mode)
 		return NULL;
+
+#if defined(__APPLE_CC__)
+	int flags = 0;
+	int fd = open(filename, flags);
+#endif
 
 	return NULL;
 }
