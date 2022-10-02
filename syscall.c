@@ -130,6 +130,24 @@ long syscall(long number, ...)
 	}
 		break;
 
+	case SYS_unlink:
+	{
+
+	}
+		break;
+	
+	case SYS_chdir:
+	{
+
+	}
+		break;
+
+	case SYS_fork:
+	{
+
+	}
+		break;
+		
 	default:
 		assert(0);
 		return -1;
