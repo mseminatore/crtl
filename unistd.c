@@ -7,10 +7,11 @@
 #endif
 
 //
-INT open(const char *pathname, int flags)
+INT open(const char *pathname, int flags, ...)
 {
+	// TODO - if O_CREAT is passed then the next vararg is mode flags
 	int mode = 0;
-	return syscall(SYS_open, pathname, flags, mode);
+	return syscall(SYS_open, pathname, flags);
 }
 
 //
