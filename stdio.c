@@ -63,7 +63,9 @@ int puts(const char *str)
 #endif
 
 #if defined(__APPLE_CC__)
-	return write(stdout, str, strlen(str));
+	int result = write(stdout, str, len);
+	if (result != len)
+		return EOF;
 #endif
 
 	return 1;
@@ -80,7 +82,7 @@ FILE *fopen(const char *filename, const char *mode)
 	int flags = 0;
 	int fd = open(filename, flags);
 #endif
-
+	// TODO - alloc FILE structure
 	return NULL;
 }
 
@@ -98,6 +100,7 @@ int fclose(FILE *stream)
 		return result;
 	#endif
 
+	// TODO - free FILE structure
 	return EOF;
 }
 

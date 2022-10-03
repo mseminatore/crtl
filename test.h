@@ -21,6 +21,7 @@
 void test_string();
 void test_stdlib();
 void test_ctype();
+void test_stdio();
 
 extern int testnum;
 
