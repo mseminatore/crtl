@@ -13,6 +13,7 @@ long syscall(long number, ...)
 	long result = 0;
 
 	// On OSX we must add 0x2000000 to form the system call number
+	// add 0x2000000 to number
 	// TODO - do not do this for Linux
 	long sysnum = number + 0x2000000;
 
@@ -31,10 +32,9 @@ long syscall(long number, ...)
 		asm("mov X16, %0" : : "r"(sysnum));
 		asm("svc #0");
 #elif defined(__x86_64__)
-		// add 0x2000000 to number
-		asm("mov rax, _ptr %0" : : "r"(sysnum));
-		asm("mov rdi, %0" : : "r"(status));
-		asm("syscall" : "=r"(result));
+		asm("mov %%rax, %0" : : "r"(sysnum));
+		asm("mov %%rdi, %0" : : "r"(status));
+		asm("syscall");
 #endif
 
 	}
@@ -47,11 +47,11 @@ long syscall(long number, ...)
 		size_t len = va_arg(argp, size_t);
 
 #if defined(__x86_64__)
-		asm("mov rax, %0" : : "r"(number));
-		asm("mov rdi, %0" : : "r"(fd));
-		asm("mov rsi, %0" : : "r"(buf));
-		asm("mov rdx, %0" : : "r"(len));
-		asm("syscall" : "=r"(result));
+		// asm("mov rax, %0" : : "r"(number));
+		// asm("mov rdi, %0" : : "r"(fd));
+		// asm("mov rsi, %0" : : "r"(buf));
+		// asm("mov rdx, %0" : : "r"(len));
+		// asm("syscall" : "=r"(result));
 		// TODO - store result in RAX
 #elif defined(__aarch64__)
 		asm("mov X0, %0" : : "r"(fd));
@@ -71,11 +71,12 @@ long syscall(long number, ...)
 		size_t len = va_arg(argp, size_t);
 
 #if defined(__x86_64__)
-		asm("mov rax, %0" : : "r"(number));
-		asm("mov rdi, %0" : : "r"(fd));
-		asm("mov rsi, %0" : : "r"(buf));
-		asm("mov rdx, %0" : : "r"(len));
-		asm("syscall" : "=r"(result));
+		asm("mov %%rax, %0" : : "r"(number));
+		asm("mov %%rdi, %0" : : "r"(fd));
+		asm("mov %%rsi, %0" : : "r"(buf));
+		asm("mov %%rdx, %0" : : "r"(len));
+		asm("syscall");
+		asm("mov %%rax, %0": "=r"(result));
 #elif defined(__aarch64__)
 		asm("mov X0, %0" : : "r"(fd));
 		asm("mov X1, %0" : : "r"(buf));
@@ -95,7 +96,7 @@ long syscall(long number, ...)
 		long mode = va_arg(argp, long);
 
 #if defined(__x86_64__)
-//		asm("mov rax, %0" : : "r"(number));
+//		asm("mov rax, %0" : : "r"(sysnum));
 //		asm("mov rdi, %0" : : "r"(fd));
 //		asm("mov rsi, %0" : : "r"(buf));
 //		asm("mov rdx, %0" : : "r"(len));
@@ -116,11 +117,9 @@ long syscall(long number, ...)
 		long fd = va_arg(argp, long);
 
 #if defined(__x86_64__)
-		asm("mov rax, %0" : : "r"(number));
-//		asm("mov rdi, %0" : : "r"(fd));
-//		asm("mov rsi, %0" : : "r"(buf));
-//		asm("mov rdx, %0" : : "r"(len));
-		asm("syscall" : "=r"(result));
+		// asm("mov rax, [%0]" : : "r"(sysnum));
+		// asm("mov rdi, [%0]" : : "r"(fd));
+		// asm("syscall" : "=r"(result));
 #elif defined(__aarch64__)
 		asm("mov X0, %0" : : "r"(fd));
 		asm("mov X16, %0" : : "r"(sysnum));

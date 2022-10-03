@@ -12,11 +12,27 @@ The CRTL project development and testing is mainly done on Windows and
 Mac OSX. Linux support is an additional goal. The primary architectures 
 supported are x86, x64, and ARM64.
 
+## Project Goals and Non-Goals
+
+This project has a small set of defined goals. These are:
+
+1. Provide implementations of the most common ANSI C runtime functions
+2. Prioritize correctness and portability
+3. Pursue performance where practical
+4. Support Windows, MacOS and Linux
+
+There are also some explicit non-goals for the project. These are:
+
+1. Implement every single function
+2. Guarantee optimal performance
+3. Support every OS / hardware configuration
+
 ## Known Issues
 
 There are several known/open issues at this time. Not all open issues
 are listed here, these are just some key examples.
 
+* varargs and therefore syscall() on OSX IA-64 is not yet working
 * Not all syscall functions implemented
 * File IO is not yet implemented
 * printf() does not yet support %f
