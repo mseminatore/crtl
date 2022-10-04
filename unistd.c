@@ -1,5 +1,6 @@
 #include "stddef.h"
 #include "unistd.h"
+#include "stdarg.h"
 
 // 
 #if defined(__APPLE_CC__)
@@ -10,7 +11,19 @@
 INT open(const char *pathname, int flags, ...)
 {
 	// TODO - if O_CREAT is passed then the next vararg is mode flags
-	int mode = 0;
+	mode_t mode = 0;
+
+	if (flags & O_CREAT)
+	{
+		va_list argp;
+		va_start(argp, flags);
+
+		mode = va_arg(argp, mode_t);
+
+		va_end(argp);
+		return syscall(SYS_open, pathname, flags);
+	}
+
 	return syscall(SYS_open, pathname, flags);
 }
 
