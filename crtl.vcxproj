@@ -154,6 +154,7 @@
     <ClCompile Include="string.c" />
     <ClCompile Include="syscall.c" />
     <ClCompile Include="test_ctype.c" />
+    <ClCompile Include="test_stdio.c" />
     <ClCompile Include="test_stdlib.c" />
     <ClCompile Include="test_string.c" />
   </ItemGroup>

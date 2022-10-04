@@ -21,9 +21,14 @@ static void test_open()
 
 	SUITE("open");
 
-	int fd = open("a.txt", O_APPEND | O_WRONLY, S_IRWXU);
+#ifdef WIN32
+	fputs("Hello", stdout);
+#else
+	int fd = open("a.txt", O_APPEND | O_WRONLY);
 	TEST(len == write(fd, str, len));
 	close(fd);
+#endif
+
 }
 
 //

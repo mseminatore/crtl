@@ -12,9 +12,11 @@ typedef struct
 } FILE;
 
 // standard IO handles
-#define stdin 0
-#define stdout 1
-#define stderr 2
+//#define stdin 0
+//#define stdout 1
+//#define stderr 2
+
+extern FILE *stdin, *stdout, *stderr;
 
 #define BUFSIZ 4096
 
@@ -45,5 +47,6 @@ int getchar(void);
 char *gets(char *str);
 int putc(int chr, FILE *stream);
 int ungetc(int chr, FILE *stream);
+void perrer(const char *str);
 
 #endif	//__STDIO_H

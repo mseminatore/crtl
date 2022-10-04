@@ -17,6 +17,11 @@
 #define PRINTF_MAX 256
 
 //
+FILE _stdin = { 0, 0, 0}, *stdin = &_stdin;
+FILE _stdout = { 0, 1 ,0 }, *stdout = &_stdout;
+FILE _stderr = { 0, 2, 0 }, *stderr = &_stderr;
+
+//
 int putchar(int c)
 {
 	char chr[2];
@@ -25,6 +30,12 @@ int putchar(int c)
 	chr[1] = 0;
 	puts(chr);
 	return 1;
+}
+
+//
+int putc(int chr, FILE *stream)
+{
+	assert(stream);
 }
 
 //
@@ -102,29 +113,6 @@ int fclose(FILE *stream)
 
 	// TODO - free FILE structure
 	return EOF;
-}
-
-//
-char *_itoa(int value, char *str, int base)
-{
-	char *pchr = str;
-	int place_value;
-
-	// check for negative numbers
-	if (value < 0 && base == 10)
-		*pchr++ = '-';
-
-	while (value)
-	{
-		place_value = value % base;
-
-		*pchr++ = place_value + '0';
-		value /= base;
-	}
-
-	*pchr = 0;	// make sure we are asciiz!
-
-	return _strrev(str);
 }
 
 //
@@ -210,4 +198,56 @@ int printf(const char *format, ...)
 	puts(buf);
 
 	return count;
+}
+
+//int remove(const char *filename);
+//int fgetc(FILE *stream);
+//char *fgets(char *str, int n, FILE *stream);
+//int fputc(int chr, FILE *stream);
+
+//
+int getc(FILE *stream)
+{
+	assert(stream);
+}
+
+//
+int getchar(void)
+{
+
+}
+
+//
+char *gets(char *str)
+{
+	assert(str);
+}
+
+//
+int ungetc(int chr, FILE *stream)
+{
+	assert(stream);
+}
+
+//
+char *_itoa(int value, char *str, int base)
+{
+	char *pchr = str;
+	int place_value;
+
+	// check for negative numbers
+	if (value < 0 && base == 10)
+		*pchr++ = '-';
+
+	while (value)
+	{
+		place_value = value % base;
+
+		*pchr++ = place_value + '0';
+		value /= base;
+	}
+
+	*pchr = 0;	// make sure we are asciiz!
+
+	return _strrev(str);
 }
