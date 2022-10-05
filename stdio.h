@@ -49,4 +49,6 @@ int putc(int chr, FILE *stream);
 int ungetc(int chr, FILE *stream);
 void perrer(const char *str);
 
+char *_itoa(int value, char *str, int base);
+
 #endif	//__STDIO_H
