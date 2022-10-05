@@ -12,16 +12,16 @@ typedef struct
 } FILE;
 
 // standard IO handles
-//#define stdin 0
-//#define stdout 1
-//#define stderr 2
+#define STDIN_FILENO	0
+#define STDOUT_FILENO	1
+#define STDERR_FILENO	2
 
 extern FILE *stdin, *stdout, *stderr;
 
 #define BUFSIZ 4096
 
-#define FOPEN_MAX 256
-#define FILENAME_MAX 256
+#define FOPEN_MAX		256
+#define FILENAME_MAX	256
 
 #ifndef EOF
 #	define EOF -1
@@ -31,6 +31,7 @@ int puts(const char *str);
 int printf(const char *format, ...);
 int putchar(int c);
 int fprintf(FILE *stream, const char *format, ...);
+int sprintf(char *str, const char *format, ...);
 
 int fclose(FILE *stream);
 int feof(FILE *stream);

@@ -13,8 +13,6 @@
 #   define NORETURN __declspec(noreturn)
 #endif
 
-//long syscall(long, ...);
-
 /*
 typedef struct __div_t
 {

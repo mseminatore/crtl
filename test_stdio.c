@@ -2,7 +2,15 @@
 #include "stdio.h"
 #include "string.h"
 #include "stdlib.h"
-#include "unistd.h"
+
+#if defined(__APPLE_CC__)
+#	include "unistd.h"
+#else
+#	include <fcntl.h>
+#	include <io.h>
+#	include <sys/stat.h>
+#endif
+
 #include "test.h"
 
 //
@@ -21,14 +29,9 @@ static void test_open()
 
 	SUITE("open");
 
-#ifdef WIN32
-	fputs("Hello", stdout);
-#else
-	int fd = open("a.txt", O_APPEND | O_WRONLY);
+	int fd = open("./a.txt", O_CREAT | O_WRONLY, S_IWRITE);
 	TEST(len == write(fd, str, len));
 	close(fd);
-#endif
-
 }
 
 //
@@ -43,4 +46,5 @@ void test_stdio()
 {
 	test_puts();
 	test_open();
+	test_fputs();
 }

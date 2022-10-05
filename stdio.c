@@ -7,6 +7,13 @@
 	#define _CRT_SECURE_NO_WARNINGS
 	#include <Windows.h>
 	// TODO - do we need to AllocConsole() or AttachConsole() on startup?
+	#include <fcntl.h>
+	#include <io.h>
+
+#define open _open
+#define close _close
+#define write _write
+
 #else
 	#include <sys/syscall.h>
 	#include "unistd.h"
@@ -36,6 +43,7 @@ int putchar(int c)
 int putc(int chr, FILE *stream)
 {
 	assert(stream);
+	return write(stream->fildes, &chr, 1);
 }
 
 //
@@ -45,12 +53,7 @@ int fputs(const char *str, FILE *stream)
 	if (!str || !stream)
 		return EOF;
 
-#if defined(__APPLE_CC__)
 	return write(stream->fildes, str, strlen(str));
-
-#endif
-	
-	return 1;
 }
 
 //
@@ -74,7 +77,7 @@ int puts(const char *str)
 #endif
 
 #if defined(__APPLE_CC__)
-	int result = write(stdout, str, len);
+	int result = write(STDOUT_FILENO, str, len);
 	if (result != len)
 		return EOF;
 #endif
@@ -89,12 +92,18 @@ FILE *fopen(const char *filename, const char *mode)
 	if (!filename || ! mode)
 		return NULL;
 
-#if defined(__APPLE_CC__)
 	int flags = 0;
 	int fd = open(filename, flags);
-#endif
-	// TODO - alloc FILE structure
-	return NULL;
+
+	// alloc FILE structure
+	FILE *stream = malloc(sizeof(FILE));
+	assert(stream);
+	if (!stream)
+		return NULL;
+
+	stream->fildes = fd;
+	
+	return stream;
 }
 
 //
@@ -104,22 +113,20 @@ int fclose(FILE *stream)
 	if (!stream)
 		return EOF;
 
-	#if defined(_WIN32)
-	#else
-		int result = close(stream->fildes);
-		stream->fildes = -1;
-		return result;
-	#endif
+	int result = close(stream->fildes);
+	stream->fildes = -1;
 
-	// TODO - free FILE structure
-	return EOF;
+	// free FILE structure
+	free(stream);
+
+	return result;
 }
 
 //
-int fprintf(FILE *stream, const char *format, ...)
-{
-	return 0;
-}
+//int fprintf(FILE *stream, const char *format, ...)
+//{
+//	return 0;
+//}
 
 //
 int printf(const char *format, ...)
@@ -206,28 +213,28 @@ int printf(const char *format, ...)
 //int fputc(int chr, FILE *stream);
 
 //
-int getc(FILE *stream)
-{
-	assert(stream);
-}
-
+//int getc(FILE *stream)
+//{
+//	assert(stream);
+//}
 //
-int getchar(void)
-{
-
-}
-
+////
+//int getchar(void)
+//{
 //
-char *gets(char *str)
-{
-	assert(str);
-}
-
+//}
 //
-int ungetc(int chr, FILE *stream)
-{
-	assert(stream);
-}
+////
+//char *gets(char *str)
+//{
+//	assert(str);
+//}
+//
+////
+//int ungetc(int chr, FILE *stream)
+//{
+//	assert(stream);
+//}
 
 //
 char *_itoa(int value, char *str, int base)
