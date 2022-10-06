@@ -29,7 +29,12 @@ static void test_open()
 
 	SUITE("open");
 
+#if defined(_WIN32)
 	int fd = open("./a.txt", O_CREAT | O_WRONLY, S_IWRITE);
+#else
+	int fd = open("./a.txt", O_CREAT | O_WRONLY, S_IRWXU);
+#endif
+
 	TEST(len == write(fd, str, len));
 	close(fd);
 }

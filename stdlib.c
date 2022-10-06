@@ -98,21 +98,21 @@ ldiv_t ldiv(long int numer, long int denom)
 }
 */
 
-//
-void free(void *ptr)
-{
-	assert(ptr);
+// //
+// void free(void *ptr)
+// {
+// 	assert(ptr);
 	
-	// TODO - free the ptr
-}
+// 	// TODO - free the ptr
+// }
 
-//
-void *malloc(size_t size)
-{
-	if (0 == size)
-		return NULL;
+// //
+// void *malloc(size_t size)
+// {
+// 	if (0 == size)
+// 		return NULL;
 
-	// TODO - alloc memory and return the ptr
+// 	// TODO - alloc memory and return the ptr
 
-	return NULL;
-}
+// 	return NULL;
+// }

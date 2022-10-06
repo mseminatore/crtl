@@ -1,5 +1,6 @@
 // Copyright 2022 Mark Seminatore. All rights reserved.
 #include "stdio.h"
+#include "stdlib.h"
 #include "string.h"
 #include "assert.h"
 
@@ -96,7 +97,7 @@ FILE *fopen(const char *filename, const char *mode)
 	int fd = open(filename, flags);
 
 	// alloc FILE structure
-	FILE *stream = malloc(sizeof(FILE));
+	FILE *stream = (FILE*)malloc(sizeof(FILE));
 	assert(stream);
 	if (!stream)
 		return NULL;
