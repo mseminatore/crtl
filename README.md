@@ -32,10 +32,10 @@ There are also some explicit non-goals for the project. These are:
 There are several known/open issues at this time. Not all open issues
 are listed here, these are just some key examples.
 
-* varargs and therefore syscall() on OSX IA-64 is not yet working
-* Not all syscall functions implemented
+* varargs and therefore syscall() on OSX x64 are not yet working
+* Not all syscall() functions implemented
 * File IO is not yet implemented
-* printf() does not yet support %f
+* printf() does not yet support float (%f) and a few other formats
 
 ## Testing
 
