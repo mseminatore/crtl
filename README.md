@@ -2,7 +2,7 @@
 
 Welcome to CRTL! This project attempts to provide a basic and portable 
 implementation of an ANSI C runtime library. It is not the intention of
-this projectto provide 100% of the ANSCI C RTL. The primary support will
+this project to provide 100% of the ANSCI C RTL. The primary support will
 be the most commonly used C library functions. For example, C locale support
 is not planned at this time.
 
