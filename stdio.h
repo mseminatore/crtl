@@ -2,6 +2,11 @@
 #ifndef __STDIO_H
 #define __STDIO_H
 
+#if defined(_WIN32)
+	#define _CRT_SECURE_NO_WARNINGS
+	#pragma warning (disable : 4996)
+#endif
+
 typedef unsigned long fpos_t;
 
 typedef struct
@@ -15,6 +20,12 @@ typedef struct
 #define STDIN_FILENO	0
 #define STDOUT_FILENO	1
 #define STDERR_FILENO	2
+
+#if defined(_WIN32)
+#	define open _open
+#	define close _close
+#	define write _write
+#endif
 
 extern FILE *stdin, *stdout, *stderr;
 
@@ -48,7 +59,7 @@ int getchar(void);
 char *gets(char *str);
 int putc(int chr, FILE *stream);
 int ungetc(int chr, FILE *stream);
-void perrer(const char *str);
+void perror(const char *str);
 
 char *_itoa(int value, char *str, int base);
 

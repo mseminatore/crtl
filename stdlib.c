@@ -2,6 +2,7 @@
 #include "ctype.h"
 #include "string.h"
 #include "assert.h"
+#include "stdlib.h"
 
 #if defined(_WIN32)
 	#include <windows.h>
@@ -10,7 +11,6 @@
 	#include "unistd.h"
 #endif
 
-#include "stdlib.h"
 #include "stdarg.h"
 
 //
@@ -21,10 +21,6 @@ NORETURN void exit(int status)
 		ExitProcess(status);
 	#elif defined (__APPLE_CC__)
 		syscall(SYS_exit, status);
-		// asm ("mov X0, #0");
-		// asm ("movz X16, #0x200, lsl 16");
-		// asm ("add X16, X16, #1");
-		// asm ("svc #0");
 	#endif
 }
 
@@ -74,7 +70,6 @@ long int labs(long int x)
 	return x < 0 ? -x : x;
 }
 
-/*
 //
 div_t div(int numer, int denom)
 {
@@ -96,7 +91,6 @@ ldiv_t ldiv(long int numer, long int denom)
 
 	return result;
 }
-*/
 
 // //
 // void free(void *ptr)

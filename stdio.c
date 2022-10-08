@@ -5,16 +5,12 @@
 #include "assert.h"
 
 #if defined(_WIN32)
+	#pragma warning (disable : 4996)
 	#define _CRT_SECURE_NO_WARNINGS
 	#include <Windows.h>
 	// TODO - do we need to AllocConsole() or AttachConsole() on startup?
 	#include <fcntl.h>
 	#include <io.h>
-
-#define open _open
-#define close _close
-#define write _write
-
 #else
 	#include <sys/syscall.h>
 	#include "unistd.h"
@@ -24,10 +20,23 @@
 
 #define PRINTF_MAX 256
 
+//typedef struct _FLOAT
+//{
+//	unsigned long long sign : 1;
+//	unsigned long long exp : 11;
+//	unsigned long long mant : 52;
+//} _FLOAT;
 //
-FILE _stdin = { 0, 0, 0}, *stdin = &_stdin;
-FILE _stdout = { 0, 1 ,0 }, *stdout = &_stdout;
-FILE _stderr = { 0, 2, 0 }, *stderr = &_stderr;
+//union FLOAT
+//{
+//	_FLOAT f;
+//	double d;
+//};
+
+//
+FILE _stdin		= { 0, 0, 0},	*stdin = &_stdin;
+FILE _stdout	= { 0, 1 ,0 },	*stdout = &_stdout;
+FILE _stderr	= { 0, 2, 0 },	*stderr = &_stderr;
 
 //
 int putchar(int c)
@@ -166,9 +175,20 @@ int printf(const char *format, ...)
 			}
 			break;
 
+			case 'f':
+			{
+				assert(("not yet implemented", 0));
+
+				//union FLOAT f;
+
+				//double val = va_arg(argp, double);
+				//f.d = val;
+				//printf("%c", f.f.sign);
+			}
+			break;
+
 			case 'c':
 			{
-				format++;
 				*pbuf++ = va_arg(argp, char);
 				count++;
 			}

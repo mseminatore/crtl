@@ -13,19 +13,18 @@
 #   define NORETURN __declspec(noreturn)
 #endif
 
-/*
-typedef struct __div_t
-{
-	int quot;
-	int rem;
-} div_t;
+//typedef struct __div_t
+//{
+//	int quot;
+//	int rem;
+//} div_t;
+//
+//typedef struct __ldiv_t
+//{
+//	long quot;
+//	long rem;
+//} ldiv_t;
 
-typedef struct __ldiv_t
-{
-	long quot;
-	long rem;
-} ldiv_t;
-*/
 
 NORETURN void exit(int status);
 NORETURN void abort(void);
@@ -37,6 +36,7 @@ void *malloc(size_t size);
 
 //div_t div(int numer, int denom);
 //ldiv_t ldiv(long int numer, long int denom);
+
 int abs(int x);
 long int labs(long int x);
 
