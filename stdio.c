@@ -53,7 +53,16 @@ int putchar(int c)
 int putc(int chr, FILE *stream)
 {
 	assert(stream);
-	return write(stream->fildes, &chr, 1);
+	if (!stream || 1 != write(stream->fildes, &chr, 1))
+		return EOF;
+
+	return 1;
+}
+
+//
+int fputc(int chr, FILE *stream)
+{
+	return putc(chr, stream);
 }
 
 //
@@ -102,10 +111,15 @@ FILE *fopen(const char *filename, const char *mode)
 	if (!filename || ! mode)
 		return NULL;
 
+	// TODO - process mode argument
+
 	int flags = 0;
 	int fd = open(filename, flags);
+	if (fd < 2)
+		return NULL;
 
 	// alloc FILE structure
+	// TODO - replace with static array alloc
 	FILE *stream = (FILE*)malloc(sizeof(FILE));
 	assert(stream);
 	if (!stream)
@@ -125,6 +139,7 @@ int fclose(FILE *stream)
 
 	int result = close(stream->fildes);
 	stream->fildes = -1;
+	stream->status = -1;
 
 	// free FILE structure
 	free(stream);
@@ -133,20 +148,36 @@ int fclose(FILE *stream)
 }
 
 //
-//int fprintf(FILE *stream, const char *format, ...)
-//{
-//	return 0;
-//}
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
+{
+	assert(ptr && stream /*&& stream->status != -1 && stream->fildes != -1*/);
+	if (!ptr || !stream)
+		return 0;
+
+	return read(stream->fildes, ptr, nmemb * size);
+}
 
 //
-int printf(const char *format, ...)
+size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
+{
+	assert(ptr && stream);
+	if (!ptr || !stream)
+		return 0;
+
+	return write(stream->fildes, ptr, nmemb * size);
+}
+
+//int vsprintf(char *str, const char *format, va_list arg);
+
+//int sprintf(char *str, const char *format, ...);
+
+//
+int vfprintf(FILE *stream, const char *format, va_list argp)
 {
 	int count = 0, chr;
 	char buf[PRINTF_MAX], *pbuf = buf;
 
-	va_list argp;
-
-	va_start(argp, format);
+	assert(stream && format);
 
 	while ((chr = *format))
 	{
@@ -221,9 +252,43 @@ int printf(const char *format, ...)
 
 	*pbuf = 0;	// make sure we are asciiz
 
+	fputs(buf, stream);
+
+	return count;
+}
+
+//
+int fprintf(FILE *stream, const char *format, ...)
+{
+	int count;
+	va_list argp;
+
+	assert(stream && format);
+
+	va_start(argp, format);
+		count = vfprintf(stream, format, argp);
 	va_end(argp);
 
-	puts(buf);
+	return count;
+}
+
+//
+int vprintf(const char *format, va_list argp)
+{
+	return vfprintf(stdout, format, argp);
+}
+
+//
+int printf(const char *format, ...)
+{
+	int count;
+	va_list argp;
+
+	assert(format);
+
+	va_start(argp, format);
+		count = vprintf(format, argp);
+	va_end(argp);
 
 	return count;
 }
@@ -231,7 +296,6 @@ int printf(const char *format, ...)
 //int remove(const char *filename);
 //int fgetc(FILE *stream);
 //char *fgets(char *str, int n, FILE *stream);
-//int fputc(int chr, FILE *stream);
 
 //
 //int getc(FILE *stream)

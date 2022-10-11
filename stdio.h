@@ -2,6 +2,8 @@
 #ifndef __STDIO_H
 #define __STDIO_H
 
+#include "stddef.h"
+
 #if defined(_WIN32)
 	#define _CRT_SECURE_NO_WARNINGS
 	#pragma warning (disable : 4996)
@@ -29,35 +31,53 @@ typedef struct
 
 extern FILE *stdin, *stdout, *stderr;
 
-#define BUFSIZ 4096
-
+#define BUFSIZ			4096
 #define FOPEN_MAX		256
 #define FILENAME_MAX	256
+#define TMP_MAX			32
+#define SEEK_CUR		1
+#define SEEK_END		2
+#define SEEK_SET		0
 
 #ifndef EOF
 #	define EOF -1
 #endif
 
-int puts(const char *str);
-int printf(const char *format, ...);
-int putchar(int c);
-int fprintf(FILE *stream, const char *format, ...);
-int sprintf(char *str, const char *format, ...);
+#ifndef va_list
+typedef char* va_type;
+#define va_list va_type
+#endif
 
+// standard IO
+int printf(const char *format, ...);
+int vprintf(const char *format, va_list arg);
+int putchar(int c);
+int putc(int chr, FILE *stream);
+int puts(const char *str);
+
+// stream IO
 int fclose(FILE *stream);
-int feof(FILE *stream);
 FILE *fopen(const char *filename, const char *mode);
-//size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
-//size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+int fputc(int chr, FILE *stream);
+int fputs(const char *str, FILE *stream);
+int fprintf(FILE *stream, const char *format, ...);
+
+size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
+size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+int vfprintf(FILE *stream, const char *format, va_list arg);
+//int vsprintf(char *str, const char *format, va_list arg);
+
+//int sprintf(char *str, const char *format, ...);
+//int feof(FILE *stream);
+int ferror(FILE *stream);
+int fflush(FILE *stream);
+void clearerr(FILE *stream);
 int remove(const char *filename);
 int fgetc(FILE *stream);
 char *fgets(char *str, int n, FILE *stream);
-int fputc(int chr, FILE *stream);
-int fputs(const char *str, FILE *stream);
 int getc(FILE *stream);
 int getchar(void);
 char *gets(char *str);
-int putc(int chr, FILE *stream);
 int ungetc(int chr, FILE *stream);
 void perror(const char *str);
 
