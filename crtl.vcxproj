@@ -162,6 +162,7 @@
     <ClInclude Include="assert.h" />
     <ClInclude Include="ctype.h" />
     <ClInclude Include="errno.h" />
+    <ClInclude Include="rtconfig.h" />
     <ClInclude Include="stdarg.h" />
     <ClInclude Include="stddef.h" />
     <ClInclude Include="stdint.h" />

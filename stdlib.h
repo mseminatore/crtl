@@ -2,6 +2,7 @@
 #ifndef __STDLIB_H
 #define __STDLIB_H
 
+#include "rtconfig.h"
 #include "stddef.h"
 
 #define EXIT_SUCCESS 0
@@ -13,18 +14,27 @@
 #   define NORETURN __declspec(noreturn)
 #endif
 
-//typedef struct __div_t
-//{
-//	int quot;
-//	int rem;
-//} div_t;
-//
-//typedef struct __ldiv_t
-//{
-//	long quot;
-//	long rem;
-//} ldiv_t;
+#ifdef INC_DIV
+typedef struct div_t
+{
+	int quot;
+	int rem;
+} div_t;
 
+div_t div(int numer, int denom);
+
+#endif
+
+#ifdef INC_LDIV
+typedef struct ldiv_t
+{
+	long quot;
+	long rem;
+} ldiv_t;
+
+ldiv_t ldiv(long int numer, long int denom);
+
+#endif
 
 NORETURN void exit(int status);
 NORETURN void abort(void);
@@ -33,9 +43,6 @@ int atoi(const char *str);
 
 void free(void *ptr);
 void *malloc(size_t size);
-
-//div_t div(int numer, int denom);
-//ldiv_t ldiv(long int numer, long int denom);
 
 int abs(int x);
 long int labs(long int x);

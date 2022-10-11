@@ -35,6 +35,8 @@ extern FILE *stdin, *stdout, *stderr;
 #define FOPEN_MAX		256
 #define FILENAME_MAX	256
 #define TMP_MAX			32
+#define L_tmpnam		256
+
 #define SEEK_CUR		1
 #define SEEK_END		2
 #define SEEK_SET		0
@@ -44,8 +46,14 @@ extern FILE *stdin, *stdout, *stderr;
 #endif
 
 #ifndef va_list
-typedef char* va_type;
-#define va_list va_type
+	typedef char* va_type;
+	#define va_list va_type
+#endif
+
+#if defined(_WIN32)
+	#define DIR_MARKER "\\"
+#else
+	#define DIR_MARKER "/"
 #endif
 
 // standard IO
@@ -65,22 +73,22 @@ int fprintf(FILE *stream, const char *format, ...);
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
 int vfprintf(FILE *stream, const char *format, va_list arg);
-//int vsprintf(char *str, const char *format, va_list arg);
-
-//int sprintf(char *str, const char *format, ...);
-//int feof(FILE *stream);
-int ferror(FILE *stream);
-int fflush(FILE *stream);
-void clearerr(FILE *stream);
-int remove(const char *filename);
-int fgetc(FILE *stream);
-char *fgets(char *str, int n, FILE *stream);
-int getc(FILE *stream);
-int getchar(void);
-char *gets(char *str);
-int ungetc(int chr, FILE *stream);
-void perror(const char *str);
+int vsprintf(char *str, const char *format, va_list arg);
+int sprintf(char *str, const char *format, ...);
 
 char *_itoa(int value, char *str, int base);
+
+//int feof(FILE *stream);
+//int ferror(FILE *stream);
+//int fflush(FILE *stream);
+//void clearerr(FILE *stream);
+//int remove(const char *filename);
+//int fgetc(FILE *stream);
+//char *fgets(char *str, int n, FILE *stream);
+//int getc(FILE *stream);
+//int getchar(void);
+//char *gets(char *str);
+//int ungetc(int chr, FILE *stream);
+//void perror(const char *str);
 
 #endif	//__STDIO_H

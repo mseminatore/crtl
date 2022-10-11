@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 	test_stdio();
 	
 	puts("\n");
-	printf("Successfully completed %d tests.\n", testnum);
+	printf("End tests. Successfully completed %d tests.\n", testnum);
+
 	return 0;
 }

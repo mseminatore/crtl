@@ -70,27 +70,32 @@ long int labs(long int x)
 	return x < 0 ? -x : x;
 }
 
-// //
-// div_t div(int numer, int denom)
-// {
-// 	div_t result;
+#ifdef INC_DIV
+ //
+ div_t div(int numer, int denom)
+ {
+ 	div_t result;
 
-// 	result.quot = numer / denom;
-// 	result.rem = numer - result.quot * denom;
+ 	result.quot = numer / denom;
+ 	result.rem = numer - result.quot * denom;
 
-// 	return result;
-// }
+ 	return result;
+ }
+#endif
 
-// //
-// ldiv_t ldiv(long int numer, long int denom)
-// {
-// 	ldiv_t result;
+#ifdef INC_LDIV
 
-// 	result.quot = numer / denom;
-// 	result.rem = numer - result.quot * denom;
+ //
+ ldiv_t ldiv(long int numer, long int denom)
+ {
+ 	ldiv_t result;
 
-// 	return result;
-// }
+ 	result.quot = numer / denom;
+ 	result.rem = numer - result.quot * denom;
+
+ 	return result;
+ }
+#endif
 
 // //
 // void free(void *ptr)

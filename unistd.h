@@ -3,6 +3,7 @@
 #ifndef __UNISTD_H
 #define __UNISTD_H
 
+#ifndef _WIN32
 // open file flags
 #define O_RDONLY    0x00000000
 #define O_WRONLY    0x00000001
@@ -34,6 +35,14 @@
 #define S_ISGID         0002000         // set group id on execution
 #define S_ISVTX         0001000         // directory restrcted delete
 
+INT syscall(INT number, ...);
+INT open(const char *pathname, int flags, ...);
+INT close(INT fd);
+size_t read(INT fd, void *buf, size_t count);
+INT write(INT fd, const void *buf, size_t count);
+
+#endif
+
 // TODO - update for non ARM64 arch
 #if defined(__aarch64__)
     typedef long INT;
@@ -42,11 +51,5 @@
     typedef int INT;
     typedef unsigned short mode_t;
 #endif
-
-INT syscall(INT number, ...);
-INT open(const char *pathname, int flags, ...);
-INT close(INT fd);
-size_t read(INT fd, void *buf, size_t count);
-INT write(INT fd, const void *buf, size_t count);
 
 #endif	// ifndef __UNISTD_H

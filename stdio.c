@@ -3,6 +3,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "assert.h"
+#include "unistd.h"
 
 #if defined(_WIN32)
 	#pragma warning (disable : 4996)
@@ -11,9 +12,14 @@
 	// TODO - do we need to AllocConsole() or AttachConsole() on startup?
 	#include <fcntl.h>
 	#include <io.h>
+	#include <sys/stat.h>
+
+	#define RWX (S_IWRITE | S_IREAD)
 #else
 	#include <sys/syscall.h>
 	#include "unistd.h"
+
+	#define RWX S_IRWXU
 #endif
 
 #include "stdarg.h"
@@ -32,6 +38,8 @@
 //	_FLOAT f;
 //	double d;
 //};
+
+static char __cwd[FILENAME_MAX] = "." DIR_MARKER;
 
 //
 FILE _stdin		= { 0, 0, 0},	*stdin = &_stdin;
@@ -104,17 +112,30 @@ int puts(const char *str)
 	return 1;
 }
 
-//
+// Opens the filename pointed to by filename using the given mode.
 FILE *fopen(const char *filename, const char *mode)
 {
 	assert(filename && mode);
 	if (!filename || ! mode)
 		return NULL;
 
-	// TODO - process mode argument
-
+	// process mode argument
 	int flags = 0;
-	int fd = open(filename, flags);
+	if (strchr(mode, 'r'))
+		flags |= (O_RDONLY | O_APPEND);
+
+	if (strchr(mode, 'w'))
+		flags |= (O_WRONLY | O_CREAT);
+
+	if (strchr(mode, 'a'))
+		flags |= O_APPEND;
+
+	mode_t omode = 0;
+
+	if (flags & O_CREAT)
+		omode = RWX;
+
+	int fd = open(filename, flags, omode);
 	if (fd < 2)
 		return NULL;
 
@@ -125,8 +146,10 @@ FILE *fopen(const char *filename, const char *mode)
 	if (!stream)
 		return NULL;
 
-	stream->fildes = fd;
-	
+	stream->fildes	= fd;
+	stream->pos		= 0;
+	stream->status	= 0;
+
 	return stream;
 }
 
@@ -138,8 +161,9 @@ int fclose(FILE *stream)
 		return EOF;
 
 	int result = close(stream->fildes);
-	stream->fildes = -1;
-	stream->status = -1;
+	stream->fildes	= -1;
+	stream->status	= -1;
+	stream->pos		= -1;
 
 	// free FILE structure
 	free(stream);
@@ -147,7 +171,7 @@ int fclose(FILE *stream)
 	return result;
 }
 
-//
+// Reads data from the given stream into the array pointed to by ptr.
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
 	assert(ptr && stream /*&& stream->status != -1 && stream->fildes != -1*/);
@@ -157,27 +181,25 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 	return read(stream->fildes, ptr, nmemb * size);
 }
 
-//
+// Writes data from the array pointed to by ptr to the given stream.
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
 	assert(ptr && stream);
 	if (!ptr || !stream)
 		return 0;
 
-	return write(stream->fildes, ptr, nmemb * size);
+	int count = write(stream->fildes, ptr, nmemb * size);
+	if (count == nmemb * size)
+		return nmemb;
+
+	return 0;
 }
 
-//int vsprintf(char *str, const char *format, va_list arg);
-
-//int sprintf(char *str, const char *format, ...);
-
-//
-int vfprintf(FILE *stream, const char *format, va_list argp)
+// Sends formatted output to a string using an argument list.
+int vsprintf(char *str, const char *format, va_list argp)
 {
 	int count = 0, chr;
-	char buf[PRINTF_MAX], *pbuf = buf;
-
-	assert(stream && format);
+	char *pbuf = str;
 
 	while ((chr = *format))
 	{
@@ -252,12 +274,45 @@ int vfprintf(FILE *stream, const char *format, va_list argp)
 
 	*pbuf = 0;	// make sure we are asciiz
 
+	return count;
+}
+
+// Sends formatted output to a string.
+int sprintf(char *str, const char *format, ...)
+{
+	int count;
+
+	va_list argp;
+
+	assert(str && format);
+	if (!str || !format)
+		return 0;
+
+	va_start(argp, format);
+		count = vsprintf(str, format, argp);
+	va_end(argp);
+
+	return count;
+}
+
+// Sends formatted output to a stream using an argument list.
+int vfprintf(FILE *stream, const char *format, va_list argp)
+{
+	int count;
+	char buf[PRINTF_MAX];
+
+	assert(stream && format);
+	if (!stream || !format)
+		return 0;
+
+	count = vsprintf(buf, format, argp);
+
 	fputs(buf, stream);
 
 	return count;
 }
 
-//
+// Sends formatted output to a stream.
 int fprintf(FILE *stream, const char *format, ...)
 {
 	int count;
@@ -272,13 +327,13 @@ int fprintf(FILE *stream, const char *format, ...)
 	return count;
 }
 
-//
+// Sends formatted output to stdout using an argument list.
 int vprintf(const char *format, va_list argp)
 {
 	return vfprintf(stdout, format, argp);
 }
 
-//
+// Sends formatted output to stdout.
 int printf(const char *format, ...)
 {
 	int count;
