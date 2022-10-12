@@ -3,6 +3,15 @@
 #ifndef __UNISTD_H
 #define __UNISTD_H
 
+// TODO - update for non ARM64 arch
+#if defined(__aarch64__)
+    typedef long INT;
+    typedef unsigned short mode_t;
+#else
+    typedef int INT;
+    typedef unsigned short mode_t;
+#endif
+
 #ifndef _WIN32
 // open file flags
 #define O_RDONLY    0x00000000
@@ -41,15 +50,6 @@ INT close(INT fd);
 size_t read(INT fd, void *buf, size_t count);
 INT write(INT fd, const void *buf, size_t count);
 
-#endif
-
-// TODO - update for non ARM64 arch
-#if defined(__aarch64__)
-    typedef long INT;
-    typedef unsigned short mode_t;
-#else
-    typedef int INT;
-    typedef unsigned short mode_t;
 #endif
 
 #endif	// ifndef __UNISTD_H
