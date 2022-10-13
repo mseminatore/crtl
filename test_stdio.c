@@ -28,14 +28,16 @@ static void test_open()
 	int len = strlen(str);
 
 	SUITE("open");
-
+	
 #if defined(_WIN32)
 	int fd = open("./a.txt", O_CREAT | O_WRONLY, S_IWRITE | S_IREAD);
 #else
 	int fd = open("./a.txt", O_CREAT | O_WRONLY, S_IRWXU);
 #endif
 
+	TEST(fd > 0);
 	TEST(len == write(fd, str, len));
+
 	close(fd);
 }
 
@@ -54,9 +56,9 @@ static void test_sprintf()
 
 	SUITE("sprintf");
 
-	sprintf(str, "Hi %s, is it %d o'clock yet%c", "there", 1, '?');
+	sprintf(str, "Hi %s, is it %d o'clock yet%c%c", "there", 1, '?', '!');
 
-	TEST(0 == strcmp("Hi there, is it 1 o'clock yet?", str));
+	TEST(0 == strcmp("Hi there, is it 1 o'clock yet?!", str));
 }
 
 //
@@ -86,7 +88,18 @@ static void test_fwrite()
 //
 static void test_fread()
 {
+	SUITE("fread");
 
+	FILE *f = fopen("./write_test.txt", "rt");
+
+	TEST(f != NULL);
+
+	char str[] = "Hello there!";
+	char buf[32];
+
+	TEST(1 == fread(buf, sizeof(str), 1, f));
+	TEST(0 == strcmp(str, buf));
+	fclose(f);
 }
 
 //
@@ -98,4 +111,5 @@ void test_stdio()
 	test_sprintf();
 	test_fprintf();
 	test_fwrite();
+	test_fread();
 }

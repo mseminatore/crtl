@@ -178,7 +178,11 @@ size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
 	if (!ptr || !stream)
 		return 0;
 
-	return read(stream->fildes, ptr, nmemb * size);
+	int count = read(stream->fildes, ptr, nmemb * size);
+	if (count == nmemb * size)
+		return nmemb;
+	
+	return 0;
 }
 
 // Writes data from the array pointed to by ptr to the given stream.
@@ -242,7 +246,7 @@ int vsprintf(char *str, const char *format, va_list argp)
 
 			case 'c':
 			{
-				*pbuf++ = va_arg(argp, char);
+				*pbuf++ = va_arg(argp, int);
 				count++;
 			}
 			break;
