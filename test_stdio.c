@@ -81,7 +81,7 @@ static void test_fwrite()
 
 	char str[] = "Hello there!";
 
-	TEST(1 == fwrite(str, sizeof(str), 1, f));
+	TEST(1 == fwrite(str, strlen(str), 1, f));
 	fclose(f);
 }
 
@@ -97,7 +97,7 @@ static void test_fread()
 	char str[] = "Hello there!";
 	char buf[32];
 
-	TEST(1 == fread(buf, sizeof(str), 1, f));
+	TEST(1 == fread(buf, strlen(str), 1, f));
 	TEST(0 == strcmp(str, buf));
 	fclose(f);
 }
