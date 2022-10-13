@@ -26,22 +26,24 @@
 
 #define PRINTF_MAX 256
 
-//typedef struct _FLOAT
-//{
-//	unsigned long long sign : 1;
-//	unsigned long long exp : 11;
-//	unsigned long long mant : 52;
-//} _FLOAT;
-//
-//union FLOAT
-//{
-//	_FLOAT f;
-//	double d;
-//};
+#if defined(INC_FLOAT)
+	typedef struct _FLOAT
+	{
+		unsigned long long sign : 1;
+		unsigned long long exp : 11;
+		unsigned long long mant : 52;
+	} _FLOAT;
+
+	union FLOAT
+	{
+		_FLOAT f;
+		double d;
+	};
+#endif
 
 static char __cwd[FILENAME_MAX] = "." DIR_MARKER;
 
-//
+// TODO - replace with static array alloc
 FILE _stdin		= { 0, 0, 0},	*stdin = &_stdin;
 FILE _stdout	= { 0, 1 ,0 },	*stdout = &_stdout;
 FILE _stderr	= { 0, 2, 0 },	*stderr = &_stderr;
@@ -53,7 +55,9 @@ int putchar(int c)
 
 	chr[0] = c;
 	chr[1] = 0;
+
 	puts(chr);
+
 	return 1;
 }
 
@@ -353,26 +357,65 @@ int printf(const char *format, ...)
 }
 
 //int remove(const char *filename);
-//int fgetc(FILE *stream);
-//char *fgets(char *str, int n, FILE *stream);
 
 //
-//int getc(FILE *stream)
-//{
-//	assert(stream);
-//}
+int fgetc(FILE *stream)
+{
+	int chr;
+
+	assert(stream);
+	if (!stream)
+		return EOF;
+
+	int count = read(stream->fildes, &chr, 1);
+	if (count != 1)
+		return EOF;
+
+	return chr;
+}
+
+// Reads a line from the specified stream and stores it into the string 
+// pointed to by str. It stops when either (n-1) characters are read, 
+// the newline character is read, or the end-of-file is reached, whichever 
+// comes first.
+char *fgets(char *str, int n, FILE *stream)
+{
+	assert(str && stream);
+	if (!str || !stream)
+		return NULL;
+
+	// BUG - not correctly implemented!
+	int count = read(stream->fildes, str, n);
+	if (count != n)
+		return NULL;
+
+	return str;
+}
+
 //
-////
-//int getchar(void)
-//{
+int getc(FILE *stream)
+{
+	assert(stream);
+	return fgetc(stream);
+}
+
 //
-//}
-//
-////
-//char *gets(char *str)
-//{
-//	assert(str);
-//}
+int getchar(void)
+{
+	return fgetc(stdin);
+}
+
+// Reads a line from stdin and stores it into the string pointed to by, str.
+// It stops when either the newline character is read or when the end-of-file 
+// is reached, whichever comes first.
+char *gets(char *str)
+{
+	assert(str);
+
+	// BUG - not correctly implemented!
+	return NULL;
+}
+
 //
 ////
 //int ungetc(int chr, FILE *stream)

@@ -15,24 +15,24 @@
 #endif
 
 #ifdef INC_DIV
-typedef struct div_t
-{
-	int quot;
-	int rem;
-} div_t;
+	typedef struct div_t
+	{
+		int quot;
+		int rem;
+	} div_t;
 
-div_t div(int numer, int denom);
+	div_t div(int numer, int denom);
 
 #endif
 
 #ifdef INC_LDIV
-typedef struct ldiv_t
-{
-	long quot;
-	long rem;
-} ldiv_t;
+	typedef struct ldiv_t
+	{
+		long quot;
+		long rem;
+	} ldiv_t;
 
-ldiv_t ldiv(long int numer, long int denom);
+	ldiv_t ldiv(long int numer, long int denom);
 
 #endif
 

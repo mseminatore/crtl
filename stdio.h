@@ -72,6 +72,14 @@ int fprintf(FILE *stream, const char *format, ...);
 
 size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
+
+int fgetc(FILE *stream);
+int getc(FILE *stream);
+int getchar(void);
+char *fgets(char *str, int n, FILE *stream);
+char *gets(char *str);
+
+// formatted output
 int vfprintf(FILE *stream, const char *format, va_list arg);
 int vsprintf(char *str, const char *format, va_list arg);
 int sprintf(char *str, const char *format, ...);
@@ -83,11 +91,6 @@ char *_itoa(int value, char *str, int base);
 //int fflush(FILE *stream);
 //void clearerr(FILE *stream);
 //int remove(const char *filename);
-//int fgetc(FILE *stream);
-//char *fgets(char *str, int n, FILE *stream);
-//int getc(FILE *stream);
-//int getchar(void);
-//char *gets(char *str);
 //int ungetc(int chr, FILE *stream);
 //void perror(const char *str);
 
