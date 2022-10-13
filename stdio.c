@@ -5,6 +5,14 @@
 #include "assert.h"
 #include "unistd.h"
 
+
+// TODO - update for non ARM64 arch
+#if defined(__aarch64__)
+    typedef long INT;
+#else
+    typedef int INT;
+#endif
+
 #if defined(_WIN32)
 	#pragma warning (disable : 4996)
 	#define _CRT_SECURE_NO_WARNINGS
@@ -225,7 +233,7 @@ int vsprintf(char *str, const char *format, va_list argp)
 			case 'i':
 			case 'd':
 			{
-				int ival = va_arg(argp, int);
+				int ival = va_arg(argp, INT);
 				char int_string[32];
 
 				_itoa(ival, int_string, 10);
@@ -250,7 +258,7 @@ int vsprintf(char *str, const char *format, va_list argp)
 
 			case 'c':
 			{
-				*pbuf++ = va_arg(argp, int);
+				*pbuf++ = va_arg(argp, INT);
 				count++;
 			}
 			break;
