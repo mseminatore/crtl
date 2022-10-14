@@ -42,9 +42,9 @@ long syscall(long number, ...)
 
 	case SYS_read:
 	{
-		long fd = va_arg(argp, long);
-		char *buf = va_arg(argp, char*);
-		size_t len = va_arg(argp, size_t);
+		long fd 	= va_arg(argp, long);
+		char *buf 	= va_arg(argp, char*);
+		size_t len 	= va_arg(argp, size_t);
 
 #if defined(__x86_64__)
 		// asm("mov rax, %0" : : "r"(number));
@@ -66,9 +66,9 @@ long syscall(long number, ...)
 
 	case SYS_write:
 	{
-		long fd = va_arg(argp, long);
-		char *buf = va_arg(argp, char*);
-		size_t len = va_arg(argp, size_t);
+		long fd 	= va_arg(argp, long);
+		char *buf 	= va_arg(argp, char*);
+		size_t len 	= va_arg(argp, size_t);
 
 #if defined(__x86_64__)
 		asm("mov %%rax, %0" : : "r"(number));
@@ -91,9 +91,9 @@ long syscall(long number, ...)
 
 	case SYS_open:
 	{
-		char *path = va_arg(argp, char*);
-		long flags = va_arg(argp, long);
-		long mode = va_arg(argp, long);
+		char *path 	= va_arg(argp, char*);
+		long flags 	= va_arg(argp, long);
+		long mode 	= va_arg(argp, long);
 
 #if defined(__x86_64__)
 //		asm("mov rax, %0" : : "r"(sysnum));
