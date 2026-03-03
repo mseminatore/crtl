@@ -136,13 +136,13 @@ FILE *fopen(const char *filename, const char *mode)
 	// process mode argument
 	int flags = 0;
 	if (strchr(mode, 'r'))
-		flags |= (O_RDONLY | O_APPEND);
+		flags |= O_RDONLY;
 
 	if (strchr(mode, 'w'))
-		flags |= (O_WRONLY | O_CREAT);
+		flags |= (O_WRONLY | O_CREAT | O_TRUNC);
 
 	if (strchr(mode, 'a'))
-		flags |= O_APPEND;
+		flags |= (O_WRONLY | O_CREAT | O_APPEND);
 
 	mode_t omode = 0;
 
@@ -150,7 +150,7 @@ FILE *fopen(const char *filename, const char *mode)
 		omode = RWX;
 
 	int fd = open(filename, flags, omode);
-	if (fd < 2)
+	if (fd < 0)
 		return NULL;
 
 	// alloc FILE structure

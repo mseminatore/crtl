@@ -95,7 +95,7 @@ static void test_fread()
 	TEST(f != NULL);
 
 	char str[] = "Hello there!";
-	char buf[32];
+	char buf[32] = {0};
 
 	TEST(1 == fread(buf, strlen(str), 1, f));
 	TEST(0 == strcmp(str, buf));

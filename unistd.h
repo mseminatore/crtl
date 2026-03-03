@@ -13,15 +13,33 @@
 #endif
 
 #ifndef _WIN32
-// open file flags
+// open file flags - values are platform-specific
+#if defined(__APPLE__)
 #define O_RDONLY    0x00000000
 #define O_WRONLY    0x00000001
 #define O_RDWR      0x00000002
-
-#define O_CREAT     0x00000008
-#define O_APPEND    0x00000200
+#define O_APPEND    0x00000008
+#define O_CREAT     0x00000200
 #define O_TRUNC     0x00000400
 #define O_EXCL      0x00000800
+#elif defined(__linux__)
+#define O_RDONLY    0x00000000
+#define O_WRONLY    0x00000001
+#define O_RDWR      0x00000002
+#define O_CREAT     0x00000040
+#define O_EXCL      0x00000080
+#define O_TRUNC     0x00000200
+#define O_APPEND    0x00000400
+#else
+// fallback values
+#define O_RDONLY    0x00000000
+#define O_WRONLY    0x00000001
+#define O_RDWR      0x00000002
+#define O_CREAT     0x00000040
+#define O_TRUNC     0x00000200
+#define O_APPEND    0x00000400
+#define O_EXCL      0x00000800
+#endif
 
 // File modes
 // Read, write, execute/search by owner

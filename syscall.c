@@ -32,9 +32,7 @@ long syscall(long number, ...)
 		asm("mov X16, %0" : : "r"(sysnum));
 		asm("svc #0");
 #elif defined(__x86_64__)
-		asm("mov %%rax, %0" : : "r"(sysnum));
-		asm("mov %%rdi, %0" : : "r"(status));
-		asm("syscall");
+		asm volatile("syscall" : : "a"(sysnum), "D"(status) : "rcx", "r11", "memory");
 #endif
 
 	}
@@ -47,12 +45,10 @@ long syscall(long number, ...)
 		size_t len 	= va_arg(argp, size_t);
 
 #if defined(__x86_64__)
-		// asm("mov rax, %0" : : "r"(number));
-		// asm("mov rdi, %0" : : "r"(fd));
-		// asm("mov rsi, %0" : : "r"(buf));
-		// asm("mov rdx, %0" : : "r"(len));
-		// asm("syscall" : "=r"(result));
-		// TODO - store result in RAX
+		asm volatile("syscall"
+			: "=a"(result)
+			: "0"(sysnum), "D"(fd), "S"(buf), "d"(len)
+			: "rcx", "r11", "memory");
 #elif defined(__aarch64__)
 		asm("mov X0, %0" : : "r"(fd));
 		asm("mov X1, %0" : : "r"(buf));
@@ -71,12 +67,10 @@ long syscall(long number, ...)
 		size_t len 	= va_arg(argp, size_t);
 
 #if defined(__x86_64__)
-		asm("mov %%rax, %0" : : "r"(number));
-		asm("mov %%rdi, %0" : : "r"(fd));
-		asm("mov %%rsi, %0" : : "r"(buf));
-		asm("mov %%rdx, %0" : : "r"(len));
-		asm("syscall");
-		asm("mov %%rax, %0": "=r"(result));
+		asm volatile("syscall"
+			: "=a"(result)
+			: "0"(sysnum), "D"(fd), "S"(buf), "d"(len)
+			: "rcx", "r11", "memory");
 #elif defined(__aarch64__)
 		asm("mov X0, %0" : : "r"(fd));
 		asm("mov X1, %0" : : "r"(buf));
@@ -96,11 +90,10 @@ long syscall(long number, ...)
 		long mode 	= va_arg(argp, long);
 
 #if defined(__x86_64__)
-//		asm("mov rax, %0" : : "r"(sysnum));
-//		asm("mov rdi, %0" : : "r"(fd));
-//		asm("mov rsi, %0" : : "r"(buf));
-//		asm("mov rdx, %0" : : "r"(len));
-//		asm("syscall" : "=r"(result));
+		asm volatile("syscall"
+			: "=a"(result)
+			: "0"(sysnum), "D"(path), "S"(flags), "d"(mode)
+			: "rcx", "r11", "memory");
 #elif defined(__aarch64__)
 		asm("mov X0, %0" : : "r"(path));
 		asm("mov X1, %0" : : "r"(flags));
@@ -117,9 +110,10 @@ long syscall(long number, ...)
 		long fd = va_arg(argp, long);
 
 #if defined(__x86_64__)
-		// asm("mov rax, [%0]" : : "r"(sysnum));
-		// asm("mov rdi, [%0]" : : "r"(fd));
-		// asm("syscall" : "=r"(result));
+		asm volatile("syscall"
+			: "=a"(result)
+			: "0"(sysnum), "D"(fd)
+			: "rcx", "r11", "memory");
 #elif defined(__aarch64__)
 		asm("mov X0, %0" : : "r"(fd));
 		asm("mov X16, %0" : : "r"(sysnum));
