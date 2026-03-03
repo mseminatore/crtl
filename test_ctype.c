@@ -1,6 +1,6 @@
 #include "stdio.h"
 #include "ctype.h"
-#include "test.h"
+#include "testy/test.h"
 
 //
 static void test_islower()

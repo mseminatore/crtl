@@ -9,5 +9,12 @@ include_directories(${PROJECT_SOURCE_DIR})
 # add the library
 add_library(crtl assert.c stdio.c string.c stdlib.c)
 
-# add the executable
-add_executable(crtl_test main.c)
+# add the executable with test infrastructure
+add_executable(crtl_test 
+  test_main.c
+  testy/test_main.c
+  test_string.c
+  test_stdlib.c
+  test_stdio.c
+  test_ctype.c
+)

@@ -10,7 +10,7 @@ assert.h \
 stdio.h \
 stdlib.h \
 ctype.h \
-test.h \
+testy/test.h \
 unistd.h \
 stdint.h \
 errno.h \
@@ -21,7 +21,8 @@ stdarg.o \
 string.o \
 assert.o \
 errno.o \
-main.o \
+test_main.o \
+testy/test_main.o \
 stdio.o \
 stdlib.o \
 ctype.o \

@@ -119,6 +119,8 @@ int puts(const char *str)
 	int result = write(STDOUT_FILENO, str, len);
 	if (result != len)
 		return EOF;
+
+	write(STDOUT_FILENO, "\n", 1);
 #endif
 
 	return 1;

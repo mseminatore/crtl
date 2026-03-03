@@ -11,7 +11,7 @@
 #	include <sys/stat.h>
 #endif
 
-#include "test.h"
+#include "testy/test.h"
 
 //
 static void test_puts()
