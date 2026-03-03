@@ -5,7 +5,6 @@
 #include "assert.h"
 #include "unistd.h"
 
-
 // TODO - update for non ARM64 arch
 #if defined(__aarch64__)
     typedef long INT;
@@ -52,7 +51,7 @@
 static char __cwd[FILENAME_MAX] = "." DIR_MARKER;
 
 // TODO - replace with static array alloc
-FILE _stdin		= { 0, 0, 0},	*stdin = &_stdin;
+FILE _stdin		= { 0, 0, 0 },	*stdin = &_stdin;
 FILE _stdout	= { 0, 1 ,0 },	*stdout = &_stdout;
 FILE _stderr	= { 0, 2, 0 },	*stderr = &_stderr;
 
@@ -69,7 +68,7 @@ int putchar(int c)
 	return 1;
 }
 
-//
+// Sends a character to the given stream.
 int putc(int chr, FILE *stream)
 {
 	assert(stream);
@@ -79,13 +78,13 @@ int putc(int chr, FILE *stream)
 	return 1;
 }
 
-//
+// Sends a character to the given stream.
 int fputc(int chr, FILE *stream)
 {
 	return putc(chr, stream);
 }
 
-//
+// Sends a string to the given stream.
 int fputs(const char *str, FILE *stream)
 {
 	assert(str && stream);
@@ -95,7 +94,7 @@ int fputs(const char *str, FILE *stream)
 	return write(stream->fildes, str, strlen(str));
 }
 
-//
+// Sends a string to stdout.
 int puts(const char *str)
 {
 	assert(str);
@@ -167,7 +166,7 @@ FILE *fopen(const char *filename, const char *mode)
 	return stream;
 }
 
-//
+// Closes the given stream and disassociates it from any file.
 int fclose(FILE *stream)
 {
 	assert(stream);
@@ -366,9 +365,18 @@ int printf(const char *format, ...)
 	return count;
 }
 
-//int remove(const char *filename);
+// Deletes the file specified by filename.
+// int remove(const char *filename)
+// {
+// 	assert(filename);
+// 	if (!filename)
+// 		return -1;
 
-//
+// 	return unlink(filename);
+// }
+
+// Reads the next character from the given stream and returns it as an 
+// unsigned char cast to an int, or EOF on end of file or error.
 int fgetc(FILE *stream)
 {
 	int chr;
@@ -402,14 +410,17 @@ char *fgets(char *str, int n, FILE *stream)
 	return str;
 }
 
-//
+// Reads the next character from stdin and returns it as an unsigned char cast
 int getc(FILE *stream)
 {
 	assert(stream);
+	if (!stream)
+		return EOF;
+
 	return fgetc(stream);
 }
 
-//
+// Reads the next character from stdin and returns it as an unsigned char cast
 int getchar(void)
 {
 	return fgetc(stdin);
@@ -422,16 +433,21 @@ char *gets(char *str)
 {
 	assert(str);
 
+	// read from stdin until we hit a newline or EOF
+
 	// BUG - not correctly implemented!
 	return NULL;
 }
 
-//
-////
-//int ungetc(int chr, FILE *stream)
-//{
-//	assert(stream);
-//}
+// Pushes the character specified by chr (converted to an unsigned char) 
+// back onto the input stream pointed to by stream. The character is returned
+// as an unsigned char cast to an int, or EOF on error.
+int ungetc(int chr, FILE *stream)
+{
+	assert(stream);
+	if (!stream)
+		return EOF;
+}
 
 //
 char *_itoa(int value, char *str, int base)
