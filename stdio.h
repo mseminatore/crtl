@@ -90,7 +90,7 @@ char *_itoa(int value, char *str, int base);
 //int ferror(FILE *stream);
 //int fflush(FILE *stream);
 //void clearerr(FILE *stream);
-//int remove(const char *filename);
+int remove(const char *filename);
 //int ungetc(int chr, FILE *stream);
 //void perror(const char *str);
 

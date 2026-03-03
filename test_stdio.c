@@ -4,11 +4,11 @@
 #include "stdlib.h"
 
 #if defined(__APPLE_CC__)
-#	include "unistd.h"
+#include "unistd.h"
 #else
-#	include <fcntl.h>
-#	include <io.h>
-#	include <sys/stat.h>
+#include <fcntl.h>
+#include <io.h>
+#include <sys/stat.h>
 #endif
 
 #include "testy/test.h"
@@ -28,7 +28,7 @@ static void test_open()
 	int len = strlen(str);
 
 	SUITE("open");
-	
+
 #if defined(_WIN32)
 	int fd = open("./a.txt", O_CREAT | O_WRONLY, S_IWRITE | S_IREAD);
 #else
@@ -76,7 +76,7 @@ static void test_fwrite()
 	SUITE("fwrite");
 
 	FILE *f = fopen("./write_test.txt", "wt");
-	
+
 	TEST(f != NULL);
 
 	char str[] = "Hello there!";
@@ -103,6 +103,47 @@ static void test_fread()
 }
 
 //
+static void test_fgets()
+{
+	SUITE("fgets");
+
+	FILE *f = fopen("./write_test.txt", "rt");
+
+	TEST(f != NULL);
+
+	char str[] = "Hello there!";
+	char buf[32] = {0};
+
+	TEST(buf == fgets(buf, sizeof(buf), f));
+	TEST(0 == strcmp(str, buf));
+	fclose(f);
+}
+
+//
+static void test_gets()
+{
+	SUITE("gets");
+
+	char str[] = "Hello there!";
+	char buf[32] = {0};
+
+	TEST(buf == gets(buf));
+	TEST(0 == strcmp(str, buf));
+}
+
+//
+static void test_remove()
+{
+	SUITE("remove");
+
+	char filename[] = "write_test.txt";
+
+	TEST(0 == remove(filename));
+}
+
+//
+// Run all stdio tests.
+//
 void test_stdio()
 {
 	test_puts();
@@ -112,4 +153,7 @@ void test_stdio()
 	test_fprintf();
 	test_fwrite();
 	test_fread();
+	test_fgets();
+	// test_gets();
+	test_remove();
 }

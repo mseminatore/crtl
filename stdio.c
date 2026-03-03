@@ -4,6 +4,7 @@
 #include "string.h"
 #include "assert.h"
 #include "unistd.h"
+#include "errno.h"
 
 // TODO - update for non ARM64 arch
 #if defined(__aarch64__)
@@ -31,8 +32,11 @@
 
 #include "stdarg.h"
 
+// configurable max size for printf output
 #define PRINTF_MAX 256
 
+// floating point support is not yet implemented, 
+// but we need to define this for the vsprintf implementation
 #if defined(INC_FLOAT)
 	typedef struct _FLOAT
 	{
@@ -50,56 +54,80 @@
 
 static char __cwd[FILENAME_MAX] = "." DIR_MARKER;
 
-// TODO - replace with static array alloc
+// standard IO handles
 FILE _stdin		= { 0, 0, 0 },	*stdin = &_stdin;
 FILE _stdout	= { 0, 1 ,0 },	*stdout = &_stdout;
 FILE _stderr	= { 0, 2, 0 },	*stderr = &_stderr;
 
-//
+// INT openFiles = 0;
+
+// free list for FILE structures
+// static FILE freeList[FOPEN_MAX] = { 0 };
+// static int freeListIndex = 0;
+
+//---------------------------------------------
+// Sends a character to stdout.
+//---------------------------------------------
 int putchar(int c)
 {
-	char chr[2];
-
-	chr[0] = c;
-	chr[1] = 0;
-
-	puts(chr);
-
-	return 1;
+	return putc(c, stdout);
 }
 
+//----------------------------------------------
 // Sends a character to the given stream.
+// TODO - this should be a macro that calls fputc
+//----------------------------------------------
 int putc(int chr, FILE *stream)
 {
+	return fputc(chr, stream);
+}
+
+//-----------------------------------------------
+// Sends a character to the given stream.
+//-----------------------------------------------
+int fputc(int chr, FILE *stream)
+{
 	assert(stream);
-	if (!stream || 1 != write(stream->fildes, &chr, 1))
+	if (!stream)
+	{
+		errno = EINVAL;
 		return EOF;
+	}
+	
+	if (1 != write(stream->fildes, &chr, 1))
+	{
+		return EOF;
+	}
 
 	return 1;
 }
 
-// Sends a character to the given stream.
-int fputc(int chr, FILE *stream)
-{
-	return putc(chr, stream);
-}
-
+//-----------------------------------------------
 // Sends a string to the given stream.
+//-----------------------------------------------
 int fputs(const char *str, FILE *stream)
 {
 	assert(str && stream);
 	if (!str || !stream)
+	{
+		errno = EINVAL;
 		return EOF;
+	}
 
 	return write(stream->fildes, str, strlen(str));
 }
 
+//-----------------------------------------------
 // Sends a string to stdout.
+//-----------------------------------------------
 int puts(const char *str)
 {
 	assert(str);
 	if (!str)
+	{
+		errno = EINVAL;
 		return EOF;
+	}
 
 	int len = strlen(str);
 
@@ -125,12 +153,17 @@ int puts(const char *str)
 	return 1;
 }
 
+//-----------------------------------------------
 // Opens the filename pointed to by filename using the given mode.
+//-----------------------------------------------
 FILE *fopen(const char *filename, const char *mode)
 {
 	assert(filename && mode);
 	if (!filename || ! mode)
+	{
+		errno = EINVAL;
 		return NULL;
+	}
 
 	// process mode argument
 	int flags = 0;
@@ -150,14 +183,20 @@ FILE *fopen(const char *filename, const char *mode)
 
 	int fd = open(filename, flags, omode);
 	if (fd < 0)
+	{
+		errno = ENOENT;
 		return NULL;
+	}
 
 	// alloc FILE structure
 	// TODO - replace with static array alloc
 	FILE *stream = (FILE*)malloc(sizeof(FILE));
 	assert(stream);
 	if (!stream)
+	{
+		errno = ENOMEM;
 		return NULL;
+	}
 
 	stream->fildes	= fd;
 	stream->pos		= 0;
@@ -166,12 +205,17 @@ FILE *fopen(const char *filename, const char *mode)
 	return stream;
 }
 
+//-----------------------------------------------
 // Closes the given stream and disassociates it from any file.
+//-----------------------------------------------
 int fclose(FILE *stream)
 {
 	assert(stream);
 	if (!stream)
+	{
+		errno = EINVAL;
 		return EOF;
+	}
 
 	int result = close(stream->fildes);
 	stream->fildes	= -1;
@@ -179,44 +223,63 @@ int fclose(FILE *stream)
 	stream->pos		= -1;
 
 	// free FILE structure
+	// TODO - return to free list instead of actually freeing
 	free(stream);
 
 	return result;
 }
 
+//-----------------------------------------------
 // Reads data from the given stream into the array pointed to by ptr.
-size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
+//-----------------------------------------------
+size_t fread(void *ptr, size_t size, size_t nitems, FILE *stream)
 {
 	assert(ptr && stream /*&& stream->status != -1 && stream->fildes != -1*/);
 	if (!ptr || !stream)
+	{
+		errno = EINVAL;
 		return 0;
+	}
 
-	int count = read(stream->fildes, ptr, nmemb * size);
-	if (count == nmemb * size)
-		return nmemb;
+	int count = read(stream->fildes, ptr, nitems * size);
+	if (count == nitems * size)
+		return nitems;
 	
 	return 0;
 }
 
+//-----------------------------------------------
 // Writes data from the array pointed to by ptr to the given stream.
-size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
+//-----------------------------------------------
+size_t fwrite(const void *ptr, size_t size, size_t nitems, FILE *stream)
 {
 	assert(ptr && stream);
 	if (!ptr || !stream)
+	{
+		errno = EINVAL;
 		return 0;
+	}
 
-	int count = write(stream->fildes, ptr, nmemb * size);
-	if (count == nmemb * size)
-		return nmemb;
+	int count = write(stream->fildes, ptr, nitems * size);
+	if (count == nitems * size)
+		return nitems;
 
 	return 0;
 }
 
+//-----------------------------------------------
 // Sends formatted output to a string using an argument list.
+//-----------------------------------------------
 int vsprintf(char *str, const char *format, va_list argp)
 {
 	int count = 0, chr;
 	char *pbuf = str;
+
+	if (!str || !format)
+	{
+		errno = EINVAL;
+		return 0;
+	}
 
 	while ((chr = *format))
 	{
@@ -294,7 +357,9 @@ int vsprintf(char *str, const char *format, va_list argp)
 	return count;
 }
 
+//-----------------------------------------------
 // Sends formatted output to a string.
+//-----------------------------------------------
 int sprintf(char *str, const char *format, ...)
 {
 	int count;
@@ -303,7 +368,10 @@ int sprintf(char *str, const char *format, ...)
 
 	assert(str && format);
 	if (!str || !format)
+	{
+		errno = EINVAL;
 		return 0;
+	}
 
 	va_start(argp, format);
 		count = vsprintf(str, format, argp);
@@ -312,7 +380,9 @@ int sprintf(char *str, const char *format, ...)
 	return count;
 }
 
+//-----------------------------------------------
 // Sends formatted output to a stream using an argument list.
+//-----------------------------------------------
 int vfprintf(FILE *stream, const char *format, va_list argp)
 {
 	int count;
@@ -320,7 +390,10 @@ int vfprintf(FILE *stream, const char *format, va_list argp)
 
 	assert(stream && format);
 	if (!stream || !format)
+	{
+		errno = EINVAL;
 		return 0;
+	}
 
 	count = vsprintf(buf, format, argp);
 
@@ -329,13 +402,20 @@ int vfprintf(FILE *stream, const char *format, va_list argp)
 	return count;
 }
 
+//-----------------------------------------------
 // Sends formatted output to a stream.
+//-----------------------------------------------
 int fprintf(FILE *stream, const char *format, ...)
 {
 	int count;
 	va_list argp;
 
 	assert(stream && format);
+	if (!stream || !format)
+	{
+		errno = EINVAL;
+		return 0;
+	}
 
 	va_start(argp, format);
 		count = vfprintf(stream, format, argp);
@@ -344,19 +424,28 @@ int fprintf(FILE *stream, const char *format, ...)
 	return count;
 }
 
+//-----------------------------------------------
 // Sends formatted output to stdout using an argument list.
+//-----------------------------------------------
 int vprintf(const char *format, va_list argp)
 {
 	return vfprintf(stdout, format, argp);
 }
 
+//-----------------------------------------------
 // Sends formatted output to stdout.
+//-----------------------------------------------
 int printf(const char *format, ...)
 {
 	int count;
 	va_list argp;
 
 	assert(format);
+	if (!format)
+	{
+		errno = EINVAL;
+		return 0;
+	}
 
 	va_start(argp, format);
 		count = vprintf(format, argp);
@@ -365,91 +454,161 @@ int printf(const char *format, ...)
 	return count;
 }
 
+//-----------------------------------------------
 // Deletes the file specified by filename.
-// int remove(const char *filename)
-// {
-// 	assert(filename);
-// 	if (!filename)
-// 		return -1;
+//-----------------------------------------------
+int remove(const char *filename)
+{
+	assert(filename);
+	if (!filename)
+	{
+		errno = EINVAL;
+		return -1;
+	}
 
-// 	return unlink(filename);
-// }
+	return unlink(filename);
+}
 
-// Reads the next character from the given stream and returns it as an 
-// unsigned char cast to an int, or EOF on end of file or error.
+//-----------------------------------------------
+// Reads the next character from the given stream 
+// and returns it as an unsigned char cast to an 
+// int, or EOF on end of file or error.
+//-----------------------------------------------
 int fgetc(FILE *stream)
 {
 	int chr;
 
 	assert(stream);
 	if (!stream)
+	{
+		errno = EINVAL;
 		return EOF;
+	}
 
 	int count = read(stream->fildes, &chr, 1);
 	if (count != 1)
+	{
+		errno = EIO;
 		return EOF;
+	}
 
 	return chr;
 }
 
-// Reads a line from the specified stream and stores it into the string 
-// pointed to by str. It stops when either (n-1) characters are read, 
-// the newline character is read, or the end-of-file is reached, whichever 
-// comes first.
+//-----------------------------------------------
+// Reads a line from the specified stream and 
+// stores it into the string pointed to by str. 
+// It stops when either (n-1) characters are read, 
+// the newline character is read, or the end-of-file
+// is reached, whichever comes first.
+//-----------------------------------------------
 char *fgets(char *str, int n, FILE *stream)
 {
 	assert(str && stream);
 	if (!str || !stream)
+	{
+		errno = EINVAL;
 		return NULL;
+	}
 
-	// BUG - not correctly implemented!
-	int count = read(stream->fildes, str, n);
-	if (count != n)
-		return NULL;
+	for (int i = 0; i < n - 1; i++)
+	{
+		int chr = fgetc(stream);
+		if (chr == EOF)
+		{
+			if (i == 0)
+			{
+				return NULL;
+			}
+			else
+			{				
+				str[i] = 0;		// make sure we are asciiz
+				return str;
+			}
+		}
+		str[i] = chr;
+
+		if (chr == '\n')
+		{
+			str[i + 1] = 0;
+			return str;
+		}
+	}
+
+	str[n - 1] = 0;	// make sure we are asciiz
 
 	return str;
 }
 
-// Reads the next character from stdin and returns it as an unsigned char cast
+//-----------------------------------------------
+// Reads the next character from stdin and returns 
+// it as an unsigned char cast to an int, or EOF 
+// on end of file or error.
+//-----------------------------------------------
 int getc(FILE *stream)
 {
 	assert(stream);
 	if (!stream)
+	{
+		errno = EINVAL;
 		return EOF;
+	}
 
 	return fgetc(stream);
 }
 
-// Reads the next character from stdin and returns it as an unsigned char cast
+//-----------------------------------------------
+// Reads the next character from stdin and returns 
+// it as an unsigned char cast to an int, or EOF 
+//on end of file or error.
+//-----------------------------------------------
 int getchar(void)
 {
 	return fgetc(stdin);
 }
 
-// Reads a line from stdin and stores it into the string pointed to by, str.
-// It stops when either the newline character is read or when the end-of-file 
-// is reached, whichever comes first.
+//-----------------------------------------------
+// Reads a line from stdin and stores it into the 
+// string pointed to by, str. It stops when either 
+// the newline character is read or when the 
+// end-of-file is reached, whichever comes first.
+//-----------------------------------------------
 char *gets(char *str)
 {
 	assert(str);
 
-	// read from stdin until we hit a newline or EOF
-
-	// BUG - not correctly implemented!
-	return NULL;
+	return fgets(str, BUFSIZ, stdin);
 }
 
-// Pushes the character specified by chr (converted to an unsigned char) 
-// back onto the input stream pointed to by stream. The character is returned
-// as an unsigned char cast to an int, or EOF on error.
+//-----------------------------------------------
+// Pushes the character specified by chr (converted
+// to an unsigned char) back onto the input stream
+// pointed to by stream. The character is returned
+// as an unsigned char cast to an int, or EOF 
+// on error.
+//-----------------------------------------------
 int ungetc(int chr, FILE *stream)
 {
 	assert(stream);
 	if (!stream)
+	{
+		errno = EINVAL;
 		return EOF;
+	}
 }
 
-//
+//-----------------------------------------------
+// Converts the integer value to a null-terminated 
+// string using the specified base and stores the
+// result in the array given by str. The base
+// argument is used to specify the base to which the
+// integer value is converted, and must be between
+// 2 and 36 inclusive. The resulting string is 
+// null-terminated and returned in str. If the base
+// is 10 and value is negative, the resulting string
+// is preceded with a minus sign (-). No other base
+// produces a string with a sign character
+//-----------------------------------------------
 char *_itoa(int value, char *str, int base)
 {
 	char *pchr = str;

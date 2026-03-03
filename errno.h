@@ -1,4 +1,6 @@
+//
 // Copyright 2022 Mark Seminatore. All rights reserved.
+//
 #pragma once
 
 #ifndef __ERRNO_H
@@ -7,42 +9,44 @@
 extern int errno;
 
 // error codes
-#define EPERM           1
-#define ENOENT          2
-#define ESRCH           3
-#define EINTR           4
-#define EIO             5
-#define ENXIO           6
-#define E2BIG           7
-#define ENOEXEC         8
-#define EBADF           9
-#define ECHILD          10
-#define EAGAIN          11
-#define ENOMEM          12
-#define EACCES          13
-#define EFAULT          14
-#define EBUSY           16
-#define EEXIST          17
-#define EXDEV           18
-#define ENODEV          19
-#define ENOTDIR         20
-#define EISDIR          21
-#define ENFILE          23
-#define EMFILE          24
-#define ENOTTY          25
-#define EFBIG           27
-#define ENOSPC          28
-#define ESPIPE          29
-#define EROFS           30
-#define EMLINK          31
-#define EPIPE           32
-#define EDOM            33
-#define EDEADLK         36
-#define ENAMETOOLONG    38
-#define ENOLCK          39
-#define ENOSYS          40
-#define ENOTEMPTY       41
-
+#define EPERM           1   // Operation not permitted
+#define ENOENT          2   // No such file or directory
+#define ESRCH           3   // No such process
+#define EINTR           4   // Interrupted system call
+#define EIO             5   // I/O error
+#define ENXIO           6   // No such device or address
+#define E2BIG           7   // Argument list too long
+#define ENOEXEC         8   // Exec format error
+#define EBADF           9   // Bad file descriptor
+#define ECHILD          10  // No child processes
+#define EAGAIN          11  // Resource temporarily unavailable
+#define ENOMEM          12  // Out of memory
+#define EACCES          13  // Permission denied
+#define EFAULT          14  // Bad address
+#define EBUSY           16  // Device or resource busy
+#define EEXIST          17  // File exists
+#define EXDEV           18  // Cross-device link
+#define ENODEV          19  // No such device
+#define ENOTDIR         20  // Not a directory
+#define EISDIR          21  // Is a directory
+#define EINVAL          22  // Invalid argument
+#define ENFILE          23  // File table overflow
+#define EMFILE          24  // Too many open files
+#define ENOTTY          25  // Not a typewriter
+#define EFBIG           27  // File too large
+#define ENOSPC          28  // No space left on device
+#define ESPIPE          29  // Illegal seek
+#define EROFS           30  // Read-only file system
+#define EMLINK          31  // Too many links
+#define EPIPE           32  // Broken pipe
+#define EDOM            33  // Math argument out of domain of func
+#define EDEADLK         36  // Resource deadlock would occur
+#define ENAMETOOLONG    38  // File name too long
+#define ENOLCK          39  // No record locks available
+#define ENOSYS          40  // Function not implemented
+#define ENOTEMPTY       41  // Directory not empty
+#define ELOOP           42  // Too many symbolic links encountered
+#define EWOULDBLOCK     EAGAIN  // Operation would block
 
 //#define EDOM 1
 //#define ERANGE 2
