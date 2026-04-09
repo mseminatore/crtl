@@ -39,6 +39,7 @@ static void test_open()
 	TEST(len == write(fd, str, len));
 
 	close(fd);
+	remove("./a.txt");
 }
 
 //
@@ -127,8 +128,8 @@ static void test_gets()
 	char str[] = "Hello there!";
 	char buf[32] = {0};
 
-	TEST(buf == gets(buf));
-	TEST(0 == strcmp(str, buf));
+	SKIP_TEST(buf == gets(buf));
+	SKIP_TEST(0 == strcmp(str, buf));
 }
 
 //
@@ -154,6 +155,6 @@ void test_stdio()
 	test_fwrite();
 	test_fread();
 	test_fgets();
-	// test_gets();
+	test_gets();
 	test_remove();
 }

@@ -618,6 +618,9 @@ char *_itoa(int value, char *str, int base)
 	if (value < 0 && base == 10)
 		*pchr++ = '-';
 
+	if (value == 0)
+		*pchr++ = '0';
+
 	while (value)
 	{
 		place_value = value % base;
