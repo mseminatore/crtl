@@ -1,4 +1,6 @@
+//-------------------------------------------------------------------------------
 // Copyright 2022 Mark Seminatore. All rights reserved.
+//-------------------------------------------------------------------------------
 #ifndef __STRING_H
 #define __STRING_H
 
@@ -34,6 +36,9 @@ char *strtok(char *str, const char *delimiters);
 void *memset (void *ptr, int value, size_t num);
 char *strerror(int errnum);
 size_t strlen(const char *str);
+
+char *strdup(const char *str);
+char *strndup(const char *str, size_t num);
 
 // non-standard
 char *_strrev(char *str);

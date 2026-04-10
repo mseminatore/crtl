@@ -1,24 +1,5 @@
 # Missing Commonly-Used C Runtime Functions
 
-## Declared but NOT Implemented (Highest Priority)
-
-These are in the headers but have no body in the `.c` files:
-
-| Function | Header |
-|----------|--------|
-| `strstr`  | string.h |
-| `memchr`  | string.h |
-
----
-
-## string.h — Missing
-
-| Function | Notes |
-|----------|-------|
-| `strdup` / `strndup` | POSIX, but ubiquitous |
-
----
-
 ## stdlib.h — Missing
 
 | Function | Notes |
