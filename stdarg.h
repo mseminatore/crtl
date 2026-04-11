@@ -7,8 +7,6 @@
 
 #include "stdint.h"
 
-typedef char* va_type;
-
 #ifdef va_start
 #	undef va_start
 #endif
@@ -21,16 +19,19 @@ typedef char* va_type;
 #	undef va_end
 #endif
 
-#define va_list va_type
-
-#if defined(__aarch64__)
-// first parameter is in W0/X0, next are on the stack
-#   define va_start(argp, ptr) (argp = ((va_type)__builtin_frame_address(0))+16)
+#if defined(__GNUC__) || defined(__clang__)
+// Use compiler builtins: correct for both x86_64 (register-based ABI) and ARM64
+#   define va_list   __builtin_va_list
+#   define va_start(ap, last) __builtin_va_start(ap, last)
+#   define va_arg(ap, type)   __builtin_va_arg(ap, type)
+#   define va_end(ap)         __builtin_va_end(ap)
 #else
+// Fallback for MSVC and other compilers
+typedef char* va_type;
+#   define va_list va_type
 #   define va_start(argp, ptr) ((va_type)(argp = ((va_type)(&ptr + 1))))
+#   define va_arg(argp, type) (*(type*)((intptr_t)(argp += sizeof(type), argp - sizeof(type))))
+#   define va_end(argp)
 #endif
-
-#define va_arg(argp, type) (*(type*)((intptr_t)(argp += sizeof(type), argp - sizeof(type))))
-#define va_end(argp)
 
 #endif	//ifndef __STDARG_H

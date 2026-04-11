@@ -3,7 +3,7 @@
 #include "stdarg.h"
 
 // 
-#if defined(__APPLE_CC__)
+#if defined(__APPLE_CC__) || defined(__linux__)
 #	include <sys/syscall.h>
 #endif
 

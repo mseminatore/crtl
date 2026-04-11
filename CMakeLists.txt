@@ -7,10 +7,20 @@ project(crtl VERSION 1.0)
 include_directories(${PROJECT_SOURCE_DIR})
 
 # add the library
-add_library(crtl assert.c stdio.c string.c stdlib.c)
+add_library(crtl
+  assert.c
+  ctype.c
+  errno.c
+  stdarg.c
+  stdio.c
+  stdlib.c
+  string.c
+  syscall.c
+  unistd.c
+)
 
 # add the executable with test infrastructure
-add_executable(crtl_test 
+add_executable(crtl_test
   test_main.c
   testy/test_main.c
   test_string.c
@@ -18,3 +28,8 @@ add_executable(crtl_test
   test_stdio.c
   test_ctype.c
 )
+
+target_link_libraries(crtl_test PRIVATE crtl m)
+
+enable_testing()
+add_test(NAME crtl_tests COMMAND crtl_test)

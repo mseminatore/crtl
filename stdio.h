@@ -46,8 +46,12 @@ extern FILE *stdin, *stdout, *stderr;
 #endif
 
 #ifndef va_list
-	typedef char* va_type;
-	#define va_list va_type
+#	if defined(__GNUC__) || defined(__clang__)
+#		define va_list __builtin_va_list
+#	else
+		typedef char* va_type;
+#		define va_list va_type
+#	endif
 #endif
 
 #if defined(_WIN32)

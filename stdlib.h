@@ -8,7 +8,7 @@
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 
-#if defined(__clang__)
+#if defined(__GNUC__) || defined(__clang__)
 #   define NORETURN __attribute__((noreturn))
 #else
 #   define NORETURN __declspec(noreturn)

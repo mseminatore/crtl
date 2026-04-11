@@ -8,7 +8,7 @@
 
 #if defined(_WIN32)
 	#include <windows.h>
-#elif defined (__APPLE_CC__)
+#elif defined (__APPLE_CC__) || defined(__linux__)
 	#include <sys/syscall.h>
 	#include "unistd.h"
 #endif
@@ -25,9 +25,11 @@ NORETURN void exit(int status)
 	// platform specific process exit
 	#if defined(_WIN32)
 		ExitProcess(status);
-	#elif defined (__APPLE_CC__)
+	#elif defined (__APPLE_CC__) || defined(__linux__)
 		syscall(SYS_exit, status);
 	#endif
+
+	while (1) {}
 }
 
 //-------------------------------------------------------------------------------
