@@ -1,5 +1,7 @@
 # CRTL
 
+[![CMake](https://github.com/mseminatore/crtl/actions/workflows/cmake-single-platform.yml/badge.svg)](https://github.com/mseminatore/crtl/actions/workflows/cmake-single-platform.yml)
+
 Welcome to CRTL! This project attempts to provide a basic and portable 
 implementation of an ANSI C runtime library. It is not the intention of
 this project to provide 100% of the ANSCI C RTL. The primary support will
@@ -47,7 +49,7 @@ platforms. Unit test coverage is growing but not yet complete.
 
 This is primarily an educational exercise. I find that you really come to
 understand the C programming language and its library functions in a deep
-and meaningful way when you've actually done the work to implement a core 
+and meaningful way when you've actually done the work to implement the core 
 library of functions.
 
 At some point I also hope to be able to use this library with tiny C 
