@@ -38,6 +38,7 @@
 
 NORETURN void exit(int status);
 NORETURN void abort(void);
+int atexit(void (*func)(void));
 
 int atoi(const char *str);
 
@@ -46,5 +47,17 @@ void *malloc(size_t size);
 
 int abs(int x);
 long int labs(long int x);
+
+void *calloc(size_t num, size_t size);
+void *realloc(void *ptr, size_t newSize);
+
+int rand(void);
+void srand(unsigned int seed);
+
+long int atol(const char *str);
+long int strtol(const char *str, char **endptr, int base);
+unsigned long int strtoul(const char *str, char **endptr, int base);
+void qsort(void *base, size_t num, size_t size, int (*compar)(const void *, const void *));
+void *bsearch(const void *key, const void *base, size_t num, size_t size, int (*compar)(const void *, const void *));
 
 #endif // __STDLIB_H

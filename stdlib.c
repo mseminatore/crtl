@@ -1,4 +1,6 @@
+//-------------------------------------------------------------------------------
 // Copyright 2022 Mark Seminatore. All rights reserved.
+//-------------------------------------------------------------------------------
 #include "ctype.h"
 #include "string.h"
 #include "assert.h"
@@ -13,9 +15,13 @@
 
 #include "stdarg.h"
 
-//
+//-------------------------------------------------------------------------------
+// platform specific process exit
+//-------------------------------------------------------------------------------
 NORETURN void exit(int status)
 {
+	// TODO - call the registered atexit functions
+
 	// platform specific process exit
 	#if defined(_WIN32)
 		ExitProcess(status);
@@ -24,13 +30,26 @@ NORETURN void exit(int status)
 	#endif
 }
 
-//
+//-------------------------------------------------------------------------------
+// abort the program
+//-------------------------------------------------------------------------------
 NORETURN void abort()
 {
 	exit(0);
 }
 
-//
+//-------------------------------------------------------------------------------
+// Registers a function to be called at normal process termination
+//-------------------------------------------------------------------------------
+int atexit(void (*func)(void))
+{
+	// TODO - register the func to be called at process termination
+	return 0;
+}
+
+//-------------------------------------------------------------------------------
+// convert a string to an integer
+//-------------------------------------------------------------------------------
 int atoi(const char *str)
 {
 	int result = 0, places;
@@ -58,23 +77,29 @@ int atoi(const char *str)
 	return sign * result;
 }
 
-//
+//-------------------------------------------------------------------------------
+// absolute value
+//-------------------------------------------------------------------------------
 int abs(int x)
 {
 	return x < 0 ? -x : x;
 }
 
-//
+//-------------------------------------------------------------------------------
+// absolute value for long int
+//-------------------------------------------------------------------------------
 long int labs(long int x)
 {
 	return x < 0 ? -x : x;
 }
 
 #ifdef INC_DIV
- //
- div_t div(int numer, int denom)
- {
- 	div_t result;
+ //-------------------------------------------------------------------------------
+ // compute quotient and remainder of integer division
+ //-------------------------------------------------------------------------------
+div_t div(int numer, int denom)
+{
+	div_t result;
 
  	result.quot = numer / denom;
  	result.rem = numer - result.quot * denom;
@@ -85,8 +110,10 @@ long int labs(long int x)
 
 #ifdef INC_LDIV
 
- //
- ldiv_t ldiv(long int numer, long int denom)
+ //-------------------------------------------------------------------------------
+ // compute quotient and remainder of long integer division
+ //-------------------------------------------------------------------------------
+ldiv_t ldiv(long int numer, long int denom)
  {
  	ldiv_t result;
 
@@ -115,3 +142,15 @@ long int labs(long int x)
 
 // 	return NULL;
 // }
+
+// void *calloc(size_t num, size_t size);
+// void *realloc(void *ptr, size_t newSize);
+
+// int rand(void);
+// void srand(unsigned int seed);
+
+// long int atol(const char *str);
+// long int strtol(const char *str, char **endptr, int base);
+// unsigned long int strtoul(const char *str, char **endptr, int base);
+// void qsort(void *base, size_t num, size_t size, int (*compar)(const void *, const void *));
+// void *bsearch(const void *key, const void *base, size_t num, size_t size, int (*compar)(const void *, const void *));

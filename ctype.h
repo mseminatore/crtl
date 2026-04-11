@@ -1,4 +1,6 @@
+//-------------------------------------------------------------------------------
 // Copyright 2022 Mark Seminatore. All rights reserved.
+//-------------------------------------------------------------------------------
 #pragma once
 
 #ifndef __CTYPE_H
@@ -18,5 +20,12 @@ int tolower(int c);
 int toupper(int c);
 
 int isspace(int c);
+
+int isprint(int c);
+int isgraph(int c);
+int ispunct(int c);
+int isxdigit(int c);
+int iscntrl(int c);
+int isblank(int c);
 
 #endif  // __CTYPE_H

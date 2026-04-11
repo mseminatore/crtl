@@ -133,6 +133,35 @@ static void test_strtok()
 }
 
 //
+static void test_memchr()
+{
+	char buf[] = "Hello";
+
+	SUITE("memchr");
+
+	TEST('H' == *(char *)memchr(buf, 'H', 5));
+	TEST('l' == *(char *)memchr(buf, 'l', 5));
+	TEST(NULL == memchr(buf, 'z', 5));
+}
+
+//
+static void test_strstr()
+{
+	char *p;
+
+	SUITE("strstr");
+
+	p = strstr("Hello World", "World");
+	TEST(p != NULL && 0 == strcmp("World", p));
+
+	p = strstr("Hello World", "Hello");
+	TEST(p != NULL && 0 == strcmp("Hello World", p));
+
+	TEST(NULL == strstr("Hello World", "xyz"));
+	TEST(NULL == strstr("Hi", "Hello World"));
+}
+
+//
 void test_string()
 {
 	test_strlen();
@@ -148,4 +177,6 @@ void test_string()
 	test_strcspn();
 	test_strspn();
 	test_strtok();
+	test_memchr();
+	test_strstr();
 }

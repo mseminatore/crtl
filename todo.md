@@ -11,7 +11,6 @@
 | `strtol` / `strtoul` | string to long with base; more robust than atoi |
 | `qsort`            | general-purpose sort |
 | `bsearch`          | binary search |
-| `atexit`           | register exit-time callback |
 
 ---
 
@@ -40,19 +39,6 @@
 
 ---
 
-## ctype.h — Missing
-
-| Function | Notes |
-|----------|-------|
-| `isprint`  | printable characters |
-| `isgraph`  | printable non-space |
-| `ispunct`  | punctuation |
-| `isxdigit` | hex digit (0–9, a–f, A–F) |
-| `iscntrl`  | control characters |
-| `isblank`  | C99: space or tab |
-
----
-
 ## Entire Headers Missing
 
 | Header | Key functions |
@@ -60,7 +46,6 @@
 | `math.h`   | `sqrt`, `pow`, `fabs`, `floor`, `ceil`, `sin`, `cos`, `log`, `exp` |
 | `time.h`   | `time`, `clock`, `difftime`, `mktime`, `localtime`, `strftime` |
 | `setjmp.h` | `setjmp`, `longjmp` |
-| `limits.h` | compile-time numeric limit macros (`INT_MAX`, `CHAR_MIN`, etc.) |
 
 ---
 
