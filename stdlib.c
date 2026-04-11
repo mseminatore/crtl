@@ -124,33 +124,127 @@ ldiv_t ldiv(long int numer, long int denom)
  }
 #endif
 
-// //
-// void free(void *ptr)
-// {
-// 	assert(ptr);
+#if 0
+//-------------------------------------------------------------------------------
+// free the memory block pointed to by ptr
+//-------------------------------------------------------------------------------
+void free(void *ptr)
+{
+	assert(ptr);
 	
-// 	// TODO - free the ptr
-// }
+	// TODO - free the ptr
+}
 
-// //
-// void *malloc(size_t size)
-// {
-// 	if (0 == size)
-// 		return NULL;
+//-------------------------------------------------------------------------------
+// alloc memory of size bytes and return a pointer to the allocated memory
+//-------------------------------------------------------------------------------
+void *malloc(size_t size)
+{
+	if (0 == size)
+		return NULL;
 
-// 	// TODO - alloc memory and return the ptr
+	// TODO - alloc memory and return the ptr
 
-// 	return NULL;
-// }
+	return NULL;
+}
 
-// void *calloc(size_t num, size_t size);
-// void *realloc(void *ptr, size_t newSize);
+//-------------------------------------------------------------------------------
+// alloc memory for an array of num elements of size bytes each and returns a pointer to the allocated memory. The memory is set to zero
+//-------------------------------------------------------------------------------
+void *calloc(size_t num, size_t size)
+{
+	if (0 == num || 0 == size)
+		return NULL;
 
-// int rand(void);
-// void srand(unsigned int seed);
+	size_t totalSize = num * size;
 
-// long int atol(const char *str);
-// long int strtol(const char *str, char **endptr, int base);
-// unsigned long int strtoul(const char *str, char **endptr, int base);
-// void qsort(void *base, size_t num, size_t size, int (*compar)(const void *, const void *));
-// void *bsearch(const void *key, const void *base, size_t num, size_t size, int (*compar)(const void *, const void *));
+	// TODO - alloc memory and return the ptr
+
+	return NULL;
+}
+
+//-------------------------------------------------------------------------------
+// change the size of the memory block pointed to by ptr to newSize bytes
+//-------------------------------------------------------------------------------
+void *realloc(void *ptr, size_t newSize)
+{
+	if (0 == newSize)
+	{
+		free(ptr);
+		return NULL;
+	}
+
+	if (!ptr)
+		return malloc(newSize);
+
+	// TODO - realloc the ptr to newSize and return the new ptr
+
+	return NULL;
+}
+
+//-------------------------------------------------------------------------------
+// return a psuedo random number
+//-------------------------------------------------------------------------------
+int rand(void)
+{
+	int result;
+
+	// TODO - return a random number
+	// mersenne twister
+
+
+	return 0;
+}
+
+//-------------------------------------------------------------------------------
+// set the seed for random number generation
+//-------------------------------------------------------------------------------
+void srand(unsigned int seed)
+{
+	// TODO - set the seed for random number generation
+}
+
+//-------------------------------------------------------------------------------
+// convert a string to a long integer
+//-------------------------------------------------------------------------------
+long int atol(const char *str)
+{
+	return (long int)atoi(str);
+}
+
+//-------------------------------------------------------------------------------
+// convert a string to a long integer with error checking
+//-------------------------------------------------------------------------------
+long int strtol(const char *str, char **endptr, int base)
+{
+	// TODO - convert str to a long int and return it. If endptr is not NULL, store the address of the first invalid character in *endptr. The base can be 2, 8, 10, or 16
+	return 0;
+}
+
+//-------------------------------------------------------------------------------
+// convert a string to an unsigned long integer with error checking
+//-------------------------------------------------------------------------------
+unsigned long int strtoul(const char *str, char **endptr, int base)
+{
+	// TODO - convert str to an unsigned long int and return it. If endptr is not NULL, store the address of the first invalid character in *endptr. The base can be 2, 8, 10, or 16
+	return 0;
+}
+
+//-------------------------------------------------------------------------------
+// sort an array of num elements of size bytes each, using the compar function to compare elements
+//-------------------------------------------------------------------------------
+void qsort(void *base, size_t num, size_t size, int (*compar)(const void *, const void *))
+{
+	// TODO - sort the array pointed to by base, which contains num elements of size bytes each, using the compar function to compare elements
+}
+
+//-------------------------------------------------------------------------------
+// perform a binary search for key in the array pointed to by base, which contains num elements of size bytes each, using the compar function to compare elements
+//-------------------------------------------------------------------------------
+void *bsearch(const void *key, const void *base, size_t num, size_t size, int (*compar)(const void *, const void *))
+{
+	// TODO - perform a binary search for key in the array pointed to by base, which contains num elements of size bytes each, using the compar function to compare elements
+	return NULL;
+}
+
+#endif

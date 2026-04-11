@@ -1,19 +1,5 @@
 # Missing Commonly-Used C Runtime Functions
 
-## stdlib.h — Missing
-
-| Function | Notes |
-|----------|-------|
-| `calloc`           | zero-initializing malloc — very common |
-| `realloc`          | resize allocation — very common |
-| `rand` / `srand`   | random numbers |
-| `atol`             | string to `long` |
-| `strtol` / `strtoul` | string to long with base; more robust than atoi |
-| `qsort`            | general-purpose sort |
-| `bsearch`          | binary search |
-
----
-
 ## stdio.h — Missing
 
 | Function | Notes |
