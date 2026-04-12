@@ -3,12 +3,12 @@
 #include "string.h"
 #include "stdlib.h"
 
-#if defined(__APPLE_CC__)
-#include "unistd.h"
-#else
+#if defined(_WIN32)
 #include <fcntl.h>
 #include <io.h>
 #include <sys/stat.h>
+#else
+#include "unistd.h"
 #endif
 
 #include "testy/test.h"
