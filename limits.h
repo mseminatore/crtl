@@ -18,4 +18,6 @@
 #define LONG_MAX 2147483647
 #define ULONG_MAX 4294967295
 
+#define	RAND_MAX 0x7fffffff
+
 #endif // __LIMITS_H

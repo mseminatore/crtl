@@ -16,11 +16,26 @@
 #include "stdarg.h"
 
 //-------------------------------------------------------------------------------
+// platform specific process exit and atexit implementation
+//-------------------------------------------------------------------------------
+typedef void (*atexit_func_t)(void);
+
+#define MAX_ATEXIT_FUNCS 32
+static atexit_func_t atexit_funcs[MAX_ATEXIT_FUNCS];
+static int atexit_count = 0;
+
+static unsigned int rand_seed = 1;
+
+//-------------------------------------------------------------------------------
 // platform specific process exit
 //-------------------------------------------------------------------------------
 NORETURN void exit(int status)
 {
-	// TODO - call the registered atexit functions
+	// call the registered atexit functions
+	for (int i = atexit_count - 1; i >= 0; i--)
+	{
+		atexit_funcs[i]();
+	}
 
 	// platform specific process exit
 	#if defined(_WIN32)
@@ -45,7 +60,10 @@ NORETURN void abort()
 //-------------------------------------------------------------------------------
 int atexit(void (*func)(void))
 {
-	// TODO - register the func to be called at process termination
+	if (atexit_count >= MAX_ATEXIT_FUNCS)
+		return -1;
+
+	atexit_funcs[atexit_count++] = func;
 	return 0;
 }
 
@@ -126,6 +144,30 @@ ldiv_t ldiv(long int numer, long int denom)
  }
 #endif
 
+//-------------------------------------------------------------------------------
+// return a psuedo random number
+//-------------------------------------------------------------------------------
+int rand(void)
+{
+	int result;
+
+	// Algorithm "xor" from p. 4 of Marsaglia, "Xorshift RNGs"
+	unsigned int x = rand_seed;
+	x ^= x << 13;
+	x ^= x >> 17;
+	x ^= x << 5;
+	rand_seed = x;
+	return (int)(x/2);
+}
+
+//-------------------------------------------------------------------------------
+// set the seed for random number generation
+//-------------------------------------------------------------------------------
+void srand(unsigned int seed)
+{
+	rand_seed = seed;
+}
+
 #if 0
 //-------------------------------------------------------------------------------
 // free the memory block pointed to by ptr
@@ -185,28 +227,6 @@ void *realloc(void *ptr, size_t newSize)
 }
 
 //-------------------------------------------------------------------------------
-// return a psuedo random number
-//-------------------------------------------------------------------------------
-int rand(void)
-{
-	int result;
-
-	// TODO - return a random number
-	// mersenne twister
-
-
-	return 0;
-}
-
-//-------------------------------------------------------------------------------
-// set the seed for random number generation
-//-------------------------------------------------------------------------------
-void srand(unsigned int seed)
-{
-	// TODO - set the seed for random number generation
-}
-
-//-------------------------------------------------------------------------------
 // convert a string to a long integer
 //-------------------------------------------------------------------------------
 long int atol(const char *str)
@@ -240,13 +260,31 @@ void qsort(void *base, size_t num, size_t size, int (*compar)(const void *, cons
 	// TODO - sort the array pointed to by base, which contains num elements of size bytes each, using the compar function to compare elements
 }
 
+#endif
+
 //-------------------------------------------------------------------------------
 // perform a binary search for key in the array pointed to by base, which contains num elements of size bytes each, using the compar function to compare elements
 //-------------------------------------------------------------------------------
 void *bsearch(const void *key, const void *base, size_t num, size_t size, int (*compar)(const void *, const void *))
 {
-	// TODO - perform a binary search for key in the array pointed to by base, which contains num elements of size bytes each, using the compar function to compare elements
+	// perform a binary search for key in the array pointed to by base, which contains num elements of size bytes each, using the compar function to compare elements
+	void *low = (void *)base;
+	void *high = (char *)base + (num - 1) * size;
+	void *mid;
+
+	while (low <= high)
+	{
+		mid = (char *)low + (((char *)high - (char *)low) / size / 2) * size;
+
+		int cmp = compar(key, mid);
+
+		if (cmp < 0)
+			high = (char *)mid - size;
+		else if (cmp > 0)
+			low = (char *)mid + size;
+		else
+			return mid;
+	}
+
 	return NULL;
 }
-
-#endif
