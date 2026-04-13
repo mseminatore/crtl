@@ -220,7 +220,7 @@ int fclose(FILE *stream)
 
 	int result = close(stream->fildes);
 	stream->fildes	= -1;
-	stream->status	= -1;
+	stream->status	= EOF;
 	stream->pos		= -1;
 
 	// free FILE structure
@@ -235,7 +235,7 @@ int fclose(FILE *stream)
 //-----------------------------------------------
 size_t fread(void *ptr, size_t size, size_t nitems, FILE *stream)
 {
-	assert(ptr && stream /*&& stream->status != -1 && stream->fildes != -1*/);
+	assert(ptr && stream /*&& stream->status != EOF && stream->fildes != -1*/);
 	if (!ptr || !stream)
 	{
 		errno = EINVAL;
@@ -243,10 +243,17 @@ size_t fread(void *ptr, size_t size, size_t nitems, FILE *stream)
 	}
 
 	int count = read(stream->fildes, ptr, nitems * size);
-	if (count == nitems * size)
-		return nitems;
-	
-	return 0;
+
+	// check for end of file, success, or error
+	if (count == 0)
+	{
+		stream->status = EOF;
+		return 0;
+	} else if (count == nitems * size)
+		return nitems;	
+
+	errno = EIO;
+	return -1;
 }
 
 //-----------------------------------------------
@@ -487,7 +494,12 @@ int fgetc(FILE *stream)
 	}
 
 	int count = read(stream->fildes, &chr, 1);
-	if (count != 1)
+	if (count == 0)
+	{
+		stream->status = EOF;
+		return EOF;
+	}
+	else if (count != 1)
 	{
 		errno = EIO;
 		return EOF;
@@ -634,3 +646,75 @@ char *_itoa(int value, char *str, int base)
 
 	return _strrev(str);
 }
+
+//-----------------------------------------------
+// Checks the end-of-file indicator for the given stream.
+// Returns a non-zero value if the end of the file has
+// been reached, otherwise returns 0.
+//-----------------------------------------------
+int feof(FILE *stream)
+{
+	assert(stream);
+	if (!stream)
+	{
+		errno = EINVAL;
+		return EOF;
+	}
+
+	if (stream->status == EOF)
+		return 1;
+
+	return 0;
+}
+
+//-----------------------------------------------
+// Clears the error indicator for the given stream.
+//-----------------------------------------------
+void clearerr(FILE *stream)
+{
+	assert(stream);
+	if (!stream)
+	{
+		errno = EINVAL;
+		return;
+	}
+
+	// TODO - this should probably also reset the file position to the beginning of the file?
+	stream->status = 0;
+}
+
+//-----------------------------------------------
+// Checks the error indicator for the given stream.
+// Returns a non-zero value if the error indicator 
+// is set for the stream, otherwise returns 0.
+//-----------------------------------------------
+int ferror(FILE *stream)
+{
+	assert(stream);
+	if (!stream)
+	{
+		errno = EINVAL;
+		return EOF;
+	}
+
+	if (stream->status != 0)
+		return 1;
+
+	return 0;
+}
+
+//int fflush(FILE *stream);
+
+// int rename(const char *oldname, const char *newname)
+// {
+// 	assert(oldname && newname);
+// 	if (!oldname || !newname)
+// 	{
+// 		errno = EINVAL;
+// 		return -1;
+// 	}
+
+// 	return rename(oldname, newname);
+// }
+
+//void perror(const char *str);

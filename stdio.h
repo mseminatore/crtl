@@ -90,12 +90,13 @@ int sprintf(char *str, const char *format, ...);
 
 char *_itoa(int value, char *str, int base);
 
-//int feof(FILE *stream);
-//int ferror(FILE *stream);
-//int fflush(FILE *stream);
-//void clearerr(FILE *stream);
+int feof(FILE *stream);
+int ferror(FILE *stream);
+int fflush(FILE *stream);
+void perror(const char *str);
+void clearerr(FILE *stream);
 int remove(const char *filename);
-//int ungetc(int chr, FILE *stream);
-//void perror(const char *str);
+int ungetc(int chr, FILE *stream);
+int rename(const char *oldname, const char *newname);
 
 #endif	//__STDIO_H

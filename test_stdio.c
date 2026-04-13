@@ -133,6 +133,98 @@ static void test_gets()
 }
 
 //
+static void test_feof()
+{
+	SUITE("feof");
+
+	// write a small file to read from
+	FILE *f = fopen("./feof_test.txt", "wt");
+	fwrite("Hi", 1, 2, f);
+	fclose(f);
+
+	f = fopen("./feof_test.txt", "rt");
+	TEST(f != NULL);
+
+	// fresh stream: not at EOF
+	TEST(0 == feof(f));
+
+	// read the two bytes, then one past end to trigger EOF
+	fgetc(f);
+	fgetc(f);
+	fgetc(f);
+
+	TEST(0 != feof(f));
+
+	// clearerr resets the EOF indicator
+	clearerr(f);
+	TEST(0 == feof(f));
+
+	fclose(f);
+	remove("./feof_test.txt");
+}
+
+//
+static void test_ferror()
+{
+	SUITE("ferror");
+
+	FILE *f = fopen("./ferror_test.txt", "wt");
+	fwrite("Hi", 1, 2, f);
+	fclose(f);
+
+	f = fopen("./ferror_test.txt", "rt");
+	TEST(f != NULL);
+
+	// fresh stream: no error
+	TEST(0 == ferror(f));
+
+	// read past end; status=EOF=-1, which != 0, so ferror returns non-zero
+	fgetc(f);
+	fgetc(f);
+	fgetc(f);
+
+	TEST(0 != ferror(f));
+
+	// clearerr resets the error indicator
+	clearerr(f);
+	TEST(0 == ferror(f));
+
+	fclose(f);
+	remove("./ferror_test.txt");
+}
+
+//
+static void test_clearerr()
+{
+	SUITE("clearerr");
+
+	FILE *f = fopen("./clearerr_test.txt", "wt");
+	fwrite("Hi", 1, 2, f);
+	fclose(f);
+
+	f = fopen("./clearerr_test.txt", "rt");
+	TEST(f != NULL);
+
+	// clearerr on a clean stream leaves it clean
+	clearerr(f);
+	TEST(0 == feof(f));
+	TEST(0 == ferror(f));
+
+	// read past end to set EOF, then clearerr clears both indicators
+	fgetc(f);
+	fgetc(f);
+	fgetc(f);
+
+	TEST(0 != feof(f));
+	clearerr(f);
+	TEST(0 == feof(f));
+	TEST(0 == ferror(f));
+
+	fclose(f);
+	remove("./clearerr_test.txt");
+}
+
+//
 static void test_remove()
 {
 	SUITE("remove");
@@ -156,5 +248,8 @@ void test_stdio()
 	test_fread();
 	test_fgets();
 	test_gets();
+	test_feof();
+	test_ferror();
+	test_clearerr();
 	test_remove();
 }
