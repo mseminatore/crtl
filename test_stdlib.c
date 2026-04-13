@@ -11,6 +11,11 @@ static int int_compare(const void *a, const void *b)
 	return *(int *)a - *(int *)b;
 }
 
+static int int_compare_desc(const void *a, const void *b)
+{
+	return *(int *)b - *(int *)a;
+}
+
 //
 static void test_atoi()
 {
@@ -93,8 +98,64 @@ static void test_bsearch()
 	result = (int *)bsearch(&key, single, 1, sizeof(int), int_compare);
 	TEST(result == NULL);
 
-	// num=0: unsafe with current implementation (size_t underflow on num-1)
-	SKIP_TEST(bsearch(&key, arr, 0, sizeof(int), int_compare) == NULL);
+	// num=0: should return NULL (bug fixed: no longer unsafe)
+	key = 99;
+	TEST(NULL == bsearch(&key, arr, 0, sizeof(int), int_compare));
+
+	// integration: qsort an unsorted array, then bsearch for elements
+	int unsorted[] = {15, 3, 9, 1, 7, 5, 13, 11};
+	qsort(unsorted, 8, sizeof(int), int_compare);
+	key = 1;
+	result = (int *)bsearch(&key, unsorted, 8, sizeof(int), int_compare);
+	TEST(result != NULL && *result == 1);
+	key = 9;
+	result = (int *)bsearch(&key, unsorted, 8, sizeof(int), int_compare);
+	TEST(result != NULL && *result == 9);
+	key = 6;
+	result = (int *)bsearch(&key, unsorted, 8, sizeof(int), int_compare);
+	TEST(result == NULL);
+}
+
+//
+static void test_qsort()
+{
+	SUITE("qsort");
+
+	// sort unsorted array
+	int arr1[] = {5, 2, 8, 1, 9, 3};
+	int exp1[] = {1, 2, 3, 5, 8, 9};
+	qsort(arr1, 6, sizeof(int), int_compare);
+	TEST(EQUAL_ARRAY(arr1, exp1));
+
+	// sort reverse-sorted array
+	int arr2[] = {9, 7, 5, 3, 1};
+	int exp2[] = {1, 3, 5, 7, 9};
+	qsort(arr2, 5, sizeof(int), int_compare);
+	TEST(EQUAL_ARRAY(arr2, exp2));
+
+	// sort already-sorted array
+	int arr3[] = {1, 3, 5, 7};
+	int exp3[] = {1, 3, 5, 7};
+	qsort(arr3, 4, sizeof(int), int_compare);
+	TEST(EQUAL_ARRAY(arr3, exp3));
+
+	// sort single element
+	int arr4[] = {42};
+	int exp4[] = {42};
+	qsort(arr4, 1, sizeof(int), int_compare);
+	TEST(EQUAL_ARRAY(arr4, exp4));
+
+	// num=0: no crash, array unchanged
+	int arr5[] = {7, 3};
+	int exp5[] = {7, 3};
+	qsort(arr5, 0, sizeof(int), int_compare);
+	TEST(EQUAL_ARRAY(arr5, exp5));
+
+	// sort descending using reverse comparator
+	int arr6[] = {1, 3, 5, 7, 9};
+	int exp6[] = {9, 7, 5, 3, 1};
+	qsort(arr6, 5, sizeof(int), int_compare_desc);
+	TEST(EQUAL_ARRAY(arr6, exp6));
 }
 
 //
@@ -169,6 +230,7 @@ void test_stdlib()
 	test_labs();
 	test_atexit();
 	test_bsearch();
+	test_qsort();
 	test_rand();
 	test_srand();
 }

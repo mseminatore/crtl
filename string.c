@@ -1,8 +1,10 @@
+//-------------------------------------------------------------------------------
 // Copyright 2022 Mark Seminatore. All rights reserved.
+//-------------------------------------------------------------------------------
+
+#include "config.h"
 #include "string.h"
 #include "assert.h"
-
-#define MAX_TOKEN_STRING 256
 
 //-------------------------------------------------------------------------------
 // copy num bytes from src to dst
@@ -429,7 +431,7 @@ char *strerror(int errnum)
 //-------------------------------------------------------------------------------
 char *strtok(char *str, const char *delimiters)
 {
-	static char buf[MAX_TOKEN_STRING];
+	static char buf[CRTL_MAX_TOKEN_STRING];
 	static char *ptr = NULL;
 	char *token;
 	int len;
@@ -441,7 +443,7 @@ char *strtok(char *str, const char *delimiters)
 	// if str is provided reset the token string
 	if (str)
 	{
-		strncpy(buf, str, MAX_TOKEN_STRING);
+		strncpy(buf, str, CRTL_MAX_TOKEN_STRING);
 		ptr = buf;
 	}
 

@@ -1,4 +1,6 @@
+//-------------------------------------------------------------------------------
 // Copyright 2022 Mark Seminatore. All rights reserved.
+//-------------------------------------------------------------------------------
 
 #include "stdarg.h"
 #include "stdlib.h"
@@ -7,7 +9,9 @@
 #if defined(__APPLE_CC__)
 #	include <sys/syscall.h>
 
-//
+//-------------------------------------------------------------------------------
+// system call numbers for OSX
+//-------------------------------------------------------------------------------
 long syscall(long number, ...)
 {
 	long result = 0;
@@ -143,7 +147,19 @@ long syscall(long number, ...)
 	
 	case SYS_chdir:
 	{
-
+		char *path = va_arg(argp, char*);
+		
+#if defined(__x86_64__)
+		asm volatile("syscall"
+			: "=a"(result)
+			: "0"(sysnum), "D"(path)
+			: "rcx", "r11", "memory");
+#elif defined(__aarch64__)
+		asm("mov X0, %0" : : "r"(path));
+		asm("mov X16, %0" : : "r"(sysnum));
+		asm("svc #0");
+		asm("mov %0, X0" : "=r"(result));
+#endif
 	}
 		break;
 

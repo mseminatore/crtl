@@ -1,8 +1,11 @@
+//-------------------------------------------------------------------------------
 // Copyright 2022 Mark Seminatore. All rights reserved.
+//-------------------------------------------------------------------------------
+
 #ifndef __STDLIB_H
 #define __STDLIB_H
 
-#include "rtconfig.h"
+#include "config.h"
 #include "stddef.h"
 
 #define EXIT_SUCCESS 0
@@ -14,7 +17,7 @@
 #   define NORETURN __declspec(noreturn)
 #endif
 
-#ifdef INC_DIV
+#ifdef CRTL_INC_DIV
 	typedef struct div_t
 	{
 		int quot;
@@ -25,7 +28,7 @@
 
 #endif
 
-#ifdef INC_LDIV
+#ifdef CRTL_INC_LDIV
 	typedef struct ldiv_t
 	{
 		long quot;

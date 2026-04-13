@@ -1,4 +1,8 @@
+//-------------------------------------------------------------------------------
 // Copyright 2022 Mark Seminatore. All rights reserved.
+//-------------------------------------------------------------------------------
+
+#include "config.h"
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
@@ -32,12 +36,9 @@
 
 #include "stdarg.h"
 
-// configurable max size for printf output
-#define PRINTF_MAX 256
-
 // floating point support is not yet implemented, 
 // but we need to define this for the vsprintf implementation
-#if defined(INC_FLOAT)
+#if defined(CRTL_INC_FLOAT)
 	typedef struct _FLOAT
 	{
 		unsigned long long sign : 1;
@@ -386,7 +387,7 @@ int sprintf(char *str, const char *format, ...)
 int vfprintf(FILE *stream, const char *format, va_list argp)
 {
 	int count;
-	char buf[PRINTF_MAX];
+	char buf[CRTL_PRINTF_MAX];
 
 	assert(stream && format);
 	if (!stream || !format)

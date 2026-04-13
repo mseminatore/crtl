@@ -14,6 +14,8 @@ testy/test.h \
 unistd.h \
 stdint.h \
 errno.h \
+limits.h \
+config.h \
 stdarg.h
 
 OBJS	= \
@@ -41,6 +43,9 @@ LIBS = -lm
 
 $(TARGET):	$(OBJS)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+test: $(TARGET)
+	./$(TARGET)
 
 clean:
 	rm -f $(OBJS) $(TARGET)

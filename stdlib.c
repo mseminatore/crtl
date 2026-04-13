@@ -20,8 +20,7 @@
 //-------------------------------------------------------------------------------
 typedef void (*atexit_func_t)(void);
 
-#define MAX_ATEXIT_FUNCS 32
-static atexit_func_t atexit_funcs[MAX_ATEXIT_FUNCS];
+static atexit_func_t atexit_funcs[CRTL_MAX_ATEXIT_FUNCS];
 static int atexit_count = 0;
 
 static unsigned int rand_seed = 1;
@@ -60,7 +59,7 @@ NORETURN void abort()
 //-------------------------------------------------------------------------------
 int atexit(void (*func)(void))
 {
-	if (atexit_count >= MAX_ATEXIT_FUNCS)
+	if (atexit_count >= CRTL_MAX_ATEXIT_FUNCS)
 		return -1;
 
 	atexit_funcs[atexit_count++] = func;
@@ -113,7 +112,7 @@ long int labs(long int x)
 	return x < 0 ? -x : x;
 }
 
-#ifdef INC_DIV
+#ifdef CRTL_INC_DIV
  //-------------------------------------------------------------------------------
  // compute quotient and remainder of integer division
  //-------------------------------------------------------------------------------
@@ -128,7 +127,7 @@ div_t div(int numer, int denom)
  }
 #endif
 
-#ifdef INC_LDIV
+#ifdef CRTL_INC_LDIV
 
  //-------------------------------------------------------------------------------
  // compute quotient and remainder of long integer division
@@ -248,25 +247,47 @@ long int strtol(const char *str, char **endptr, int base)
 //-------------------------------------------------------------------------------
 unsigned long int strtoul(const char *str, char **endptr, int base)
 {
-	// TODO - convert str to an unsigned long int and return it. If endptr is not NULL, store the address of the first invalid character in *endptr. The base can be 2, 8, 10, or 16
-	return 0;
-}
+	// TODO - convert str to an unsigned long int and return it. If endptr is not NULL, 
+	// store the address of the first invalid character in *endptr. 
+	// The base can be 2, 8, 10, or 16
 
-//-------------------------------------------------------------------------------
-// sort an array of num elements of size bytes each, using the compar function to compare elements
-//-------------------------------------------------------------------------------
-void qsort(void *base, size_t num, size_t size, int (*compar)(const void *, const void *))
-{
-	// TODO - sort the array pointed to by base, which contains num elements of size bytes each, using the compar function to compare elements
+	return 0;
 }
 
 #endif
 
 //-------------------------------------------------------------------------------
-// perform a binary search for key in the array pointed to by base, which contains num elements of size bytes each, using the compar function to compare elements
+// sort an array of num elements of size bytes each, using the compar function 
+// to compare elements
+//-------------------------------------------------------------------------------
+void qsort(void *base, size_t num, size_t size, int (*compar)(const void *, const void *))
+{
+	int j;
+
+	// for simplicity, we'll use an insertion sort, which is efficient for small arrays and is stable. 
+	// A more efficient algorithm like quicksort or mergesort could be implemented for larger arrays.
+	for (int i = 1; i < num; i++)
+	{
+		j = i;
+		for (; j > 0 && compar((char *)base + (j - 1) * size, (char *)base + j * size) > 0; j--)
+		{
+			char temp[size];
+			memcpy(temp, (char *)base + j * size, size);
+			memcpy((char *)base + j * size, (char *)base + (j - 1) * size, size);
+			memcpy((char *)base + (j - 1) * size, temp, size);
+		}
+	}
+}
+
+//-------------------------------------------------------------------------------
+// perform a binary search for key in the array pointed to by base, which contains
+// num elements of size bytes each, using the compar function to compare elements
 //-------------------------------------------------------------------------------
 void *bsearch(const void *key, const void *base, size_t num, size_t size, int (*compar)(const void *, const void *))
 {
+	if (num == 0)
+		return NULL;
+
 	// perform a binary search for key in the array pointed to by base, which contains num elements of size bytes each, using the compar function to compare elements
 	void *low = (void *)base;
 	void *high = (char *)base + (num - 1) * size;
