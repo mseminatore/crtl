@@ -163,6 +163,26 @@ long syscall(long number, ...)
 	}
 		break;
 
+	case SYS_rename:
+	{
+		char *oldpath = va_arg(argp, char*);
+		char *newpath = va_arg(argp, char*);
+
+#if defined(__x86_64__)
+		asm volatile("syscall"
+			: "=a"(result)
+			: "0"(sysnum), "D"(oldpath), "S"(newpath)
+			: "rcx", "r11", "memory");
+#elif defined(__aarch64__)
+		asm("mov X0, %0" : : "r"(oldpath));
+		asm("mov X1, %0" : : "r"(newpath));
+		asm("mov X16, %0" : : "r"(sysnum));
+		asm("svc #0");
+		asm("mov %0, X0" : "=r"(result));
+#endif
+	}
+		break;
+
 	case SYS_fork:
 	{
 

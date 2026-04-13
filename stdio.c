@@ -705,6 +705,9 @@ int ferror(FILE *stream)
 
 //int fflush(FILE *stream);
 
+//-----------------------------------------------
+// Changes the name of the file specified by oldname to newname.
+//-----------------------------------------------
 // int rename(const char *oldname, const char *newname)
 // {
 // 	assert(oldname && newname);
