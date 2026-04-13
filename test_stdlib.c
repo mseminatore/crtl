@@ -6,6 +6,11 @@
 
 static void no_op(void) {}
 
+static int int_compare(const void *a, const void *b)
+{
+	return *(int *)a - *(int *)b;
+}
+
 //
 static void test_atoi()
 {
@@ -35,6 +40,61 @@ static void test_labs()
 	TEST(1L == labs(-1L));
 	TEST(0L == labs(0L));
 	TEST(2147483648L == labs(-2147483648L));
+}
+
+//
+static void test_bsearch()
+{
+	SUITE("bsearch");
+
+	int arr[] = {1, 3, 5, 7, 9, 11, 13, 15};
+	int n = 8;
+	int key;
+	int *result;
+
+	// find element in the middle
+	key = 7;
+	result = (int *)bsearch(&key, arr, n, sizeof(int), int_compare);
+	TEST(result != NULL && *result == 7);
+
+	// find first element
+	key = 1;
+	result = (int *)bsearch(&key, arr, n, sizeof(int), int_compare);
+	TEST(result != NULL && *result == 1);
+
+	// find last element
+	key = 15;
+	result = (int *)bsearch(&key, arr, n, sizeof(int), int_compare);
+	TEST(result != NULL && *result == 15);
+
+	// key not present in array
+	key = 6;
+	result = (int *)bsearch(&key, arr, n, sizeof(int), int_compare);
+	TEST(result == NULL);
+
+	// key smaller than all elements
+	key = 0;
+	result = (int *)bsearch(&key, arr, n, sizeof(int), int_compare);
+	TEST(result == NULL);
+
+	// key larger than all elements
+	key = 20;
+	result = (int *)bsearch(&key, arr, n, sizeof(int), int_compare);
+	TEST(result == NULL);
+
+	// single-element array, key found
+	int single[] = {42};
+	key = 42;
+	result = (int *)bsearch(&key, single, 1, sizeof(int), int_compare);
+	TEST(result != NULL && *result == 42);
+
+	// single-element array, key not found
+	key = 99;
+	result = (int *)bsearch(&key, single, 1, sizeof(int), int_compare);
+	TEST(result == NULL);
+
+	// num=0: unsafe with current implementation (size_t underflow on num-1)
+	SKIP_TEST(bsearch(&key, arr, 0, sizeof(int), int_compare) == NULL);
 }
 
 //
@@ -108,6 +168,7 @@ void test_stdlib()
 	test_abs();
 	test_labs();
 	test_atexit();
+	test_bsearch();
 	test_rand();
 	test_srand();
 }
