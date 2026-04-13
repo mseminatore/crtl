@@ -2,6 +2,10 @@
 
 TARGET	= crtl_test
 LINKER	= cc -o
+LIBNAME = libcrtl.a
+#CFLAGS += -g -O2 #-D_DEBUG #-DNDEBUG
+CFLAGS	+= -I. -g
+LIBS = -lm
 
 DEPS 	= \
 string.h \
@@ -19,34 +23,37 @@ config.h \
 stdarg.h
 
 OBJS	= \
-stdarg.o \
 string.o \
 assert.o \
 errno.o \
-test_main.o \
-testy/test_main.o \
 stdio.o \
 stdlib.o \
 ctype.o \
 syscall.o \
-unistd.o \
+unistd.o
+
+TEST_OBJS = \
 test_string.o \
 test_stdlib.o \
 test_stdio.o \
+test_main.o \
+testy/test_main.o \
 test_ctype.o
-
-CFLAGS	= -I. -g
-LIBS = -lm
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(TARGET):	$(OBJS)
+all: $(LIBNAME) $(TARGET)
+	
+$(LIBNAME): $(OBJS)
+	ar rcs $(LIBNAME) $(OBJS)
+
+$(TARGET):	$(LIBNAME) $(TEST_OBJS)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 test: $(TARGET)
 	./$(TARGET)
 
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(TARGET) $(LIBNAME)
 	
