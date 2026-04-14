@@ -2,45 +2,52 @@
 // Copyright 2022 Mark Seminatore. All rights reserved.
 //-------------------------------------------------------------------------------
 
+#include "stddef.h"
+
 int errno = 0;
 
 char *err_strings[] = {
-    "Operation not permitted",		// EPERM
-    "No such file or directory",	// ENOENT
-    "No such process",				// ESRCH
-    "Interrupted system call",		// EINTR
-    "I/O error",					// EIO
-    "No such device or address",	// ENXIO
-    "Argument list too long",		// E2BIG
-    "Exec format error",			// ENOEXEC
-    "Bad file descriptor",			// EBADF
-    "No child processes",			// ECHILD
-    "Resource temporarily unavailable", // EAGAIN
-    "Out of memory",				// ENOMEM
-    "Permission denied",			// EACCES
-    "Bad address",					// EFAULT
-    "Device or resource busy",		// EBUSY
-    "File exists",					// EEXIST
-    "Cross-device link",			// EXDEV
-    "No such device",				// ENODEV
-    "Not a directory",				// ENOTDIR
-    "Is a directory",				// EISDIR
-    "Invalid argument",			    // EINVAL
-    "File table overflow",			// ENFILE
-    "Too many open files",			// EMFILE
-    "Not a typewriter",			    // ENOTTY
-    "File too large",				// EFBIG
-    "No space left on device",		// ENOSPC
-    "Illegal seek",				    // ESPIPE
-    "Read-only file system",		// EROFS
-    "Too many links",				// EMLINK
-    "Broken pipe",				    // EPIPE
-    "Math argument out of domain of func", // EDOM
-    "Resource deadlock would occur", // EDEADLK
-    "File name too long",			// ENAMETOOLONG
-    "No record locks available",	// ENOLCK
-    "Function not implemented",		// ENOSYS
-    "Directory not empty",			// ENOTEMPTY
-    "Too many symbolic links encountered", // ELOOP
-    "Operation would block"		// EWOULDBLOCK
+    "Success",                          // 0
+    "Operation not permitted",          // EPERM  = 1
+    "No such file or directory",        // ENOENT = 2
+    "No such process",                  // ESRCH  = 3
+    "Interrupted system call",          // EINTR  = 4
+    "I/O error",                        // EIO    = 5
+    "No such device or address",        // ENXIO  = 6
+    "Argument list too long",           // E2BIG  = 7
+    "Exec format error",                // ENOEXEC = 8
+    "Bad file descriptor",              // EBADF  = 9
+    "No child processes",               // ECHILD = 10
+    "Resource temporarily unavailable", // EAGAIN = 11
+    "Out of memory",                    // ENOMEM = 12
+    "Permission denied",                // EACCES = 13
+    "Bad address",                      // EFAULT = 14
+    NULL,                               // 15 (unused)
+    "Device or resource busy",          // EBUSY  = 16
+    "File exists",                      // EEXIST = 17
+    "Cross-device link",                // EXDEV  = 18
+    "No such device",                   // ENODEV = 19
+    "Not a directory",                  // ENOTDIR = 20
+    "Is a directory",                   // EISDIR = 21
+    "Invalid argument",                 // EINVAL = 22
+    "File table overflow",              // ENFILE = 23
+    "Too many open files",              // EMFILE = 24
+    "Not a typewriter",                 // ENOTTY = 25
+    NULL,                               // 26 (unused)
+    "File too large",                   // EFBIG  = 27
+    "No space left on device",          // ENOSPC = 28
+    "Illegal seek",                     // ESPIPE = 29
+    "Read-only file system",            // EROFS  = 30
+    "Too many links",                   // EMLINK = 31
+    "Broken pipe",                      // EPIPE  = 32
+    "Math argument out of domain of func", // EDOM = 33
+    NULL,                               // 34 (unused)
+    NULL,                               // 35 (unused)
+    "Resource deadlock would occur",    // EDEADLK = 36
+    NULL,                               // 37 (unused)
+    "File name too long",               // ENAMETOOLONG = 38
+    "No record locks available",        // ENOLCK = 39
+    "Function not implemented",         // ENOSYS = 40
+    "Directory not empty",              // ENOTEMPTY = 41
+    "Too many symbolic links encountered", // ELOOP = 42
 };

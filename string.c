@@ -428,7 +428,10 @@ char *strerror(int errnum)
 {
 	if (errnum < 0 || errnum >= CRTL_MAX_ERROR)
 		return "unknown error";
-		
+
+	if (!err_strings[errnum])
+		return "unknown error";
+
 	return err_strings[errnum];
 }
 

@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "stdlib.h"
+#include "errno.h"
 
 #if defined(_WIN32)
 #include <fcntl.h>
@@ -267,6 +268,29 @@ static void test_rename()
 }
 
 //
+static void test_perror()
+{
+	SUITE("perror");
+
+	// perror writes "prefix: message\n" to stderr; verify it doesn't crash
+	errno = EINVAL;
+	perror("test");
+	TEST(1);  // reached here without crashing
+
+	errno = 0;
+	perror("no error");
+	TEST(1);
+
+	// NULL arg triggers assert; skip in debug, run in release
+#ifdef NDEBUG
+	perror(NULL);
+	TEST(1);
+#else
+	SKIP_TEST(perror(NULL));
+#endif
+}
+
+//
 // Run all stdio tests.
 //
 void test_stdio()
@@ -285,4 +309,5 @@ void test_stdio()
 	test_clearerr();
 	test_remove();
 	test_rename();
+	test_perror();
 }

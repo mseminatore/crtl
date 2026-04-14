@@ -33,6 +33,6 @@
 //-------------------------------------------------------------------------------
 // maximum error code value for strerror
 //-------------------------------------------------------------------------------
-#define CRTL_MAX_ERROR EWOULDBLOCK
+#define CRTL_MAX_ERROR (ELOOP + 1)
 
 #endif // __CONFIG_H

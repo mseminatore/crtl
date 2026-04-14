@@ -1,6 +1,7 @@
 // Copyright 2022 Mark Seminatore. All rights reserved.
 #include "stdio.h"
 #include "string.h"
+#include "errno.h"
 #include "testy/test.h"
 
 //
@@ -162,6 +163,28 @@ static void test_strstr()
 }
 
 //
+static void test_strerror()
+{
+	SUITE("strerror");
+
+	// known valid error codes
+	TEST(0 == strcmp(strerror(EPERM),  "Operation not permitted"));
+	TEST(0 == strcmp(strerror(ENOENT), "No such file or directory"));
+	TEST(0 == strcmp(strerror(EINVAL), "Invalid argument"));
+	TEST(0 == strcmp(strerror(ELOOP),  "Too many symbolic links encountered"));
+
+	// index 0 is "Success"
+	TEST(0 == strcmp(strerror(0), "Success"));
+
+	// out-of-range returns "unknown error"
+	TEST(0 == strcmp(strerror(-1),         "unknown error"));
+	TEST(0 == strcmp(strerror(ELOOP + 1),  "unknown error"));
+
+	// gap entries (no errno defined for 15) return "unknown error"
+	TEST(0 == strcmp(strerror(15), "unknown error"));
+}
+
+//
 void test_string()
 {
 	test_strlen();
@@ -179,4 +202,7 @@ void test_string()
 	test_strtok();
 	test_memchr();
 	test_strstr();
+	test_strerror();
 }
+
+
