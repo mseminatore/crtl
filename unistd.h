@@ -72,6 +72,7 @@ INT close(INT fd);
 size_t read(INT fd, void *buf, size_t count);
 INT write(INT fd, const void *buf, size_t count);
 INT unlink(const char *pathname);
+INT _rename(const char *oldpath, const char *newpath);
 
 #endif
 

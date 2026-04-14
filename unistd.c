@@ -60,3 +60,10 @@ INT unlink(const char *pathname)
 	return syscall(SYS_unlink, pathname);
 }
 
+//-------------------------------------------------------------------------------
+// Renames the file specified by oldpath to newpath.
+//-------------------------------------------------------------------------------
+INT _rename(const char *oldpath, const char *newpath)
+{
+	return syscall(SYS_rename, oldpath, newpath);
+}

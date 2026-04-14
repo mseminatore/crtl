@@ -703,21 +703,58 @@ int ferror(FILE *stream)
 	return 0;
 }
 
-//int fflush(FILE *stream);
+//-----------------------------------------------
+// Flushes the output buffer of a stream. If the 
+// stream argument is NULL, the fflush() function 
+// flushes all open output streams.
+//-----------------------------------------------
+int fflush(FILE *stream)
+{
+	assert(stream);
+	if (!stream)
+	{
+		errno = EINVAL;
+		return EOF;
+	}
+
+	// TODO - this should probably also flush any buffers we have in memory to the file
+
+	return 0;
+}
 
 //-----------------------------------------------
 // Changes the name of the file specified by oldname to newname.
 //-----------------------------------------------
-// int rename(const char *oldname, const char *newname)
-// {
-// 	assert(oldname && newname);
-// 	if (!oldname || !newname)
-// 	{
-// 		errno = EINVAL;
-// 		return -1;
-// 	}
+int rename(const char *oldname, const char *newname)
+{
+	assert(oldname && newname);
+	if (!oldname || !newname)
+	{
+		errno = EINVAL;
+		return -1;
+	}
 
-// 	return rename(oldname, newname);
-// }
+	return _rename(oldname, newname);
+}
 
-//void perror(const char *str);
+//-----------------------------------------------
+// Prints a descriptive error message to stderr. 
+// The argument str is a string that is included 
+// in the output to identify the source of the 
+// error. The message written to stderr consists 
+// of the string pointed to by str, followed by
+// a colon and a space, followed by the error 
+// message corresponding to the current value 
+// of errno, and a newline character.
+//-----------------------------------------------
+void perror(const char *str)
+{
+	assert(str);
+	if (!str)
+	{
+		errno = EINVAL;
+		return;
+	}
+
+	fprintf(stderr, "%s: %s\n", str, strerror(errno));
+}

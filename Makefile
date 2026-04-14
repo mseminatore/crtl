@@ -54,6 +54,13 @@ $(TARGET):	$(LIBNAME) $(TEST_OBJS)
 test: $(TARGET)
 	./$(TARGET)
 
+test-release:
+	$(MAKE) clean
+	$(MAKE) CFLAGS="-I. -g -DNDEBUG"
+	./$(TARGET)
+	$(MAKE) clean
+	$(MAKE) CFLAGS="-I. -g"
+
 clean:
-	rm -f $(OBJS) $(TARGET) $(LIBNAME)
+	rm -f $(OBJS) $(TEST_OBJS) $(TARGET) $(LIBNAME)
 	

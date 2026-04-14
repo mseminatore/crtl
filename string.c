@@ -5,6 +5,9 @@
 #include "config.h"
 #include "string.h"
 #include "assert.h"
+#include "errno.h"
+
+extern char *err_strings[];
 
 //-------------------------------------------------------------------------------
 // copy num bytes from src to dst
@@ -423,7 +426,10 @@ size_t strlen(const char *str)
 //-------------------------------------------------------------------------------
 char *strerror(int errnum)
 {
-	return "unknown error";
+	if (errnum < 0 || errnum >= CRTL_MAX_ERROR)
+		return "unknown error";
+		
+	return err_strings[errnum];
 }
 
 //-------------------------------------------------------------------------------

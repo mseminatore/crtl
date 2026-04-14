@@ -7,10 +7,7 @@
 | `snprintf` / `vsnprintf` | length-bounded printf — safety critical |
 | `scanf` / `sscanf` / `fscanf` | input parsing |
 | `fseek` / `ftell` / `rewind` | file positioning |
-| `feof` / `ferror` / `clearerr` | stream status |
 | `fflush`           | flush stream |
-| `rename`           | rename file |
-| `perror`           | print errno error string to stderr |
 
 ### printf format specifiers missing in vsprintf
 

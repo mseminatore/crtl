@@ -235,6 +235,38 @@ static void test_remove()
 }
 
 //
+static void test_rename()
+{
+	SUITE("rename");
+
+	// success: create a file, rename it, verify return is 0 and new name is accessible
+	FILE *f = fopen("./rename_old.txt", "wt");
+	TEST(f != NULL);
+	fwrite("data", 1, 4, f);
+	fclose(f);
+
+	TEST(0 == rename("./rename_old.txt", "./rename_new.txt"));
+
+	FILE *g = fopen("./rename_new.txt", "rt");
+	TEST(g != NULL);
+	fclose(g);
+	remove("./rename_new.txt");
+
+	// non-existent source returns non-zero
+	TEST(0 != rename("./rename_does_not_exist.txt", "./rename_out.txt"));
+
+	// NULL args trigger assert before graceful return; in NDEBUG builds assert is a no-op
+	// so the graceful if-check runs and returns -1
+#ifdef NDEBUG
+	TEST(-1 == rename(NULL, "./rename_new.txt"));
+	TEST(-1 == rename("./rename_old.txt", NULL));
+#else
+	SKIP_TEST(-1 == rename(NULL, "./rename_new.txt"));
+	SKIP_TEST(-1 == rename("./rename_old.txt", NULL));
+#endif
+}
+
+//
 // Run all stdio tests.
 //
 void test_stdio()
@@ -252,4 +284,5 @@ void test_stdio()
 	test_ferror();
 	test_clearerr();
 	test_remove();
+	test_rename();
 }

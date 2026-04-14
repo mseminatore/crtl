@@ -49,7 +49,4 @@ extern int errno;
 #define ELOOP           42  // Too many symbolic links encountered
 #define EWOULDBLOCK     EAGAIN  // Operation would block
 
-//#define EDOM 1
-//#define ERANGE 2
-
 #endif	// __ERRNO_H

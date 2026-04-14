@@ -30,4 +30,9 @@
 // configurable max size for token string in strtok
 #define CRTL_MAX_TOKEN_STRING 256
 
+//-------------------------------------------------------------------------------
+// maximum error code value for strerror
+//-------------------------------------------------------------------------------
+#define CRTL_MAX_ERROR EWOULDBLOCK
+
 #endif // __CONFIG_H
