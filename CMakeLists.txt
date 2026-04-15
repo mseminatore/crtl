@@ -11,6 +11,7 @@ add_library(crtl
   assert.c
   ctype.c
   errno.c
+  math.c
   stdarg.c
   stdio.c
   stdlib.c
@@ -29,7 +30,7 @@ add_executable(crtl_test
   test_ctype.c
 )
 
-target_link_libraries(crtl_test PRIVATE crtl m)
+target_link_libraries(crtl_test PRIVATE crtl)
 
 enable_testing()
 add_test(NAME crtl_tests COMMAND crtl_test)

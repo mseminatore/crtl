@@ -4,15 +4,25 @@
 
 Welcome to CRTL! This project attempts to provide a basic and portable 
 implementation of an ANSI C runtime library. It is not the intention of
-this project to provide 100% of the ANSCI C RTL. The primary support will
-be the most commonly used C library functions. For example, C locale support
+this project to provide 100% of the ANSCI C RTL. The primary focus will
+be the most commonly used C library functions. So for example, C locale support
 is not planned at this time.
+
+## CRTL is Self-hosting
+
+The unit tests in this project are linked only against the CRTL library. 
+So all unit tests run and report results using this library and not the 
+host OS libc implementation.
 
 ## Platform and Architectures supported
 
 The CRTL project development and testing is mainly done on Windows and 
-Mac OSX. Linux support is an additional goal. The primary architectures 
-supported are x86, x64, and ARM64.
+Mac OSX with Linux support as an additional goal. The primary architectures 
+supported are x86, x64, and ARM64 but additional processors are candidates.
+
+## Configuration
+
+The file `config.h` contains defines to configure how the library is built.
 
 ## Project Goals and Non-Goals
 
@@ -21,12 +31,12 @@ This project has a small set of defined goals. These are:
 1. Provide implementations of the most common ANSI C runtime functions
 2. Prioritize correctness and portability
 3. Pursue performance where practical
-4. Support Windows, MacOS and Linux
+4. Support Windows, MacOS, Linux and bare CPU
 
 There are also some explicit non-goals for the project. These are:
 
-1. Implement every single function
-2. Guarantee optimal performance
+1. Implement every single C runtime function
+2. Guarantee optimal performance, simple and small
 3. Support every OS / hardware configuration
 
 ## Known Issues
@@ -36,7 +46,6 @@ are listed here, these are just some key examples.
 
 * varargs and therefore syscall() on OSX x64 are not yet working
 * Not all syscall() functions implemented
-* File IO is not yet implemented
 * printf() does not yet support float (%f) and a few other formats
 
 ## Testing

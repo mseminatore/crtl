@@ -5,9 +5,10 @@ LINKER	= cc -o
 LIBNAME = libcrtl.a
 #CFLAGS += -g -O2 #-D_DEBUG #-DNDEBUG
 CFLAGS	+= -I. -g
-LIBS = -lm
+LIBS =
 
 DEPS 	= \
+math.h \
 string.h \
 stddef.h \
 assert.h \
@@ -23,6 +24,7 @@ config.h \
 stdarg.h
 
 OBJS	= \
+math.o \
 string.o \
 assert.o \
 errno.o \
