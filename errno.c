@@ -22,7 +22,7 @@ char *err_strings[] = {
     "Out of memory",                    // ENOMEM = 12
     "Permission denied",                // EACCES = 13
     "Bad address",                      // EFAULT = 14
-    NULL,                               // 15 (unused)
+    "Block device required",            // ENOTBLK = 15
     "Device or resource busy",          // EBUSY  = 16
     "File exists",                      // EEXIST = 17
     "Cross-device link",                // EXDEV  = 18
