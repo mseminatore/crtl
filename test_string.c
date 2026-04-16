@@ -172,6 +172,7 @@ static void test_strerror()
 	TEST(0 == strcmp(strerror(ENOENT), "No such file or directory"));
 	TEST(0 == strcmp(strerror(EINVAL), "Invalid argument"));
 	TEST(0 == strcmp(strerror(ELOOP),  "Too many symbolic links encountered"));
+	TEST(0 == strcmp(strerror(ENOTBLK), "Block device required"));
 
 	// index 0 is "Success"
 	TEST(0 == strcmp(strerror(0), "Success"));
@@ -179,9 +180,6 @@ static void test_strerror()
 	// out-of-range returns "unknown error"
 	TEST(0 == strcmp(strerror(-1),         "unknown error"));
 	TEST(0 == strcmp(strerror(ELOOP + 1),  "unknown error"));
-
-	// gap entries (no errno defined for 15) return "unknown error"
-	TEST(0 == strcmp(strerror(15), "unknown error"));
 }
 
 //
