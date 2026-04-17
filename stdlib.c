@@ -27,7 +27,8 @@ static int atexit_count = 0;
 static unsigned int rand_seed = 1;
 
 // heap memory and management structures
-static char g_heap_mem[CRTL_HEAP_SIZE];
+// 16-byte alignment ensures SIMD-safe pointers from the allocator on all targets.
+static char g_heap_mem[CRTL_HEAP_SIZE] __attribute__((aligned(16)));
 static MM_LIST g_heap;
 static int g_heap_initialized = 0;
 

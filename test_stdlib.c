@@ -221,9 +221,9 @@ static void test_atexit()
 	SUITE("atexit");
 
 	// verify it returns 0 (success) for a valid function pointer
-	TEST(0 == atexit(abort));
+	TEST(0 == atexit(no_op));
 
-	// registering a no-op function also returns 0
+	// registering another no-op also returns 0
 	TEST(0 == atexit(no_op));
 
 	// fill the registry until overflow; verify failure returns non-zero

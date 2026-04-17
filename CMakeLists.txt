@@ -32,6 +32,13 @@ add_executable(crtl_test
   test_math.c
 )
 
+# Prevent GCC/Clang from substituting built-in implementations (e.g. memset,
+# calloc, atexit) for our custom CRTL implementations at -O2/-O3.  Without
+# this, the optimizer may assume standard-library semantics (e.g. atexit always
+# returns 0) and eliminate test loops that rely on our bounded implementation.
+target_compile_options(crtl PRIVATE -fno-builtin)
+target_compile_options(crtl_test PRIVATE -fno-builtin)
+
 target_link_libraries(crtl_test PRIVATE crtl)
 
 enable_testing()

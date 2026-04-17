@@ -38,15 +38,22 @@ void *memmove(void *dst, const void *src, size_t num)
     assert(src);
     assert(num);
 
-    char *pdst = dst;
-	const char *psrc = src;
+    char *pdst = (char *)dst;
+    const char *psrc = (const char *)src;
 
-    char byte;
-
-    while (num--)
+    if (pdst < psrc || pdst >= psrc + num)
     {
-        byte = *psrc++;
-        *pdst++ = byte;
+        // non-overlapping, or dst is before src: copy forward
+        while (num--)
+            *pdst++ = *psrc++;
+    }
+    else
+    {
+        // overlapping with dst after src: copy backward to avoid clobbering
+        pdst += num;
+        psrc += num;
+        while (num--)
+            *--pdst = *--psrc;
     }
 
     return dst;
@@ -147,20 +154,19 @@ char *strncat(char *dst, const char *src, size_t num)
 //-------------------------------------------------------------------------------
 int memcmp(const void *str1, const void *str2, size_t n)
 {
-    int result;
-
     assert(str1);
     assert(str2);
-    assert(n);
 
-    char *p1 = (char*)str1;
-    char *p2 = (char*)str2;
+    const unsigned char *p1 = (const unsigned char *)str1;
+    const unsigned char *p2 = (const unsigned char *)str2;
 
-    for (; n && *p1 && *p2 && *p1 == *p2; p1++, p2++, n--)
-        ;
+    for (; n; p1++, p2++, n--)
+    {
+        if (*p1 != *p2)
+            return (int)*p1 - (int)*p2;
+    }
 
-    result = *p2 - *p1;
-    return result;
+    return 0;
 }
 
 //-------------------------------------------------------------------------------
