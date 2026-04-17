@@ -29,6 +29,7 @@ add_executable(crtl_test
   test_stdlib.c
   test_stdio.c
   test_ctype.c
+  test_math.c
 )
 
 target_link_libraries(crtl_test PRIVATE crtl)

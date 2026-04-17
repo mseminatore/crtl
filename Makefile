@@ -40,6 +40,7 @@ TEST_OBJS = \
 test_string.o \
 test_stdlib.o \
 test_stdio.o \
+test_math.o \
 test_main.o \
 testy/test_main.o \
 test_ctype.o

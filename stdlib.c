@@ -199,6 +199,11 @@ void *malloc(size_t size)
 	if (0 == size)
 		return NULL;
 
+	// mm_alloc uses the freed block's space to store a next pointer (sizeof(void*)),
+	// so the minimum safe allocation is sizeof(void*) bytes.
+	if (size < sizeof(void*))
+		size = sizeof(void*);
+
 	heap_init();
 	return mm_alloc(&g_heap, size);
 }

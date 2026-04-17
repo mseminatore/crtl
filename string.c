@@ -122,13 +122,15 @@ char *strncat(char *dst, const char *src, size_t num)
 {
     assert(dst);
     assert(src);
-    assert(num);
+
+    if (!num)
+        return dst;
 
     char *pdst = dst;
 
-    // find the end of the dstnation string
-    while (*pdst++)
-        ;
+    // find the end of the destination string
+    while (*pdst)
+        pdst++;
 
     // concatenate the source string
     for (; num && *src; num--)

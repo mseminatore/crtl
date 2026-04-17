@@ -5,6 +5,7 @@ extern void test_string();
 extern void test_stdlib();
 extern void test_ctype();
 extern void test_stdio();
+extern void test_math();
 
 void test_main(int argc, char *argv[])
 {
@@ -19,4 +20,7 @@ void test_main(int argc, char *argv[])
 	
 	MODULE("Stdio Functions");
 	test_stdio();
+
+	MODULE("Math Functions");
+	test_math();
 }

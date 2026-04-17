@@ -28,6 +28,16 @@ static void test_atoi()
 }
 
 //
+static void test_atol()
+{
+	SUITE("atol");
+
+	TEST(123L == atol("123"));
+	TEST(-456L == atol("-456"));
+	TEST(0L == atol("Hello"));
+}
+
+//
 static void test_abs()
 {
 	SUITE("abs");
@@ -282,6 +292,7 @@ static void test_realloc()
 void test_stdlib()
 {
 	test_atoi();
+	test_atol();
 	test_abs();
 	test_labs();
 	test_atexit();
