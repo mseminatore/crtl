@@ -183,12 +183,28 @@ long syscall(long number, ...)
 	}
 		break;
 
-	case SYS_fork:
+	case SYS_lseek:
 	{
-
+		long fd 	= va_arg(argp, long);
+		long offset = va_arg(argp, long);
+		long whence = va_arg(argp, long);
+	#if defined(__x86_64__)
+		asm volatile("syscall"
+			: "=a"(result)
+			: "0"(sysnum), "D"(fd), "S"(offset), "d"(whence)
+			: "rcx", "r11", "memory");
+	#elif defined(__aarch64__)
+		asm("mov X0, %0" : : "r"(fd));
+		asm("mov X1, %0" : : "r"(offset));
+		asm("mov X2, %0" : : "r"(whence));
+		asm("mov X16, %0" : : "r"(sysnum));
+		asm("svc #0");
+		asm("mov %0, X0" : "=r"(result));
+	#endif
 	}
 		break;
-		
+
+	case SYS_fork:
 	default:
 		assert(0);
 		return -1;
