@@ -99,4 +99,8 @@ int remove(const char *filename);
 int ungetc(int chr, FILE *stream);
 int rename(const char *oldname, const char *newname);
 
+int fseek(FILE *stream, long offset, int whence);
+long ftell(FILE *stream);
+void rewind(FILE *stream);
+
 #endif	//__STDIO_H

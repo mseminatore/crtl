@@ -736,9 +736,15 @@ int fseek(FILE *stream, long offset, int whence)
 		return EOF;
 	}
 
-	// update the file position in the FILE structure
-	stream->pos = offset;
+	// lseek returns the resulting absolute offset; use it to update pos
+	long new_pos = (long)syscall(SYS_lseek, stream->fildes, offset, whence);
+	if (new_pos < 0)
+	{
+		stream->status = EOF;
+		return EOF;
+	}
 
+	stream->pos = (fpos_t)new_pos;
 	return 0;
 }
 
@@ -760,8 +766,17 @@ long ftell(FILE *stream)
 		return EOF;
 	}
 
-	// return the current file position from the FILE structure
-	return stream->pos;
+	// query the kernel for the actual current position (handles reads/writes
+	// that may have advanced the file pointer without updating stream->pos)
+	long pos = (long)syscall(SYS_lseek, stream->fildes, 0, SEEK_CUR);
+	if (pos < 0)
+	{
+		stream->status = EOF;
+		return EOF;
+	}
+
+	stream->pos = (fpos_t)pos;
+	return pos;
 }
 
 //-----------------------------------------------
@@ -778,7 +793,9 @@ void rewind(FILE *stream)
 	}
 
 	// reset the file position to the beginning of the file
+	syscall(SYS_lseek, stream->fildes, 0, SEEK_SET);
 	stream->pos = 0;
+	stream->status = 0;
 }
 
 //-----------------------------------------------

@@ -291,6 +291,48 @@ static void test_perror()
 }
 
 //
+static void test_fseek()
+{
+	SUITE("fseek/ftell/rewind");
+
+	// write a known file to test seeking within
+	FILE *f = fopen("./fseek_test.txt", "wt");
+	TEST(f != NULL);
+	char content[] = "ABCDEFGHIJ";
+	fwrite(content, 1, 10, f);
+	fclose(f);
+
+	f = fopen("./fseek_test.txt", "rt");
+	TEST(f != NULL);
+
+	// ftell at start should be 0
+	TEST(0 == ftell(f));
+
+	// seek to offset 3 from start
+	TEST(0 == fseek(f, 3, SEEK_SET));
+	TEST(3 == ftell(f));
+
+	// read one byte — should be 'D' (4th char, index 3)
+	char buf[4] = {0};
+	fread(buf, 1, 1, f);
+	TEST('D' == buf[0]);
+
+	// position should now be 4
+	TEST(4 == ftell(f));
+
+	// seek 2 forward from current
+	TEST(0 == fseek(f, 2, SEEK_CUR));
+	TEST(6 == ftell(f));
+
+	// rewind should reset to 0
+	rewind(f);
+	TEST(0 == ftell(f));
+
+	fclose(f);
+	remove("./fseek_test.txt");
+}
+
+//
 // Run all stdio tests.
 //
 void test_stdio()
@@ -310,4 +352,5 @@ void test_stdio()
 	test_remove();
 	test_rename();
 	test_perror();
+	test_fseek();
 }
