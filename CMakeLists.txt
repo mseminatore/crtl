@@ -12,6 +12,7 @@ add_library(crtl
   ctype.c
   errno.c
   math.c
+  malloc/mm.c
   stdarg.c
   stdio.c
   stdlib.c

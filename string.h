@@ -5,6 +5,7 @@
 #define __STRING_H
 
 #include "stddef.h"
+#include "stdlib.h"
 
 #ifdef _DLL
 #	undef _DLL

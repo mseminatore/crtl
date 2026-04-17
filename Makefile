@@ -8,6 +8,7 @@ CFLAGS	+= -I. -g
 LIBS =
 
 DEPS 	= \
+malloc/mm.h \
 math.h \
 string.h \
 stddef.h \
@@ -24,6 +25,7 @@ config.h \
 stdarg.h
 
 OBJS	= \
+malloc/mm.o \
 math.o \
 string.o \
 assert.o \
@@ -64,5 +66,5 @@ test-release:
 	$(MAKE) CFLAGS="-I. -g"
 
 clean:
-	rm -f $(OBJS) $(TEST_OBJS) $(TARGET) $(LIBNAME)
+	rm -f $(OBJS) $(TEST_OBJS) $(TARGET) $(LIBNAME) malloc/mm.o
 	

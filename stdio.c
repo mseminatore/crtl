@@ -723,6 +723,65 @@ int fflush(FILE *stream)
 }
 
 //-----------------------------------------------
+// Sets the file position of the given stream to the
+// given offset according to the directive whence.
+//-----------------------------------------------
+int fseek(FILE *stream, long offset, int whence)
+{
+	assert(stream);
+	if (!stream)
+	{
+		stream->status = EOF;
+		errno = EINVAL;
+		return EOF;
+	}
+
+	// update the file position in the FILE structure
+	stream->pos = offset;
+
+	return 0;
+}
+
+//-----------------------------------------------
+// Returns the current file position of the given
+// stream. On success, ftell() returns the current 
+// file position of the given stream. The file 
+// position is the number of bytes from the 
+// beginning of the file. On error, ftell() returns
+// EOF and sets the error indicator on the stream.
+//-----------------------------------------------
+long ftell(FILE *stream)
+{
+	assert(stream);
+	if (!stream)
+	{
+		stream->status = EOF;
+		errno = EINVAL;
+		return EOF;
+	}
+
+	// return the current file position from the FILE structure
+	return stream->pos;
+}
+
+//-----------------------------------------------
+// Sets the file position to the beginning of the
+// file for the given stream.
+//-----------------------------------------------
+void rewind(FILE *stream)
+{
+	assert(stream);
+	if (!stream)
+	{
+		errno = EINVAL;
+		return;
+	}
+
+	// reset the file position to the beginning of the file
+	stream->pos = 0;
+}
+
+//-----------------------------------------------
 // Changes the name of the file specified by oldname to newname.
 //-----------------------------------------------
 int rename(const char *oldname, const char *newname)
@@ -731,7 +790,7 @@ int rename(const char *oldname, const char *newname)
 	if (!oldname || !newname)
 	{
 		errno = EINVAL;
-		return -1;
+		return EOF;
 	}
 
 	return _rename(oldname, newname);

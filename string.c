@@ -402,8 +402,8 @@ void *memset(void *ptr, int value, size_t num)
 
     while (num--)
         *dst++ = value;
-    
-    return dst;
+	
+    return ptr;
 }
 
 //-------------------------------------------------------------------------------
@@ -474,7 +474,6 @@ char *strtok(char *str, const char *delimiters)
 	return token;
 }
 
-#ifdef MALLOC
 //-------------------------------------------------------------------------------
 // Returns a pointer to a new string which is a duplicate of the string str
 //-------------------------------------------------------------------------------
@@ -507,11 +506,13 @@ char *strndup(const char *str, size_t num)
 	char *dup = malloc(len + 1);
 
 	if (dup)
+	{
 		strncpy(dup, str, len);
+		dup[len] = '\0';
+	}
 
 	return dup;
 }
-#endif // MALLOC
 
 //-------------------------------------------------------------------------------
 // reverse the given string in-place

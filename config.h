@@ -35,4 +35,7 @@
 //-------------------------------------------------------------------------------
 #define CRTL_MAX_ERROR (ELOOP + 1)
 
+// configurable heap size for malloc/free
+#define CRTL_HEAP_SIZE 65536
+
 #endif // __CONFIG_H

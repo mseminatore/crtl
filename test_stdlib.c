@@ -1,6 +1,7 @@
 // Copyright 2022 Mark Seminatore. All rights reserved.
 #include "stdio.h"
 #include "stdlib.h"
+#include "string.h"
 #include "limits.h"
 #include "testy/test.h"
 
@@ -223,6 +224,61 @@ static void test_atexit()
 }
 
 //
+static void test_malloc()
+{
+	SUITE("malloc");
+
+	TEST(NULL == malloc(0));
+
+	void *p = malloc(64);
+	TEST(p != NULL);
+	free(p);
+
+	// free(NULL) must not crash
+	free(NULL);
+	TEST(1);
+}
+
+static void test_calloc()
+{
+	SUITE("calloc");
+
+	TEST(NULL == calloc(0, 16));
+	TEST(NULL == calloc(4, 0));
+
+	char *p = (char *)calloc(4, 16);
+	TEST(p != NULL);
+	TEST(p[0] == 0);
+	TEST(p[63] == 0);
+	free(p);
+}
+
+static void test_realloc()
+{
+	SUITE("realloc");
+
+	// realloc(NULL, n) behaves like malloc(n)
+	void *p = realloc(NULL, 64);
+	TEST(p != NULL);
+
+	// grow — data preserved
+	memset(p, 0xAB, 64);
+	void *p2 = realloc(p, 128);
+	TEST(p2 != NULL);
+	TEST(((unsigned char *)p2)[0] == 0xAB);
+	TEST(((unsigned char *)p2)[63] == 0xAB);
+
+	// shrink — first n bytes preserved
+	void *p3 = realloc(p2, 32);
+	TEST(p3 != NULL);
+	TEST(((unsigned char *)p3)[0] == 0xAB);
+	TEST(((unsigned char *)p3)[31] == 0xAB);
+
+	// realloc(ptr, 0) frees and returns NULL
+	void *p4 = realloc(p3, 0);
+	TEST(p4 == NULL);
+}
+
 void test_stdlib()
 {
 	test_atoi();
@@ -233,4 +289,7 @@ void test_stdlib()
 	test_qsort();
 	test_rand();
 	test_srand();
+	test_malloc();
+	test_calloc();
+	test_realloc();
 }

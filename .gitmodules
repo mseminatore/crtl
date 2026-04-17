@@ -1,3 +1,6 @@
 [submodule "testy"]
 	path = testy
 	url = https://github.com/mseminatore/testy.git
+[submodule "malloc"]
+	path = malloc
+	url = https://github.com/mseminatore/malloc.git

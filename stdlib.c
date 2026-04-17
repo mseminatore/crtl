@@ -5,6 +5,7 @@
 #include "string.h"
 #include "assert.h"
 #include "stdlib.h"
+#include "malloc/mm.h"
 
 #if defined(_WIN32)
 	#include <windows.h>
@@ -24,6 +25,20 @@ static atexit_func_t atexit_funcs[CRTL_MAX_ATEXIT_FUNCS];
 static int atexit_count = 0;
 
 static unsigned int rand_seed = 1;
+
+// heap memory and management structures
+static char g_heap_mem[CRTL_HEAP_SIZE];
+static MM_LIST g_heap;
+static int g_heap_initialized = 0;
+
+static void heap_init(void)
+{
+	if (!g_heap_initialized)
+	{
+		mm_list_init(&g_heap, g_heap_mem, sizeof(g_heap_mem));
+		g_heap_initialized = 1;
+	}
+}
 
 //-------------------------------------------------------------------------------
 // platform specific process exit
@@ -167,15 +182,13 @@ void srand(unsigned int seed)
 	rand_seed = seed;
 }
 
-#if 0
 //-------------------------------------------------------------------------------
 // free the memory block pointed to by ptr
 //-------------------------------------------------------------------------------
 void free(void *ptr)
 {
-	assert(ptr);
-	
-	// TODO - free the ptr
+	heap_init();
+	mm_free(&g_heap, ptr);
 }
 
 //-------------------------------------------------------------------------------
@@ -186,24 +199,21 @@ void *malloc(size_t size)
 	if (0 == size)
 		return NULL;
 
-	// TODO - alloc memory and return the ptr
-
-	return NULL;
+	heap_init();
+	return mm_alloc(&g_heap, size);
 }
 
 //-------------------------------------------------------------------------------
-// alloc memory for an array of num elements of size bytes each and returns a pointer to the allocated memory. The memory is set to zero
+// alloc memory for an array of num elements of size bytes each and returns a
+// pointer to the allocated memory. The memory is set to zero.
 //-------------------------------------------------------------------------------
 void *calloc(size_t num, size_t size)
 {
 	if (0 == num || 0 == size)
 		return NULL;
 
-	size_t totalSize = num * size;
-
-	// TODO - alloc memory and return the ptr
-
-	return NULL;
+	heap_init();
+	return mm_calloc(&g_heap, num, size);
 }
 
 //-------------------------------------------------------------------------------
@@ -211,18 +221,8 @@ void *calloc(size_t num, size_t size)
 //-------------------------------------------------------------------------------
 void *realloc(void *ptr, size_t newSize)
 {
-	if (0 == newSize)
-	{
-		free(ptr);
-		return NULL;
-	}
-
-	if (!ptr)
-		return malloc(newSize);
-
-	// TODO - realloc the ptr to newSize and return the new ptr
-
-	return NULL;
+	heap_init();
+	return mm_realloc(&g_heap, ptr, newSize);
 }
 
 //-------------------------------------------------------------------------------
@@ -233,6 +233,7 @@ long int atol(const char *str)
 	return (long int)atoi(str);
 }
 
+#if 0
 //-------------------------------------------------------------------------------
 // convert a string to a long integer with error checking
 //-------------------------------------------------------------------------------
